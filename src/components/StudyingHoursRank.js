@@ -25,7 +25,7 @@ export default function CourseRank() {
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
-      <Rank title={"Easy Grade"} avgData={avgSortedByGrade}/>
+      <Rank title={"Less Studying Hours"} avgData={avgSortedByGrade}/>
     </Box>
   )
 }

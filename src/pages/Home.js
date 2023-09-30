@@ -1,8 +1,8 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Divider from '@mui/material/Divider';
-import CourseRank from "../components/CourseRank";
-
+import GradeRank from "../components/GradeRank"
+import StudyingHoursRank from "../components/StudyingHoursRank"
 export default function Home() {
 
   return (
@@ -14,13 +14,10 @@ export default function Home() {
         </Box>
         <Box style={{flex:1, display:'flex'}}>
           <Box style={{display:'flex', flex:"1"}}>
-            <CourseRank/>
+            <GradeRank/>
           </Box>
           <Box style={{display:'flex', flex:"1"}}>
-            <CourseRank/>
-          </Box>
-          <Box style={{display:'flex', flex:"1"}}>
-            <CourseRank/>
+            <StudyingHoursRank/>
           </Box>
         </Box>
       </Box>

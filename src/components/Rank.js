@@ -12,8 +12,8 @@ export default function Rank({title, avgData}) {
         <Grid container spacing={1}>
           {
             avgData.map((data, index) => (
-              <Grid item xs={4} key={index}>
-                <BasicCard rank={index} name={data.name}/>
+              <Grid item xs={12 / 5} key={index}>
+                <BasicCard rank={index+1} name={data.name}/>
               </Grid>
             ))
           }
