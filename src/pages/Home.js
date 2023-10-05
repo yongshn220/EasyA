@@ -56,8 +56,7 @@ function PageHeader() {
   return (
     <>
       <Box style={{display:'flex', position:'relative', height:'50px', width:'100%'}}>
-        <Box style={{display:'flex', flex: '0', width: "10vw", marginLeft:'1vw', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700'}}>SBU@EasyA</Box>
-        <Box style={{flex:1}}></Box>
+        <Box style={{display:'flex', flex: '0', width: "100vw", marginLeft:'1vw', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700'}}>SBU@EasyA</Box>
       </Box>
       <Divider/>
     </>

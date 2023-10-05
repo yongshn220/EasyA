@@ -49,7 +49,7 @@ export default function StartYearMenu() {
       >
         {
           YEARS.map((year) => (
-            <MenuItem onClick={() => handleChangeYear(year)}>{year}</MenuItem>
+            <MenuItem sx={{fontSize: "1.4rem"}} onClick={() => handleChangeYear(year)}>{year}</MenuItem>
           ))
         }
       </Menu>
