@@ -8,13 +8,13 @@ export default function BasicCard({rank, name, score}) {
   return (
     <Card sx={{ }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: '1.4rem' }} color="text.secondary" gutterBottom>
           #{rank}
         </Typography>
-        <Typography sx={{ fontSize: 20 }}  component="div">
+        <Typography sx={{ fontSize: '2.0rem' }}  component="div">
           {name}
         </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: '1.4rem' }} color="text.secondary" gutterBottom>
           {score}
         </Typography>
       </CardContent>

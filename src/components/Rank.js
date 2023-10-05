@@ -47,7 +47,7 @@ export default function Rank({title, avgData, rankType}) {
 
   return (
     <>
-      <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex: "0 0 50px", fontSize:20, fontWeight:'700'}}>
+      <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex: "0 0 50px", fontSize:'2.0rem', fontWeight:'700'}}>
         <div>{title}</div>
       </Box>
       <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'#efefef'}}>

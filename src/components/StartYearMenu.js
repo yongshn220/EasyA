@@ -34,6 +34,7 @@ export default function StartYearMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        sx={{fontSize: "1.4rem"}}
       >
         Change Start Year
       </Button>

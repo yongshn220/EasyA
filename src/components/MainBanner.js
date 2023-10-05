@@ -9,9 +9,9 @@ export default function MainBanner() {
 
   return (
     <Box style={{flex: 1}}>
-      <Box style={{margin:10, fontSize:100, fontWeight:'700'}}>Find EASY A course</Box>
-      <Box style={{margin:20, fontSize:25, fontWeight:'700'}}>Average<br />Between</Box>
-      <Box style={{margin:20, fontSize:50, fontWeight:'700'}}>{startYear}~2023</Box>
+      <Box style={{margin:10, fontSize:'10rem', fontWeight:'700'}}>Find EASY A course</Box>
+      <Box style={{margin:20, fontSize:'2.5rem', fontWeight:'700'}}>Average<br />Between</Box>
+      <Box style={{margin:20, fontSize:'5rem', fontWeight:'700'}}>{startYear}~2023</Box>
       <StartYearMenu/>
     </Box>
   )
