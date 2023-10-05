@@ -10,7 +10,6 @@ export default function CourseRank({data}) {
     return SortingHelper.sortByStudyingHour(data)
   }, [data])
 
-  console.log(avgSortedByGrade)
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
