@@ -3,7 +3,6 @@ export default class SortingHelper {
   static sortByGrade(avgData) {
     let avgArray = Object.entries(avgData).map(([key, value]) => ({ name:key, ...value }));
     avgArray = this.filterInvalids(avgArray);
-    console.log("sorted", avgArray);
     const result = avgArray.sort((courseA, courseB) => {
       const gradeA = (courseA.Grade !== {})? courseA.Grade : courseA.OverallGrade;
       const gradeB = (courseB.Grade !== {})? courseB.Grade : courseB.OverallGrade;
@@ -25,7 +24,6 @@ export default class SortingHelper {
   static sortByStudyingHour(avgData) {
     let avgArray = Object.entries(avgData).map(([key, value]) => ({ name:key, ...value }));
     avgArray = this.filterInvalids(avgArray);
-    console.log("sorted", avgArray);
     const result = avgArray.sort((courseA, courseB) => {
       const studyingHoursA = courseA.StudyingHours;
       const studyingHoursB = courseB.StudyingHours;

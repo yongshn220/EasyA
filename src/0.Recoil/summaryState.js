@@ -16,3 +16,9 @@ export const summaryByStartYearAtom = atomFamily({
     }
   })
 })
+
+
+export const selectedCourseDataAtom = atom({
+  key: "selectedCourseDataAtom",
+  default: null
+})

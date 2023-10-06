@@ -2,10 +2,12 @@ import Grid from "@mui/material/Grid";
 import BasicCard from "./BasicCard";
 import Box from "@mui/material/Box";
 import {useEffect, useState} from "react";
+import {useSetRecoilState} from "recoil";
+import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
 
 export default function Rank({title, avgData, rankType}) {
+  const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
-
   const scoreTitle = (rankType === "Grade")? "A: " : "0-3h: "
   const dataKey = (rankType === "Grade")? "A" : "0-3"
 
@@ -45,6 +47,11 @@ export default function Rank({title, avgData, rankType}) {
     };
   }, []);
 
+  function handleOnCourseClick(courseData) {
+    console.log(courseData.name)
+    setSelectedCourse(courseData)
+  }
+
   return (
     <>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex: "0 0 50px", fontSize:'2.0rem', fontWeight:'700'}}>
@@ -55,7 +62,9 @@ export default function Rank({title, avgData, rankType}) {
           {
             avgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
-                <BasicCard rank={index+1} name={data.name} score={scoreTitle + data[rankType][dataKey] + "%"}/>
+                <div onClick={() => handleOnCourseClick(data)} style={{ cursor: 'pointer' }}>
+                  <BasicCard rank={index+1} name={data.name} score={scoreTitle + data[rankType][dataKey] + "%"}/>
+                </div>
               </Grid>
             ))
           }

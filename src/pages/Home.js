@@ -5,9 +5,10 @@ import Divider from '@mui/material/Divider';
 import GradeRank from "../components/GradeRank"
 import StudyingHoursRank from "../components/StudyingHoursRank"
 import {useRecoilValue} from "recoil";
-import {defaultYearAtom, summaryByStartYearAtom} from "../0.Recoil/summaryState";
+import {defaultYearAtom, selectedCourseDataAtom, summaryByStartYearAtom} from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
+import CourseDetailPanel from "../components/CourseDetailPanel";
 
 export default function HomeWrapper() {
   return (
@@ -19,6 +20,8 @@ export default function HomeWrapper() {
 }
 
 function Home() {
+  const selectedCourseData = useRecoilValue(selectedCourseDataAtom);
+
   return (
     <Box>
       <Box style={{display:'flex', flexDirection:'column', position:'absolute', width:'100%'}}>
@@ -29,6 +32,12 @@ function Home() {
           <MainContent/>
         </Suspense>
       </Box>
+      {
+        selectedCourseData &&
+        <Suspense fallback={(<div>Loading</div>)}>
+          <CourseDetailPanel/>
+        </Suspense>
+      }
     </Box>
   )
 }
