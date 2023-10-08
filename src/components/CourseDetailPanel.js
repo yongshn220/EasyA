@@ -17,7 +17,7 @@ export default function CourseDetailPanel() {
       data.push([key, selectedCourseData["Grade"][key]])
     }
     return data
-  }, [selectedCourseData])
+  }, [gradeRank, selectedCourseData])
 
   const studyingHoursData = useMemo(() => {
     const rank = studyingHoursRank[selectedCourseData.name]
@@ -26,7 +26,7 @@ export default function CourseDetailPanel() {
       data.push([key, selectedCourseData["StudyingHours"][key]])
     }
     return data
-  }, [selectedCourseData])
+  }, [studyingHoursRank, selectedCourseData])
 
   if (!selectedCourseData) {
     return <></>
