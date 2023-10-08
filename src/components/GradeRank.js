@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {useEffect, useMemo} from "react";
+import {useMemo} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
 import {useSetRecoilState} from "recoil";
