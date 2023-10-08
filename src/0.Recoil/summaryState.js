@@ -22,3 +22,14 @@ export const selectedCourseDataAtom = atom({
   key: "selectedCourseDataAtom",
   default: null
 })
+
+
+export const gradeRankAtom = atom({
+  key: "gradeRankAtom",
+  default: {}
+})
+
+export const studyingHoursRankAtom = atom({
+  key: "studyingHoursRankAtom",
+  default: {}
+})
