@@ -19,7 +19,7 @@ export default function CourseRank({data}) {
     setStudyingHoursRank(rank);
 
     return arr
-  }, [data])
+  }, [setStudyingHoursRank, data])
 
 
   return (

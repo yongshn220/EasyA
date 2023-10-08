@@ -20,7 +20,7 @@ export default function GradeRank({data}) {
 
     return arr
 
-  }, [data])
+  }, [setGradeRank, data])
 
   console.log(avgSortedByGrade)
 
