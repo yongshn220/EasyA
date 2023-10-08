@@ -7,7 +7,6 @@ export default class SortingHelper {
       const gradeA = (courseA.Grade !== {})? courseA.Grade : courseA.OverallGrade;
       const gradeB = (courseB.Grade !== {})? courseB.Grade : courseB.OverallGrade;
 
-      console.log(courseA, courseB)
       // Compare each grade in descending order
       for (const grade in gradeA) {
         if (grade in gradeA && grade in gradeB) {

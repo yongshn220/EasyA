@@ -47,7 +47,6 @@ function MainContent() {
   const currentYear = useRecoilValue(defaultYearAtom);
   const summary = useRecoilValue(summaryByStartYearAtom(currentYear))
 
-  console.log("All summary:", summary);
   return (
     <Box style={{flex:1, display:'flex'}}>
       <Box style={{display:'flex', flex:"1"}}>

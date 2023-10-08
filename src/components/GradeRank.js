@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {useMemo} from "react";
+import {useEffect, useMemo} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
 import {useSetRecoilState} from "recoil";
@@ -9,20 +9,16 @@ export default function GradeRank({data}) {
   const setGradeRank = useSetRecoilState(gradeRankAtom);
 
   const avgSortedByGrade = useMemo(() => {
+    return SortingHelper.sortByGrade(data)
+  }, [data])
 
-    const arr = SortingHelper.sortByGrade(data)
-
+  useEffect(() => {
     let rank = {}
-    arr.forEach((data, index) => {
+    avgSortedByGrade.forEach((data, index) => {
       rank[data.name] = index + 1
     })
     setGradeRank(rank);
-
-    return arr
-
-  }, [setGradeRank, data])
-
-  console.log(avgSortedByGrade)
+  }, [setGradeRank, avgSortedByGrade])
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>

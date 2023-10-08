@@ -25,7 +25,6 @@ export default function Rank({title, avgData, rankType}) {
       // Determine the number of items per row based on the window width
       for (const breakpoint of breakpoints) {
         if (window.innerWidth < breakpoint.breakpoint) {
-          console.log(window.innerWidth)
           setItemsPerRow(breakpoint.items);
           return;
         }
@@ -48,7 +47,6 @@ export default function Rank({title, avgData, rankType}) {
   }, []);
 
   function handleOnCourseClick(courseData) {
-    console.log(courseData.name)
     setSelectedCourse(courseData)
   }
 

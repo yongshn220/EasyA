@@ -32,8 +32,6 @@ export default function CourseDetailPanel() {
     return <></>
   }
 
-  console.log(gradeData)
-
   return (
     <Box style={{position:'fixed', display:'flex', flexDirection:'column', bottom:0, left: '50%', transform: 'translateX(-50%)', width:'98vw', height:'35vh', justifyContent:'center'}}>
       <Box style={{display:'flex', flex:'0', fontSize:"1.6rem", fontWeight:'600', justifyContent:'center'}}>
