@@ -6,7 +6,7 @@ export const HardwareType = {
   MOBILE: 'hardwareTypeMobile',
 }
 
-export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD"]
+export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD", "None"]
 
 
 export const userHardWareTypeAtom = atom({
@@ -36,14 +36,9 @@ export const filteredMajorsAtom = atom({
   default: []
 })
 
-export const availableMajorListAtom = selector({
-  key: 'availableMajorListAtom',
-  get: (get) => {
-    let allMajors = get(majorListAtom)
-    let filteredMajors = get(filteredMajorsAtom)
-
-    return allMajors.filter((major) => !filteredMajors.includes(major));
-  }
+export const filteredSBCsAtom = atom({
+  key: 'filteredSBCsAtom',
+  default: []
 })
 
 

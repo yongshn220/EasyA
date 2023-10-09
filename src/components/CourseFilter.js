@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Chip from '@mui/material/Chip';
 import {useRecoilState, useRecoilValue} from "recoil";
-import {filteredMajorsAtom, majorListAtom, SBCs} from "../0.Recoil/summaryState";
+import {filteredMajorsAtom, filteredSBCsAtom, majorListAtom, SBCs} from "../0.Recoil/summaryState";
 import {useEffect} from "react";
 import Button from "@mui/material/Button";
 
@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 export default function CourseFilter() {
   const majorList = useRecoilValue(majorListAtom);
   const [filteredMajors, setFilteredMajors] = useRecoilState(filteredMajorsAtom);
+  const [filteredSBCs, setFilteredSBCs] = useRecoilState(filteredSBCsAtom);
 
   useEffect(() => {
     console.log(filteredMajors);
@@ -25,6 +26,17 @@ export default function CourseFilter() {
     }
   }
 
+  function handleClickSBC(e, sbc) {
+    e.stopPropagation();
+
+    if (filteredSBCs.includes(sbc)) {
+      setFilteredSBCs(filteredSBCs.filter((_sbc) => _sbc !== sbc));
+    }
+    else {
+      setFilteredSBCs([...filteredSBCs, sbc])
+    }
+  }
+
   function handleClickSelectAllMajors(e) {
     e.stopPropagation()
     setFilteredMajors([])
@@ -33,6 +45,16 @@ export default function CourseFilter() {
   function handleClickUnselectAllMajors(e) {
     e.stopPropagation()
     setFilteredMajors(majorList)
+  }
+
+  function handleClickSelectAllSBCs(e) {
+    e.stopPropagation()
+    setFilteredSBCs([])
+  }
+
+  function handleClickUnselectAllSBCs(e) {
+    e.stopPropagation()
+    setFilteredSBCs(SBCs)
   }
 
   return (
@@ -59,17 +81,18 @@ export default function CourseFilter() {
       </Box>
       <Box style={{display:'flex', flexDirection:'column', flex:1}}>
         <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
-          SBCs (It will be available soon)
+          SBCs
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             SBCs.map((sbc) => {
-              return <Chip key={sbc} disabled={true} color="success" onClick={(e) => console.log(sbc)} label={sbc} sx={{fontSize:'1.2rem', margin:'3px'}} variant="" />
+              const variant = (filteredSBCs.includes(sbc))? "outlined" : "";
+              return <Chip key={sbc} onClick={(e) => handleClickSBC(e, sbc)} color="success" label={sbc} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
             })
           }
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
-            <Button style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
-            <Button style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
+            <Button onClick={(e) => handleClickSelectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
+            <Button onClick={(e) => handleClickUnselectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
           </Box>
         </Box>
       </Box>
