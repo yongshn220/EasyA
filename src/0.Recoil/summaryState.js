@@ -6,6 +6,9 @@ export const HardwareType = {
   MOBILE: 'hardwareTypeMobile',
 }
 
+export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD"]
+
+
 export const userHardWareTypeAtom = atom({
   key: 'userHardWareTypeAtom',
   default: HardwareType.PC,
@@ -32,6 +35,17 @@ export const filteredMajorsAtom = atom({
   key: 'filteredMajorsAtom',
   default: []
 })
+
+export const availableMajorListAtom = selector({
+  key: 'availableMajorListAtom',
+  get: (get) => {
+    let allMajors = get(majorListAtom)
+    let filteredMajors = get(filteredMajorsAtom)
+
+    return allMajors.filter((major) => !filteredMajors.includes(major));
+  }
+})
+
 
 export const summaryByStartYearAtom = atomFamily({
   key: 'summaryByStartYearAtomAtom',
