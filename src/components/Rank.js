@@ -62,7 +62,12 @@ export default function Rank({title, avgData, rankType}) {
             avgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
                 <div onClick={(e) => handleOnCourseClick(e, data)} style={{ cursor: 'pointer' }}>
-                  <BasicCard rank={index+1} name={data.name} score={scoreTitle + data[rankType][dataKey] + "%"}/>
+                  <BasicCard
+                    rank={index+1}
+                    name={data.name}
+                    score={scoreTitle + data[rankType][dataKey] + "%"}
+                    sbc={data["SBC"]}
+                  />
                 </div>
               </Grid>
             ))

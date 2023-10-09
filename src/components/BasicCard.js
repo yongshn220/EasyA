@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import {useRecoilValue} from "recoil";
 import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
 
-export default function BasicCard({rank, name, score}) {
+export default function BasicCard({rank, name, score, sbc}) {
   const selectedCourseData = useRecoilValue(selectedCourseDataAtom);
   const borderRadius = (selectedCourseData?.name === name)? "100px" : "0px";
 
@@ -20,6 +20,9 @@ export default function BasicCard({rank, name, score}) {
         </Typography>
         <Typography sx={{ fontSize: '1.4rem' }} color="text.secondary" gutterBottom>
           {score}
+        </Typography>
+        <Typography sx={{ fontSize: '1rem' }} color="text.secondary" gutterBottom>
+          {(sbc.length === 0)? "-" : sbc.join(", ")}
         </Typography>
       </CardContent>
     </Card>
