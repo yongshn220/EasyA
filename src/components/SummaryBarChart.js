@@ -11,17 +11,6 @@ export default function SummaryBarChart({data, options}) {
       height="90%"
       options={options}
       data={data}
-      // data={[
-      //   [
-      //     "",
-      //     { role: "annotation" },
-      //     "Social",
-      //     { role: "annotation" },
-      //   ],
-      //
-      //   ["", "A", 98, "98"],
-      //   ["", "", 98, "98"]
-      // ]}
     />
   );
 }

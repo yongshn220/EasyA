@@ -17,8 +17,7 @@ export default function CourseDetailPanel() {
   const userHardWareType = useRecoilValue(userHardWareTypeAtom);
 
   const gradeData = useMemo(() => {
-    const rank = gradeRank[selectedCourseData.name]
-    let data = [[`Grade [#${rank}]`, { role: "annotation" }, "%", { role: "annotation" }]]
+    let data = [["", { role: "annotation" }, "%", { role: "annotation" }]]
     for (let key of Object.keys(selectedCourseData["Grade"])) {
       data.push([key, "", selectedCourseData["Grade"][key], selectedCourseData["Grade"][key]])
     }
@@ -26,8 +25,7 @@ export default function CourseDetailPanel() {
   }, [gradeRank, selectedCourseData])
 
   const studyingHoursData = useMemo(() => {
-    const rank = studyingHoursRank[selectedCourseData.name]
-    let data = [[`Hours [#${rank}]`, { role: "annotation" }, "%", { role: "annotation" }]]
+    let data = [["", { role: "annotation" }, "%", { role: "annotation" }]]
     for (let key of Object.keys(selectedCourseData["StudyingHours"])) {
       data.push([key, "", selectedCourseData["StudyingHours"][key], selectedCourseData["StudyingHours"][key]])
     }
@@ -56,12 +54,12 @@ export default function CourseDetailPanel() {
       <Box style={{display:'flex', flex:'1', flexDirection: GraphDirection, bottom:0, width:'100%', height:'100%',  borderRadius:'5px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', backgroundColor:'white'}}>
         <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex:1, margin:4}}>
           <Box style={{flex:1}}>
-            <SummaryBarChart data={gradeData} options={{title: "Grade"}}/>
+            <SummaryBarChart data={gradeData} options={{title: `Grade [#${gradeRank[selectedCourseData.name]}]`}}/>
           </Box>
         </Box>
         <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex:1, margin:4}}>
           <Box style={{flex:1, backgroundColor:'red'}}>
-            <SummaryBarChart data={studyingHoursData} options={{title: "Studying Hours"}}/>
+            <SummaryBarChart data={studyingHoursData} options={{title: `Studying Hours [#${studyingHoursRank[selectedCourseData.name]}]`}}/>
           </Box>
         </Box>
       </Box>
