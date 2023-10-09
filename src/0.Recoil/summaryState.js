@@ -1,6 +1,15 @@
 import {atom, atomFamily, selectorFamily} from "recoil";
 import {getSummary} from "../api/api";
 
+export const HardwareType = {
+  PC: 'hardwareTypePC',
+  MOBILE: 'hardwareTypeMobile',
+}
+
+export const userHardWareTypeAtom = atom({
+  key: 'userHardWareTypeAtom',
+  default: HardwareType.PC,
+})
 
 export const defaultYearAtom = atom({
   key: 'defaultYearAtom',
@@ -33,3 +42,5 @@ export const studyingHoursRankAtom = atom({
   key: "studyingHoursRankAtom",
   default: {}
 })
+
+

@@ -1,11 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import Divider from '@mui/material/Divider';
 import GradeRank from "../components/GradeRank"
 import StudyingHoursRank from "../components/StudyingHoursRank"
-import {useRecoilState, useRecoilValue} from "recoil";
-import {defaultYearAtom, selectedCourseDataAtom, summaryByStartYearAtom} from "../0.Recoil/summaryState";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { defaultYearAtom, HardwareType, selectedCourseDataAtom, summaryByStartYearAtom, userHardWareTypeAtom } from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
 import CourseDetailPanel from "../components/CourseDetailPanel";
@@ -21,6 +21,17 @@ export default function HomeWrapper() {
 
 function Home() {
   const [selectedCourseData, setSelectedCourseData] = useRecoilState(selectedCourseDataAtom);
+  const setUserHardWareTypeAtom = useSetRecoilState(userHardWareTypeAtom);
+
+  useEffect(() => {
+    if (isMobileDevice()) {
+      setUserHardWareTypeAtom(HardwareType.MOBILE);
+    }
+  }, [setUserHardWareTypeAtom])
+
+  function isMobileDevice() {
+    return /Mobi|Android|iPhone|iPad|iPod|Windows Phone|BlackBerry|Mobile|webOS|Opera Mini/i.test(navigator.userAgent);
+  }
 
   function handleClickBackground() {
     console.log("click background")
