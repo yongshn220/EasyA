@@ -22,7 +22,7 @@ export default function CourseDetailPanel() {
       data.push([key, "", selectedCourseData["Grade"][key], selectedCourseData["Grade"][key]])
     }
     return data
-  }, [gradeRank, selectedCourseData])
+  }, [selectedCourseData])
 
   const studyingHoursData = useMemo(() => {
     let data = [["", { role: "annotation" }, "%", { role: "annotation" }]]
@@ -30,7 +30,7 @@ export default function CourseDetailPanel() {
       data.push([key, "", selectedCourseData["StudyingHours"][key], selectedCourseData["StudyingHours"][key]])
     }
     return data
-  }, [studyingHoursRank, selectedCourseData])
+  }, [selectedCourseData])
 
   const GraphDirection = (userHardWareType === HardwareType.MOBILE)? 'column' : 'row'
   const GraphPanelHeight = (userHardWareType === HardwareType.MOBILE)? '85vh' : '35vh'
