@@ -2,29 +2,34 @@ import Box from "@mui/material/Box";
 import {useMemo, useEffect} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
-import {studyingHoursRankAtom} from "../0.Recoil/summaryState";
-import {useSetRecoilState} from "recoil";
+import {filteredMajorsAtom, studyingHoursRankAtom} from "../0.Recoil/summaryState";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 
 
 export default function CourseRank({data}) {
   const setStudyingHoursRank = useSetRecoilState(studyingHoursRankAtom)
+  const filteredMajors = useRecoilValue(filteredMajorsAtom)
 
   const avgSortedByGrade = useMemo(() => {
     return SortingHelper.sortByStudyingHour(data)
   }, [data])
 
+  const avgData = useMemo(() => {
+    return avgSortedByGrade.filter((course) => !filteredMajors.includes(course.name.substring(0, 3)))
+  }, [avgSortedByGrade, filteredMajors])
+
   useEffect(() => {
     let rank = {}
-    avgSortedByGrade.forEach((data, index) => {
+    avgData.forEach((data, index) => {
       rank[data.name] = index + 1
     })
     setStudyingHoursRank(rank);
-  }, [setStudyingHoursRank, avgSortedByGrade])
+  }, [setStudyingHoursRank, avgData])
 
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
-      <Rank title={"Minimum Studying Hours"} avgData={avgSortedByGrade} rankType={"StudyingHours"}/>
+      <Rank title={"Minimum Studying Hours"} avgData={avgData} rankType={"StudyingHours"}/>
     </Box>
   )
 }
