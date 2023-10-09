@@ -34,6 +34,7 @@ export default function CourseDetailPanel() {
 
   return (
     <Box style={{position:'fixed', display:'flex', flexDirection:'column', bottom:0, left: '50%', transform: 'translateX(-50%)', width:'98vw', height:'35vh', justifyContent:'center'}}>
+      <Box style={{position:'absolute', top: 0, right:0, zIndex:1000}}>Close</Box>
       <Box style={{display:'flex', flex:'0', fontSize:"1.6rem", fontWeight:'600', justifyContent:'center'}}>
         <Box style={{flex:0.1, padding: 5, marginBottom: 4, borderRadius:'10px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', backgroundColor:'white'}}>
           {selectedCourseData.name}

@@ -21,7 +21,8 @@ export default function StartYearMenu() {
     setAnchorEl(null);
   };
 
-  const handleChangeYear = (year) => {
+  const handleChangeYear = (e, year) => {
+    e.stopPropagation();
     setAnchorEl(null);
     setDefaultYear(year)
   }
@@ -49,7 +50,7 @@ export default function StartYearMenu() {
       >
         {
           YEARS.map((year) => (
-            <MenuItem sx={{fontSize: "1.4rem"}} onClick={() => handleChangeYear(year)}>{year}</MenuItem>
+            <MenuItem key={year} sx={{fontSize: "1.4rem"}} onClick={(e) => handleChangeYear(e, year)}>{year}</MenuItem>
           ))
         }
       </Menu>

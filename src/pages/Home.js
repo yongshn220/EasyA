@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Divider from '@mui/material/Divider';
 import GradeRank from "../components/GradeRank"
 import StudyingHoursRank from "../components/StudyingHoursRank"
-import {useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {defaultYearAtom, selectedCourseDataAtom, summaryByStartYearAtom} from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
@@ -20,12 +20,17 @@ export default function HomeWrapper() {
 }
 
 function Home() {
-  const selectedCourseData = useRecoilValue(selectedCourseDataAtom);
+  const [selectedCourseData, setSelectedCourseData] = useRecoilState(selectedCourseDataAtom);
+
+  function handleClickBackground() {
+    console.log("click background")
+    setSelectedCourseData(null)
+  }
 
   return (
     <Box>
-      <Box style={{display:'flex', flexDirection:'column', position:'absolute', width:'100%'}}>
-        <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center', }}>
+      <Box onClick={() => handleClickBackground()} style={{display:'flex', flexDirection:'column', position:'absolute', width:'100%'}}>
+        <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
         <Suspense fallback={(<div>Loading</div>)}>

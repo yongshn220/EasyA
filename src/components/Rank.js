@@ -46,7 +46,8 @@ export default function Rank({title, avgData, rankType}) {
     };
   }, []);
 
-  function handleOnCourseClick(courseData) {
+  function handleOnCourseClick(e, courseData) {
+    e.stopPropagation();
     setSelectedCourse(courseData)
   }
 
@@ -60,7 +61,7 @@ export default function Rank({title, avgData, rankType}) {
           {
             avgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
-                <div onClick={() => handleOnCourseClick(data)} style={{ cursor: 'pointer' }}>
+                <div onClick={(e) => handleOnCourseClick(e, data)} style={{ cursor: 'pointer' }}>
                   <BasicCard rank={index+1} name={data.name} score={scoreTitle + data[rankType][dataKey] + "%"}/>
                 </div>
               </Grid>
