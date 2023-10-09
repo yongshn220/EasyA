@@ -9,6 +9,7 @@ import { defaultYearAtom, HardwareType, selectedCourseDataAtom, summaryByStartYe
 import MainBanner from "../components/MainBanner";
 import '../App.css';
 import CourseDetailPanel from "../components/CourseDetailPanel";
+import CourseFilter from "../components/CourseFilter";
 
 export default function HomeWrapper() {
   return (
@@ -43,6 +44,11 @@ function Home() {
       <Box onClick={() => handleClickBackground()} style={{display:'flex', flexDirection:'column', position:'absolute', width:'100%'}}>
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
+        </Box>
+        <Box style={{display:'flex', flex:'0 0 350px', justifyContent:'center', backgroundColor:'white'}}>
+          <Suspense fallback={(<div></div>)}>
+            <CourseFilter/>
+          </Suspense>
         </Box>
         <Suspense fallback={(<div>Loading</div>)}>
           <MainContent/>

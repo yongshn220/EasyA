@@ -3,7 +3,6 @@ import { Chart } from "react-google-charts";
 
 export default function SummaryBarChart({data, options}) {
 
-
   return (
     <Chart
       chartType="ColumnChart"

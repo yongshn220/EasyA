@@ -1,5 +1,5 @@
-import {atom, atomFamily, selectorFamily} from "recoil";
-import {getSummary} from "../api/api";
+import {atom, atomFamily, selector, selectorFamily} from "recoil";
+import {getMajorList, getSummary} from "../api/api";
 
 export const HardwareType = {
   PC: 'hardwareTypePC',
@@ -14,6 +14,23 @@ export const userHardWareTypeAtom = atom({
 export const defaultYearAtom = atom({
   key: 'defaultYearAtom',
   default: 2020,
+})
+
+export const majorListAtom = atom({
+  key: 'majorListAtom',
+  default: selector({
+    key: 'majorListAtom/Default',
+    get: async () => {
+      let majors = await getMajorList();
+      majors = majors.sort();
+      return majors;
+    }
+  })
+})
+
+export const filteredMajorsAtom = atom({
+  key: 'filteredMajorsAtom',
+  default: []
 })
 
 export const summaryByStartYearAtom = atomFamily({
