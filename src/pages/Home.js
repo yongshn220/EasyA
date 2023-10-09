@@ -45,7 +45,7 @@ function Home() {
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
-        <Box style={{display:'flex', flex:'0 0 350px', justifyContent:'center', backgroundColor:'white'}}>
+        <Box style={{display:'flex', flex:'0 0 350px', marginTop:'20px', marginBottom:'40px', justifyContent:'center', backgroundColor:'white'}}>
           <Suspense fallback={(<div></div>)}>
             <CourseFilter/>
           </Suspense>
