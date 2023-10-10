@@ -1,7 +1,14 @@
 import Box from "@mui/material/Box";
 import Chip from '@mui/material/Chip';
 import {useRecoilState, useRecoilValue} from "recoil";
-import {filteredMajorsAtom, filteredSBCsAtom, majorListAtom, SBCs} from "../0.Recoil/summaryState";
+import {
+  filteredLevelsAtom,
+  filteredMajorsAtom,
+  filteredSBCsAtom,
+  Levels,
+  majorListAtom,
+  SBCs
+} from "../0.Recoil/summaryState";
 import {useEffect} from "react";
 import Button from "@mui/material/Button";
 
@@ -10,6 +17,7 @@ export default function CourseFilter() {
   const majorList = useRecoilValue(majorListAtom);
   const [filteredMajors, setFilteredMajors] = useRecoilState(filteredMajorsAtom);
   const [filteredSBCs, setFilteredSBCs] = useRecoilState(filteredSBCsAtom);
+  const [filteredLevels, setFilteredLevels] = useRecoilState(filteredLevelsAtom);
 
   useEffect(() => {
   }, [filteredMajors])
@@ -36,6 +44,17 @@ export default function CourseFilter() {
     }
   }
 
+  function handleClickLevel(e, sbc) {
+    e.stopPropagation();
+
+    if (filteredLevels.includes(sbc)) {
+      setFilteredLevels(filteredLevels.filter((_sbc) => _sbc !== sbc));
+    }
+    else {
+      setFilteredLevels([...filteredLevels, sbc])
+    }
+  }
+
   function handleClickSelectAllMajors(e) {
     e.stopPropagation()
     setFilteredMajors([])
@@ -54,6 +73,16 @@ export default function CourseFilter() {
   function handleClickUnselectAllSBCs(e) {
     e.stopPropagation()
     setFilteredSBCs(SBCs)
+  }
+
+  function handleClickSelectAllLevels(e) {
+    e.stopPropagation()
+    setFilteredLevels([])
+  }
+
+  function handleClickUnselectAllLevels(e) {
+    e.stopPropagation()
+    setFilteredLevels(Levels)
   }
 
   return (
@@ -92,6 +121,23 @@ export default function CourseFilter() {
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
             <Button onClick={(e) => handleClickSelectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
             <Button onClick={(e) => handleClickUnselectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
+          </Box>
+        </Box>
+      </Box>
+      <Box style={{display:'flex', flexDirection:'column', flex:1}}>
+        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+          Levels
+        </Box>
+        <Box style={{flex:1, padding:'10px'}}>
+          {
+            Levels.map((level) => {
+              const variant = (filteredLevels.includes(level))? "outlined" : "";
+              return <Chip key={level} onClick={(e) => handleClickLevel(e, level)} color="warning" label={level} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+            })
+          }
+          <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
+            <Button onClick={(e) => handleClickSelectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
+            <Button onClick={(e) => handleClickUnselectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
           </Box>
         </Box>
       </Box>

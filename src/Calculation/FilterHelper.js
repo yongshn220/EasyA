@@ -19,23 +19,33 @@ export default class FilterHelper {
     })
   }
 
-  static getIntersectionOfData(dataA, dataB) {
+  static filterByLevel(data, filteredLevels) {
+    return data.filter((course) => {
+      for (let level of filteredLevels) {
+        if (course.name.substring(3,4) === level.toString().substring(0,1))
+          return false
+      }
+      return true
+    })
+  }
+
+  static getIntersectionOfData(dataA, dataB, dataC) {
     let result = []
 
-    let mi = 0
-    let si = 0
-    while (mi < dataA.length && si < dataB.length) {
-      if (dataA[mi]["_id"] === dataB[si]["_id"]) {
-        result.push(dataA[mi])
-        mi += 1
-        si += 1
-        continue
+    let ai = 0, bi = 0, ci = 0
+    while (ai < dataA.length && bi < dataB.length && ci < dataC.length) {
+      if (dataA[ai]["_id"] === dataB[bi]["_id"] && dataB[bi]["_id"] === dataC[ci]["_id"]) {
+        result.push(dataA[ai])
+        ai += 1
+        bi += 1
+        ci += 1
       }
-
-      if (dataA[mi]["_id"] < dataB[si]["_id"])
-        mi += 1
+      else if (dataA[ai]["_id"] < dataB[bi]["_id"])
+        ai += 1
+      else if (dataB[bi]["_id"] < dataC[ci]["_id"])
+        bi += 1
       else
-        si += 1
+        ci += 1
     }
     return result
   }

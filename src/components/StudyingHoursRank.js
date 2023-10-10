@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import {useMemo, useEffect} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
-import {filteredMajorsAtom, filteredSBCsAtom, studyingHoursRankAtom} from "../0.Recoil/summaryState";
+import {filteredLevelsAtom, filteredMajorsAtom, filteredSBCsAtom, studyingHoursRankAtom} from "../0.Recoil/summaryState";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import FilterHelper from "../Calculation/FilterHelper";
 
@@ -11,7 +11,7 @@ export default function CourseRank({data}) {
   const setStudyingHoursRank = useSetRecoilState(studyingHoursRankAtom)
   const filteredMajors = useRecoilValue(filteredMajorsAtom)
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
-
+  const filteredLevels = useRecoilValue(filteredLevelsAtom);
 
   const avgSortedByStudyingHour = useMemo(() => {
     let sortedCourses = SortingHelper.sortByStudyingHour(data)
@@ -29,9 +29,13 @@ export default function CourseRank({data}) {
     return FilterHelper.filterBySBC(avgSortedByStudyingHour, filteredSBCs)
   }, [avgSortedByStudyingHour, filteredSBCs])
 
+  const levelFiltered = useMemo(() => {
+    return FilterHelper.filterByLevel(avgSortedByStudyingHour, filteredLevels)
+  }, [avgSortedByStudyingHour, filteredLevels])
+
   const avgData = useMemo(() => {
-    return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered)
-  }, [majorFiltered, sbcFiltered])
+    return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered, levelFiltered)
+  }, [majorFiltered, sbcFiltered, levelFiltered])
 
 
   useEffect(() => {

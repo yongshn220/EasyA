@@ -8,6 +8,7 @@ export const HardwareType = {
 
 export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD", "None"]
 
+export const Levels = [100,200,300,400]
 
 export const userHardWareTypeAtom = atom({
   key: 'userHardWareTypeAtom',
@@ -38,6 +39,11 @@ export const filteredMajorsAtom = atom({
 
 export const filteredSBCsAtom = atom({
   key: 'filteredSBCsAtom',
+  default: []
+})
+
+export const filteredLevelsAtom = atom({
+  key: 'filteredLevelsAtom',
   default: []
 })
 
