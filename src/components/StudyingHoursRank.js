@@ -14,7 +14,11 @@ export default function CourseRank({data}) {
 
 
   const avgSortedByStudyingHour = useMemo(() => {
-    return SortingHelper.sortByStudyingHour(data)
+    let sortedCourses = SortingHelper.sortByStudyingHour(data)
+    sortedCourses.forEach((course, index) => {
+      course["_id"] = index // sort order for later use for filtering.
+    })
+    return sortedCourses
   }, [data])
 
   const majorFiltered = useMemo(() => {
@@ -24,6 +28,8 @@ export default function CourseRank({data}) {
   const sbcFiltered = useMemo(() => {
     return FilterHelper.filterBySBC(avgSortedByStudyingHour, filteredSBCs)
   }, [avgSortedByStudyingHour, filteredSBCs])
+
+  console.log(sbcFiltered)
 
   const avgData = useMemo(() => {
     return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered)
