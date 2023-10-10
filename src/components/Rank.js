@@ -1,13 +1,22 @@
 import Grid from "@mui/material/Grid";
 import BasicCard from "./BasicCard";
 import Box from "@mui/material/Box";
-import {useEffect, useState} from "react";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import {useEffect, useMemo, useState} from "react";
 import {useSetRecoilState} from "recoil";
 import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
+
+const SortDirection = {
+  "NORMAL": "sortDirectionNormal",
+  "OPPOSITE": "sortDirectionOpposite",
+}
 
 export default function Rank({title, avgData, rankType}) {
   const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
+  const [sortDirection, setSortDirection] = useState(SortDirection.NORMAL);
+
   const scoreTitle = (rankType === "Grade")? "A: " : "0-3h: "
   const dataKey = (rankType === "Grade")? "A" : "0-3"
 
@@ -46,6 +55,10 @@ export default function Rank({title, avgData, rankType}) {
     };
   }, []);
 
+  const editedAvgData = useMemo(() => {
+    return (sortDirection === SortDirection.NORMAL)? [...avgData] : [...avgData].reverse();
+  }, [avgData, sortDirection])
+
   function handleOnCourseClick(e, courseData) {
     e.stopPropagation();
     setSelectedCourse(courseData)
@@ -55,11 +68,17 @@ export default function Rank({title, avgData, rankType}) {
     <>
       <Box style={{display:'flex', justifyContent:'center', alignItems:'center', flex: "0 0 50px", fontSize:'2.0rem', fontWeight:'700'}}>
         <div>{title}</div>
+        {
+          (sortDirection === SortDirection.NORMAL)?
+          <ArrowDownwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer'}} color="primary"  onClick={() => setSortDirection(SortDirection.OPPOSITE)}/>
+            :
+          <ArrowUpwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer'}} color="primary"  onClick={() => setSortDirection(SortDirection.NORMAL)}/>
+        }
       </Box>
       <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'#efefef'}}>
         <Grid container spacing={1}>
           {
-            avgData.map((data, index) => (
+            editedAvgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
                 <div onClick={(e) => handleOnCourseClick(e, data)} style={{ cursor: 'pointer' }}>
                   <BasicCard
