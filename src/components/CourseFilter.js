@@ -12,7 +12,6 @@ export default function CourseFilter() {
   const [filteredSBCs, setFilteredSBCs] = useRecoilState(filteredSBCsAtom);
 
   useEffect(() => {
-    console.log(filteredMajors);
   }, [filteredMajors])
 
   function handleClickMajor(e, major) {

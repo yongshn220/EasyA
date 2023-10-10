@@ -29,8 +29,6 @@ export default function CourseRank({data}) {
     return FilterHelper.filterBySBC(avgSortedByStudyingHour, filteredSBCs)
   }, [avgSortedByStudyingHour, filteredSBCs])
 
-  console.log(sbcFiltered)
-
   const avgData = useMemo(() => {
     return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered)
   }, [majorFiltered, sbcFiltered])
