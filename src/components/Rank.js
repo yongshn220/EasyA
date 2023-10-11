@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useEffect, useMemo, useState} from "react";
-import {useSetRecoilState} from "recoil";
-import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
+import {useRecoilValue, useSetRecoilState} from "recoil";
+import {maxCourseLoadNumAtom, selectedCourseDataAtom} from "../0.Recoil/summaryState";
 
 const SortDirection = {
   "NORMAL": "sortDirectionNormal",
@@ -14,6 +14,7 @@ const SortDirection = {
 
 export default function Rank({title, avgData, rankType}) {
   const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
+  const maxCourseLoadNum = useRecoilValue(maxCourseLoadNumAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
   const [sortDirection, setSortDirection] = useState(SortDirection.NORMAL);
 
@@ -59,6 +60,10 @@ export default function Rank({title, avgData, rankType}) {
     return (sortDirection === SortDirection.NORMAL)? [...avgData] : [...avgData].reverse();
   }, [avgData, sortDirection])
 
+  const slicedAvgData = useMemo(() => {
+    return editedAvgData.slice(0, maxCourseLoadNum)
+  }, [editedAvgData, maxCourseLoadNum])
+
   function handleOnCourseClick(e, courseData) {
     e.stopPropagation();
     setSelectedCourse(courseData)
@@ -78,7 +83,7 @@ export default function Rank({title, avgData, rankType}) {
       <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'#efefef'}}>
         <Grid container spacing={1}>
           {
-            editedAvgData.map((data, index) => (
+            slicedAvgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
                 <div onClick={(e) => handleOnCourseClick(e, data)} style={{ cursor: 'pointer' }}>
                   <BasicCard

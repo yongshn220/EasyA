@@ -1,25 +1,66 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
 import {getMajorList, getSummary} from "../api/api";
 
+
+/* -------------------------
+*     CONST VARIABLES
+---------------------------*/
+
 export const HardwareType = {
   PC: 'hardwareTypePC',
   MOBILE: 'hardwareTypeMobile',
 }
-
 export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD", "None"]
-
 export const Levels = [100,200,300,400]
+export const DefaultMaxCourseLoadNum = 100
+export const NextLoadNumPerStep = 50
 
+
+
+/* -------------------------
+*        USER DEVICE
+---------------------------*/
 export const userHardWareTypeAtom = atom({
   key: 'userHardWareTypeAtom',
   default: HardwareType.PC,
 })
 
+
+/* -------------------------
+*  NUM OF LOADING COURSES
+---------------------------*/
+export const maxCourseLoadNumAtom = atom({
+  key: 'maxCourseLoadNumAtom',
+  default: DefaultMaxCourseLoadNum
+})
+
+export const validCourseNumAtom = atom({
+  key: 'validCourseNumAtom',
+  default: 0
+})
+
+
+/* -------------------------
+*           YEAR
+---------------------------*/
 export const defaultYearAtom = atom({
   key: 'defaultYearAtom',
   default: 2020,
 })
 
+export const summaryByStartYearAtom = atomFamily({
+  key: 'summaryByStartYearAtomAtom',
+  default: selectorFamily({
+    key: 'summaryByStartYearAtomAtom/Default',
+    get: (year) => async () => {
+      return await getSummary(year);
+    }
+  })
+})
+
+/* -------------------------
+*          FILTER
+---------------------------*/
 export const majorListAtom = atom({
   key: 'majorListAtom',
   default: selector({
@@ -31,6 +72,7 @@ export const majorListAtom = atom({
     }
   })
 })
+
 
 export const filteredMajorsAtom = atom({
   key: 'filteredMajorsAtom',
@@ -48,22 +90,13 @@ export const filteredLevelsAtom = atom({
 })
 
 
-export const summaryByStartYearAtom = atomFamily({
-  key: 'summaryByStartYearAtomAtom',
-  default: selectorFamily({
-    key: 'summaryByStartYearAtomAtom/Default',
-    get: (year) => async () => {
-      return await getSummary(year);
-    }
-  })
-})
-
-
+/* -------------------------
+*     COURSE DETAIL VIEW
+---------------------------*/
 export const selectedCourseDataAtom = atom({
   key: "selectedCourseDataAtom",
   default: null
 })
-
 
 export const gradeRankAtom = atom({
   key: "gradeRankAtom",

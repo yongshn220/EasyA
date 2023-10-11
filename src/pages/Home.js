@@ -5,17 +5,26 @@ import Divider from '@mui/material/Divider';
 import GradeRank from "../components/GradeRank"
 import StudyingHoursRank from "../components/StudyingHoursRank"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { defaultYearAtom, HardwareType, selectedCourseDataAtom, summaryByStartYearAtom, userHardWareTypeAtom } from "../0.Recoil/summaryState";
+import {
+  defaultYearAtom,
+  HardwareType,
+  maxCourseLoadNumAtom, NextLoadNumPerStep,
+  selectedCourseDataAtom,
+  summaryByStartYearAtom,
+  userHardWareTypeAtom, validCourseNumAtom
+} from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
 import CourseDetailPanel from "../components/CourseDetailPanel";
 import CourseFilter from "../components/CourseFilter";
+import Button from "@mui/material/Button";
 
 export default function HomeWrapper() {
   return (
     <div>
       <PageHeader/>
       <Home/>
+      <PageFooter/>
     </div>
   )
 }
@@ -41,7 +50,7 @@ function Home() {
 
   return (
     <Box>
-      <Box onClick={() => handleClickBackground()} style={{display:'flex', flexDirection:'column', position:'absolute', width:'100%'}}>
+      <Box onClick={() => handleClickBackground()} style={{display:'flex', flexDirection:'column', position:'relative', width:'100%'}}>
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
@@ -68,14 +77,31 @@ function Home() {
 function MainContent() {
   const currentYear = useRecoilValue(defaultYearAtom);
   const summary = useRecoilValue(summaryByStartYearAtom(currentYear))
+  const validCourseNum = useRecoilValue(validCourseNumAtom)
+  const [maxCourseLoadNum, setMaxCourseLoadNum] = useRecoilState(maxCourseLoadNumAtom)
+
+  function handleLoadMore() {
+    if (maxCourseLoadNum < validCourseNum)
+      setMaxCourseLoadNum(maxCourseLoadNum + NextLoadNumPerStep)
+  }
 
   return (
-    <Box style={{flex:1, display:'flex'}}>
-      <Box style={{display:'flex', flex:"1"}}>
-        <GradeRank data={summary.data}/>
+    <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
+      <Box style={{flex:1, display:'flex'}}>
+        <Box style={{display:'flex', flex:"1"}}>
+          <GradeRank data={summary.data}/>
+        </Box>
+        <Box style={{display:'flex', flex:"1"}}>
+          <StudyingHoursRank data={summary.data}/>
+        </Box>
       </Box>
-      <Box style={{display:'flex', flex:"1"}}>
-        <StudyingHoursRank data={summary.data}/>
+      <Box style={{display:'flex', flex:0}}>
+        <Box style={{flex:1}}/>
+        {
+          (maxCourseLoadNum < validCourseNum) &&
+          <Button onClick={() => handleLoadMore()} variant="text" sx={{fontSize:'1.2rem', flex: '0 0 10rem', marginTop:'3rem'}}>LOAD MORE</Button>
+        }
+        <Box style={{flex:1}}/>
       </Box>
     </Box>
   )
@@ -89,6 +115,17 @@ function PageHeader() {
         <Box style={{display:'flex', flex: '0', width: "100vw", marginLeft:'1vw', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700'}}>SBU@EasyA</Box>
       </Box>
       <Divider/>
+    </>
+  );
+}
+
+
+function PageFooter() {
+  return (
+    <>
+      <Box style={{display:'flex', position:'relative', height:'20rem', marginTop:'5rem', width:'100%', backgroundColor:'gray'}}>
+        <Box></Box>
+      </Box>
     </>
   );
 }

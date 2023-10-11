@@ -7,11 +7,12 @@ import {useRecoilValue, useSetRecoilState} from "recoil";
 import FilterHelper from "../Calculation/FilterHelper";
 
 
-export default function CourseRank({data}) {
+export default function StudyingHoursRank({data}) {
   const setStudyingHoursRank = useSetRecoilState(studyingHoursRankAtom)
   const filteredMajors = useRecoilValue(filteredMajorsAtom)
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
   const filteredLevels = useRecoilValue(filteredLevelsAtom);
+
 
   const avgSortedByStudyingHour = useMemo(() => {
     let sortedCourses = SortingHelper.sortByStudyingHour(data)

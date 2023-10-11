@@ -3,11 +3,12 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {useMemo, useState} from "react";
-import {defaultYearAtom} from "../0.Recoil/summaryState";
+import {DefaultMaxCourseLoadNum, defaultYearAtom, maxCourseLoadNumAtom} from "../0.Recoil/summaryState";
 import {useSetRecoilState} from "recoil";
 
 export default function StartYearMenu() {
   const setDefaultYear = useSetRecoilState(defaultYearAtom);
+  const setMaxCourseLoadNum = useSetRecoilState(maxCourseLoadNumAtom)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -24,6 +25,7 @@ export default function StartYearMenu() {
   const handleChangeYear = (e, year) => {
     e.stopPropagation();
     setAnchorEl(null);
+    setMaxCourseLoadNum(DefaultMaxCourseLoadNum);
     setDefaultYear(year)
   }
 
