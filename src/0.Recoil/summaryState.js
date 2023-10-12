@@ -12,6 +12,7 @@ export const HardwareType = {
 }
 export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD", "None"]
 export const Levels = [100,200,300,400]
+export const DefaultFilteredLevels = [300, 400]
 export const CourseSizes = [0, 20, 50, 100, 200, 300]
 export const DefaultCourseSize = 50
 export const DefaultMaxCourseLoadNum = 100
@@ -88,7 +89,7 @@ export const filteredSBCsAtom = atom({
 
 export const filteredLevelsAtom = atom({
   key: 'filteredLevelsAtom',
-  default: []
+  default: DefaultFilteredLevels
 })
 
 export const selectedCourseSizeAtom = atom({
