@@ -3,7 +3,14 @@ import {useEffect, useMemo} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {filteredLevelsAtom, filteredMajorsAtom, filteredSBCsAtom, gradeRankAtom, validCourseNumAtom} from "../0.Recoil/summaryState";
+import {
+  filteredLevelsAtom,
+  filteredMajorsAtom,
+  filteredSBCsAtom,
+  gradeRankAtom,
+  selectedCourseSizeAtom,
+  validCourseNumAtom
+} from "../0.Recoil/summaryState";
 import FilterHelper from '../Calculation/FilterHelper'
 
 export default function GradeRank({data}) {
@@ -12,6 +19,7 @@ export default function GradeRank({data}) {
   const filteredMajors = useRecoilValue(filteredMajorsAtom);
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
   const filteredLevels = useRecoilValue(filteredLevelsAtom);
+  const courseSize = useRecoilValue(selectedCourseSizeAtom);
 
 
   const avgSortedByGrade = useMemo(() => {
@@ -38,9 +46,13 @@ export default function GradeRank({data}) {
     return FilterHelper.filterByLevel(avgSortedByGrade, filteredLevels)
   }, [avgSortedByGrade, filteredLevels])
 
+  const courseSizeFiltered = useMemo(() => {
+    return FilterHelper.filterByCourseSize(avgSortedByGrade, courseSize)
+  }, [avgSortedByGrade, courseSize])
+
   const avgData = useMemo(() => {
-    return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered, levelFiltered)
-  }, [majorFiltered, sbcFiltered, levelFiltered])
+    return FilterHelper.getIntersectionOfData(majorFiltered, sbcFiltered, levelFiltered, courseSizeFiltered)
+  }, [majorFiltered, sbcFiltered, levelFiltered, courseSizeFiltered])
 
   useEffect(() => {
     let rank = {}

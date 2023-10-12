@@ -1,13 +1,13 @@
 import Box from "@mui/material/Box";
 import Chip from '@mui/material/Chip';
-import {useRecoilState, useRecoilValue} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
   filteredLevelsAtom,
   filteredMajorsAtom,
   filteredSBCsAtom,
   Levels,
   majorListAtom,
-  SBCs
+  SBCs, CourseSizes, selectedCourseSizeAtom
 } from "../0.Recoil/summaryState";
 import {useEffect} from "react";
 import Button from "@mui/material/Button";
@@ -18,6 +18,7 @@ export default function CourseFilter() {
   const [filteredMajors, setFilteredMajors] = useRecoilState(filteredMajorsAtom);
   const [filteredSBCs, setFilteredSBCs] = useRecoilState(filteredSBCsAtom);
   const [filteredLevels, setFilteredLevels] = useRecoilState(filteredLevelsAtom);
+  const [selectedCourseSize, setSelectedCourseSize] = useRecoilState(selectedCourseSizeAtom)
 
   useEffect(() => {
   }, [filteredMajors])
@@ -53,6 +54,11 @@ export default function CourseFilter() {
     else {
       setFilteredLevels([...filteredLevels, sbc])
     }
+  }
+
+  function handleClickCourseSize(e, size) {
+    e.stopPropagation();
+    setSelectedCourseSize(size);
   }
 
   function handleClickSelectAllMajors(e) {
@@ -126,19 +132,32 @@ export default function CourseFilter() {
       </Box>
       <Box style={{display:'flex', flexDirection:'column', flex:1}}>
         <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
-          Levels
+          Course Level
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             Levels.map((level) => {
               const variant = (filteredLevels.includes(level))? "outlined" : "";
-              return <Chip key={level} onClick={(e) => handleClickLevel(e, level)} color="warning" label={level} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+              return <Chip key={level} onClick={(e) => handleClickLevel(e, level)} color="warning" label={level+"+"} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
             })
           }
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
             <Button onClick={(e) => handleClickSelectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
             <Button onClick={(e) => handleClickUnselectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
           </Box>
+        </Box>
+      </Box>
+      <Box style={{display:'flex', flexDirection:'column', flex:1}}>
+        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+          Course Size (# of Students)
+        </Box>
+        <Box style={{flex:1, padding:'10px'}}>
+          {
+            CourseSizes.map((courseSize) => {
+              const variant = (selectedCourseSize === courseSize)? "outlined" : "";
+              return <Chip key={courseSize} onClick={(e) => handleClickCourseSize(e, courseSize)} color="error" label={courseSize+"+"} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+            })
+          }
         </Box>
       </Box>
     </Box>

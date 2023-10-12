@@ -29,23 +29,36 @@ export default class FilterHelper {
     })
   }
 
-  static getIntersectionOfData(dataA, dataB, dataC) {
+  static filterByCourseSize(data, courseSize) {
+    return data.filter((course) => {
+      return course["Grade_numOfStudents"] >= courseSize
+    })
+  }
+
+  static getIntersectionOfData(dataA, dataB, dataC, dataD) {
     let result = []
 
-    let ai = 0, bi = 0, ci = 0
-    while (ai < dataA.length && bi < dataB.length && ci < dataC.length) {
-      if (dataA[ai]["_id"] === dataB[bi]["_id"] && dataB[bi]["_id"] === dataC[ci]["_id"]) {
+    let ai = 0, bi = 0, ci = 0, di = 0
+    while (ai < dataA.length && bi < dataB.length && ci < dataC.length && di < dataD.length) {
+      if (
+        dataA[ai]["_id"] === dataB[bi]["_id"] &&
+        dataB[bi]["_id"] === dataC[ci]["_id"] &&
+        dataC[ci]["_id"] === dataD[di]["_id"]
+      ) {
         result.push(dataA[ai])
         ai += 1
         bi += 1
         ci += 1
+        di += 1
       }
       else if (dataA[ai]["_id"] < dataB[bi]["_id"])
         ai += 1
       else if (dataB[bi]["_id"] < dataC[ci]["_id"])
         bi += 1
-      else
+      else if (dataC[ci]["_id"] < dataD[di]["_id"])
         ci += 1
+      else
+        di += 1
     }
     return result
   }
