@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Chip from '@mui/material/Chip';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {
   filteredLevelsAtom,
   filteredMajorsAtom,
