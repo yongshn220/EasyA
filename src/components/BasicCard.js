@@ -4,13 +4,14 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useRecoilValue} from "recoil";
 import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
+import {COLOR} from "../util/util";
 
 export default function BasicCard({rank, name, score, sbc}) {
   const selectedCourseData = useRecoilValue(selectedCourseDataAtom);
-  const borderRadius = (selectedCourseData?.name === name)? "100px" : "0px";
+  const borderRadius = (selectedCourseData?.name === name)? "100px" : "5px";
 
   return (
-    <Card sx={{borderRadius:borderRadius}}>
+    <Card sx={{borderRadius:borderRadius, backgroundColor: COLOR.default}}>
       <CardContent>
         <Typography sx={{ fontSize: '1.4rem' }} color="text.secondary" gutterBottom>
           #{rank}

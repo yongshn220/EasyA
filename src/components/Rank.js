@@ -6,6 +6,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useEffect, useMemo, useState} from "react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {maxCourseLoadNumAtom, selectedCourseDataAtom} from "../0.Recoil/summaryState";
+import {COLOR} from "../util/util";
 
 const SortDirection = {
   "NORMAL": "sortDirectionNormal",
@@ -75,12 +76,12 @@ export default function Rank({title, avgData, rankType}) {
         <div>{title}</div>
         {
           (sortDirection === SortDirection.NORMAL)?
-          <ArrowDownwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer'}} color="primary"  onClick={() => setSortDirection(SortDirection.OPPOSITE)}/>
+          <ArrowDownwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer', color: COLOR.yellow}}   onClick={() => setSortDirection(SortDirection.OPPOSITE)}/>
             :
-          <ArrowUpwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer'}} color="primary"  onClick={() => setSortDirection(SortDirection.NORMAL)}/>
+          <ArrowUpwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer', color: COLOR.yellow}}   onClick={() => setSortDirection(SortDirection.NORMAL)}/>
         }
       </Box>
-      <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'#efefef'}}>
+      <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'rgba(255, 255, 255, 0.2)'}}>
         <Grid container spacing={1}>
           {
             slicedAvgData.map((data, index) => (

@@ -11,6 +11,7 @@ import {
 } from "../0.Recoil/summaryState";
 import {useEffect} from "react";
 import Button from "@mui/material/Button";
+import {COLOR} from "../util/util";
 
 
 export default function CourseFilter() {
@@ -92,70 +93,70 @@ export default function CourseFilter() {
   }
 
   return (
-    <Box style={{display:'flex', flexDirection:'column', flex:'1', marginLeft:40, marginRight:40, padding:20, borderRadius:'5px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', backgroundColor:'white'}}>
+    <Box style={{display:'flex', flexDirection:'column', flex:'1', marginLeft:40, marginRight:40, padding:20, borderRadius:'5px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', backgroundColor:'rgba(255, 255, 255, 0.2)'}}>
       <Box style={{position:'absolute', fontSize:'1.6rem', fontWeight:'700'}}>
         Filter
       </Box>
       <Box style={{dispCourseFilterlay:'flex', flexDirection:'column', flex:1}}>
-        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+        <Box style={{flex:0, fontSize:'1.8rem', fontWeight:'800', color:COLOR.default}}>
           Majors
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             majorList.map((major) => {
               const variant = (filteredMajors.includes(major))? "outlined" : "";
-              return <Chip key={major} onClick={(e) => handleClickMajor(e, major)} label={major} color="primary" sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+              return <Chip key={major} onClick={(e) => handleClickMajor(e, major)} label={major} color="primary" sx={{fontSize:'1.2rem', margin:'3px', color:"white", '&.MuiChip-outlined': {borderColor: COLOR.default }}} variant={variant} />
             })
           }
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
-            <Button onClick={(e) => handleClickSelectAllMajors(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
-            <Button onClick={(e) => handleClickUnselectAllMajors(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
+            <Button onClick={(e) => handleClickSelectAllMajors(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Select All</Button>
+            <Button onClick={(e) => handleClickUnselectAllMajors(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Unselect All</Button>
           </Box>
         </Box>
       </Box>
-      <Box style={{display:'flex', flexDirection:'column', flex:1}}>
-        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+      <Box style={{display:'flex', flexDirection:'column', flex:1, marginTop: '2rem'}}>
+        <Box style={{flex:0, fontSize:'1.8rem', fontWeight:'800', color:COLOR.default}}>
           SBCs
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             SBCs.map((sbc) => {
               const variant = (filteredSBCs.includes(sbc))? "outlined" : "";
-              return <Chip key={sbc} onClick={(e) => handleClickSBC(e, sbc)} color="success" label={sbc} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+              return <Chip key={sbc} onClick={(e) => handleClickSBC(e, sbc)} color="success" label={sbc} sx={{fontSize:'1.2rem', margin:'3px', color:"white", '&.MuiChip-outlined': {borderColor: COLOR.default }}} variant={variant} />
             })
           }
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
-            <Button onClick={(e) => handleClickSelectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
-            <Button onClick={(e) => handleClickUnselectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
+            <Button onClick={(e) => handleClickSelectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Select All</Button>
+            <Button onClick={(e) => handleClickUnselectAllSBCs(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Unselect All</Button>
           </Box>
         </Box>
       </Box>
-      <Box style={{display:'flex', flexDirection:'column', flex:1}}>
-        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+      <Box style={{display:'flex', flexDirection:'column', flex:1, marginTop: '2rem'}}>
+        <Box style={{flex:0, fontSize:'1.8rem', fontWeight:'800', color:COLOR.default}}>
           Course Level
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             Levels.map((level) => {
               const variant = (filteredLevels.includes(level))? "outlined" : "";
-              return <Chip key={level} onClick={(e) => handleClickLevel(e, level)} color="warning" label={level+"+"} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+              return <Chip key={level} onClick={(e) => handleClickLevel(e, level)} color="warning" label={level+"+"} sx={{fontSize:'1.2rem', margin:'3px', color:"white", '&.MuiChip-outlined': {borderColor: COLOR.default }}} variant={variant} />
             })
           }
           <Box style={{display:'flex', flex:1, flexDirection:'row', justifyContent:'center'}}>
-            <Button onClick={(e) => handleClickSelectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Select All</Button>
-            <Button onClick={(e) => handleClickUnselectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10}}>Unselect All</Button>
+            <Button onClick={(e) => handleClickSelectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Select All</Button>
+            <Button onClick={(e) => handleClickUnselectAllLevels(e)} style={{position:'relative', width:'100px', marginTop:10, color:COLOR.default}}>Unselect All</Button>
           </Box>
         </Box>
       </Box>
-      <Box style={{display:'flex', flexDirection:'column', flex:1}}>
-        <Box style={{flex:0, fontSize:'1.6rem', fontWeight:'600', color:'gray'}}>
+      <Box style={{display:'flex', flexDirection:'column', flex:1, marginTop: '2rem'}}>
+        <Box style={{flex:0, fontSize:'1.8rem', fontWeight:'800', color:COLOR.default}}>
           Course Size (# of Students)
         </Box>
         <Box style={{flex:1, padding:'10px'}}>
           {
             CourseSizes.map((courseSize) => {
               const variant = (selectedCourseSize === courseSize)? "" : "outlined";
-              return <Chip key={courseSize} onClick={(e) => handleClickCourseSize(e, courseSize)} color="error" label={courseSize+"+"} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
+              return <Chip key={courseSize} onClick={(e) => handleClickCourseSize(e, courseSize)} color="error" label={courseSize+"+"} sx={{fontSize:'1.2rem', margin:'3px', color:"white", '&.MuiChip-outlined': {borderColor: COLOR.default }}} variant={variant} />
             })
           }
         </Box>

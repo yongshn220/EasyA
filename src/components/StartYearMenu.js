@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {useMemo, useState} from "react";
 import {DefaultMaxCourseLoadNum, defaultYearAtom, maxCourseLoadNumAtom} from "../0.Recoil/summaryState";
 import {useSetRecoilState} from "recoil";
+import {COLOR} from "../util/util";
 
 export default function StartYearMenu() {
   const setDefaultYear = useSetRecoilState(defaultYearAtom);
@@ -37,7 +38,7 @@ export default function StartYearMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        sx={{fontSize: "1.4rem"}}
+        sx={{fontSize: "1.4rem", color:COLOR.yellow}}
       >
         Change Start Year
       </Button>
