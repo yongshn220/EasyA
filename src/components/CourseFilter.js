@@ -154,7 +154,7 @@ export default function CourseFilter() {
         <Box style={{flex:1, padding:'10px'}}>
           {
             CourseSizes.map((courseSize) => {
-              const variant = (selectedCourseSize === courseSize)? "outlined" : "";
+              const variant = (selectedCourseSize === courseSize)? "" : "outlined";
               return <Chip key={courseSize} onClick={(e) => handleClickCourseSize(e, courseSize)} color="error" label={courseSize+"+"} sx={{fontSize:'1.2rem', margin:'3px'}} variant={variant} />
             })
           }
