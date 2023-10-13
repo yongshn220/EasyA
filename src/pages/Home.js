@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
-import Divider from '@mui/material/Divider';
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   HardwareType,
