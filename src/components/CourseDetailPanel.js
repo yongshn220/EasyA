@@ -47,8 +47,8 @@ export default function CourseDetailPanel() {
   return (
     <Box onClick={(e) => handleGraphPanelClick(e)} style={{position:'fixed', display:'flex', flexDirection:'column', bottom:0, left: '50%', transform: 'translateX(-50%)', width:'98vw', height: GraphPanelHeight, justifyContent:'center', zIndex:1000}}>
       <Box style={{display:'flex', flex:'0', fontSize:"1.6rem", fontWeight:'600', justifyContent:'center'}}>
-        <Box style={{flex:0.1, padding: 5, marginBottom: 4, borderRadius:'10px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', backgroundColor:'white', color:'black'}}>
-          {selectedCourseData.name}
+        <Box style={{flex:1, padding: 5, marginBottom: 4, borderRadius:'5px', boxShadow: '0px 10px 10px rgba(0, 0, 0, 0.8)', backgroundColor:'white', color:'black'}}>
+          {selectedCourseData.name} - {selectedCourseData.fullName}
         </Box>
       </Box>
       <Box style={{display:'flex', flex:'1', flexDirection: GraphDirection, bottom:0, width:'100%', height:'100%',  borderRadius:'5px', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', backgroundColor:'white'}}>
