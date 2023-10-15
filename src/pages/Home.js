@@ -1,17 +1,17 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  HardwareType,
-  selectedCourseDataAtom,
-  userHardWareTypeAtom
-} from "../0.Recoil/summaryState";
+import {HardwareType, selectedCourseDataAtom, userHardWareTypeAtom} from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
 import CourseDetailPanel from "../components/CourseDetailPanel";
 import CourseFilter from "../components/CourseFilter";
 import MainContent from "../components/MainContent"
+import {TextField} from "@mui/material";
+import {COLOR} from "../util/util";
+import Button from "@mui/material/Button";
+import {postFeedback} from "../api/api";
 
 export default function HomeWrapper() {
   return (
@@ -79,9 +79,76 @@ function PageHeader() {
 
 
 function PageFooter() {
+
+  const [feedback, setFeedback] = useState("")
+
+  const customStyles = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: 'white', // Set your desired border color
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: COLOR.yellow, // Change this to your desired color
+      },
+    },
+    '& .MuiFormLabel-root': {
+      color: 'white', // Set the label font color
+    },
+    '& .MuiInputBase-input': {
+      color: 'white', // Set your desired font color
+    },
+    '& label.Mui-focused': {
+      color: 'white', // Change this to your desired label color
+    },
+  };
+
+  const handleTextFieldChange = (event) => {
+    setFeedback(event.target.value);
+  };
+
+  function handleSendFeedback() {
+    if (feedback === "") {
+      return
+    }
+    postFeedback(feedback).then((result) => {
+      if (result) {
+        setFeedback("")
+        alert("Thank you for your feedback!")
+      }
+    });
+  }
+
   return (
     <>
-      <Box style={{display:'flex', position:'relative', height:'20rem', paddingTop:'5rem', width:'100%', backgroundImage: `url('/graybg.jpeg')` }}>
+      <Box style={{display:'flex', flexDirection:'column', position:'relative', height:'20rem', padding:'5rem', backgroundImage: `url('/graybg.jpeg')` }}>
+        <Box style={{fontSize:'1.6rem', fontWeight:'600', marginTop:'5rem', marginBottom:'1rem'}}>
+          Give Us Feedback
+        </Box>
+        <Box style={{display: 'flex'}}>
+          <TextField
+            fullWidth
+            multiline
+            id="outlined-multiline-flexible"
+            label="Feel free to share your feedback :)"
+            maxRows={4}
+            sx={{
+              fontSize: '1.6rem',
+              ...customStyles, // Apply custom border color
+            }}
+            value={feedback}
+            onChange={handleTextFieldChange}
+          />
+          <Button onClick={handleSendFeedback} variant="contained"
+            sx={{
+              fontSize:'1.2rem',
+              marginLeft:'1rem',
+              backgroundColor: COLOR.yellow, // Change this to your desired background color
+              '&:hover': {
+                backgroundColor: COLOR.lightYellow, // Change this for the hover effect
+              },
+            }}
+          >Send</Button>
+        </Box>
       </Box>
     </>
   );
