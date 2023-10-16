@@ -40,7 +40,7 @@ function Home() {
       setUserHardWareType(HardwareType.MOBILE);
       setMaxCourseLoadNum(DefaultMaxCourseLoadNumMobile);
     }
-  }, [setUserHardWareType])
+  }, [setUserHardWareType, setMaxCourseLoadNum])
 
   function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod|Windows Phone|BlackBerry|Mobile|webOS|Opera Mini/i.test(navigator.userAgent);

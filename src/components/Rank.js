@@ -21,7 +21,7 @@ const SortDirection = {
 export default function Rank({title, avgData, rankType}) {
   const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
   const maxCourseLoadNum = useRecoilValue(maxCourseLoadNumAtom);
-  const hardwareType = useRecoilValue(userHardWareTypeAtom);
+  const userHardwareType = useRecoilValue(userHardWareTypeAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
   const [sortDirection, setSortDirection] = useState(SortDirection.NORMAL);
 
@@ -30,7 +30,7 @@ export default function Rank({title, avgData, rankType}) {
 
   useEffect(() => {
     const handleResize = () => {
-      if (hardwareType === HardwareType.MOBILE) {
+      if (userHardwareType === HardwareType.MOBILE) {
         setItemsPerRow(3)
         return
       }
@@ -65,7 +65,7 @@ export default function Rank({title, avgData, rankType}) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [userHardwareType]);
 
   const editedAvgData = useMemo(() => {
     return (sortDirection === SortDirection.NORMAL)? [...avgData] : [...avgData].reverse();
