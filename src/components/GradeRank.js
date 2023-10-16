@@ -4,6 +4,7 @@ import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
+  currentFilteredDataAtom,
   filteredLevelsAtom,
   filteredMajorsAtom,
   filteredSBCsAtom,
@@ -16,6 +17,7 @@ import FilterHelper from '../Calculation/FilterHelper'
 export default function GradeRank({data}) {
   const setValidCourseNum = useSetRecoilState(validCourseNumAtom);
   const setGradeRank = useSetRecoilState(gradeRankAtom);
+  const setCurrentFilteredData = useSetRecoilState(currentFilteredDataAtom)
   const filteredMajors = useRecoilValue(filteredMajorsAtom);
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
   const filteredLevels = useRecoilValue(filteredLevelsAtom);
@@ -60,7 +62,8 @@ export default function GradeRank({data}) {
       rank[data.name] = index + 1
     })
     setGradeRank(rank);
-  }, [setGradeRank, avgData])
+    setCurrentFilteredData(avgData)
+  }, [setCurrentFilteredData, setGradeRank, avgData])
 
 
   return (

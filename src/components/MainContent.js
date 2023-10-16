@@ -11,6 +11,7 @@ import StudyingHoursRank from "./StudyingHoursRank";
 import Button from "@mui/material/Button";
 import React from "react";
 import {COLOR} from "../util/util";
+import CourseSearchBar from "./CourseSearchBar";
 
 export default function MainContent() {
   const currentYear = useRecoilValue(defaultYearAtom);
@@ -25,6 +26,11 @@ export default function MainContent() {
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
+      <Box style={{flex:0, display:'flex', justifyContent:'center', marginBottom:'3rem', marginTop:'2rem'}}>
+        <Box style={{flex:'0 0 400px', display:'flex'}}>
+          <CourseSearchBar/>
+        </Box>
+      </Box>
       <Box style={{flex:1, display:'flex'}}>
         <Box style={{display:'flex', flex:"1"}}>
           <GradeRank data={summary.data}/>

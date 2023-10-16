@@ -97,6 +97,10 @@ export const selectedCourseSizeAtom = atom({
   default: DefaultCourseSize
 })
 
+export const currentFilteredDataAtom = atom({
+  key: 'currentFilteredDataAtom',
+  default: []
+})
 
 /* -------------------------
 *     COURSE DETAIL VIEW
