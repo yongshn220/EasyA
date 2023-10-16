@@ -33,7 +33,7 @@ export default function CourseDetailPanel() {
   }, [selectedCourseData])
 
   const GraphDirection = (userHardWareType === HardwareType.MOBILE)? 'column' : 'row'
-  const GraphPanelHeight = (userHardWareType === HardwareType.MOBILE)? '85vh' : '35vh'
+  const GraphPanelHeight = (userHardWareType === HardwareType.MOBILE)? '50vh' : '35vh'
 
   if (!selectedCourseData) {
     return <></>

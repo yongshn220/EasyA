@@ -65,9 +65,9 @@ export default function CourseSearchBar() {
         label="Search Course"
         maxRows={4}
         sx={{
-          fontSize: '1.6rem',
           ...customStyles, // Apply custom border color
         }}
+        inputProps={{ style: { fontSize: '1.4rem' } }}
         value={inputText}
         onChange={handleTextFieldChange}
         onKeyDown={handleEnterPress}
@@ -83,7 +83,7 @@ export default function CourseSearchBar() {
         }}
       >Search</Button>
       <PopupMessage  state={openPopupMessage} setState={setOpenPopupMessage}
-                     message={"No match. Please check filter or course ID."}
+                     message={"No match. Please change the filter or check the course ID."}
       />
     </>
   )

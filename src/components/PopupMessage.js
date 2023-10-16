@@ -3,6 +3,11 @@ import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function PopupMessage({state, setState, message}) {
 
@@ -33,12 +38,15 @@ export default function PopupMessage({state, setState, message}) {
     <div>
       <Snackbar
         open={state}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}
-        message={message}
         action={action}
-        anchorOrigin={{ vertical:'bottom', horizontal:'center' }}
-      />
+        anchorOrigin={{ vertical:'top', horizontal:'center' }}
+      >
+        <Alert severity="info" sx={{ width: '100%' }}>
+          <span style={{ fontSize: '1.4rem' }}>{message}</span>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

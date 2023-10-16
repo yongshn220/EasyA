@@ -9,19 +9,29 @@ import Box from "@mui/material/Box";
 import GradeRank from "./GradeRank";
 import StudyingHoursRank from "./StudyingHoursRank";
 import Button from "@mui/material/Button";
-import React from "react";
+import React, {useState} from "react";
 import {COLOR} from "../util/util";
 import CourseSearchBar from "./CourseSearchBar";
 
-export default function MainContent() {
+const RankType = {
+  GRADE: "grade",
+  MSH: "minimumStudyingHours"
+}
+
+export default function MainContentMobile() {
   const currentYear = useRecoilValue(defaultYearAtom);
   const summary = useRecoilValue(summaryByStartYearAtom(currentYear))
   const validCourseNum = useRecoilValue(validCourseNumAtom)
   const [maxCourseLoadNum, setMaxCourseLoadNum] = useRecoilState(maxCourseLoadNumAtom)
+  const [rankType, setRankType] = useState(RankType.GRADE)
 
   function handleLoadMore() {
     if (maxCourseLoadNum < validCourseNum)
       setMaxCourseLoadNum(maxCourseLoadNum + NextLoadNumPerStep)
+  }
+
+  function handleChangeRankType(rankType) {
+    setRankType(rankType)
   }
 
   return (
@@ -31,13 +41,41 @@ export default function MainContent() {
           <CourseSearchBar/>
         </Box>
       </Box>
-      <Box style={{flex:1, display:'flex'}}>
-        <Box style={{display:'flex', flex:"1", marginLeft: 40, marginRight: 40}}>
-          <GradeRank data={summary.data}/>
+      <Box style={{flex: 0, display:'flex', justifyContent:'center',  marginLeft: 40, marginRight: 40, marginTop:20}}>
+        <Box style={{flex:1}}>
+          <Button fullWidth variant="contained"
+            sx={{
+              fontSize:'1.2rem',
+              backgroundColor: COLOR.yellow,
+              marginRight:'1rem',
+              '&:hover': { backgroundColor: COLOR.lightYellow}
+            }}
+            onClick={() => handleChangeRankType(RankType.GRADE)}
+          >Highest A</Button>
         </Box>
-        <Box style={{display:'flex', flex:"1", marginLeft: 40, marginRight: 40}}>
-          <StudyingHoursRank data={summary.data}/>
+        <Box style={{flex:1}}>
+          <Button fullWidth variant="contained"
+            sx={{
+              fontSize:'1.2rem',
+              backgroundColor: COLOR.yellow,
+              marginLeft:'1rem',
+              '&:hover': { backgroundColor: COLOR.lightYellow}
+            }}
+            onClick={() => handleChangeRankType(RankType.MSH)}
+          >Min Studying Hours</Button>
         </Box>
+      </Box>
+      <Box style={{flex:1, display:'flex', flexDirection:'column'}}>
+        {
+          (rankType === RankType.GRADE)?
+          <Box style={{display:'flex', flex:"1", marginLeft: 40, marginRight: 40}}>
+            <GradeRank data={summary.data}/>
+          </Box>
+            :
+          <Box style={{display:'flex', flex:"1", marginLeft: 40, marginRight: 40}}>
+            <StudyingHoursRank data={summary.data}/>
+          </Box>
+        }
       </Box>
       <Box style={{display:'flex', flex:0}}>
         <Box style={{flex:1}}/>

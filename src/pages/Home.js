@@ -2,7 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {HardwareType, selectedCourseDataAtom, userHardWareTypeAtom} from "../0.Recoil/summaryState";
+import {
+  DefaultMaxCourseLoadNumMobile,
+  HardwareType,
+  maxCourseLoadNumAtom,
+  selectedCourseDataAtom,
+  userHardWareTypeAtom
+} from "../0.Recoil/summaryState";
 import MainBanner from "../components/MainBanner";
 import '../App.css';
 import CourseDetailPanel from "../components/CourseDetailPanel";
@@ -12,6 +18,7 @@ import {TextField} from "@mui/material";
 import {COLOR} from "../util/util";
 import Button from "@mui/material/Button";
 import {postFeedback} from "../api/api";
+import MainContentMobile from "../components/MainContentMobile";
 
 export default function HomeWrapper() {
   return (
@@ -25,13 +32,15 @@ export default function HomeWrapper() {
 
 function Home() {
   const [selectedCourseData, setSelectedCourseData] = useRecoilState(selectedCourseDataAtom);
-  const setUserHardWareTypeAtom = useSetRecoilState(userHardWareTypeAtom);
+  const [userHardWareType, setUserHardWareType] = useRecoilState(userHardWareTypeAtom);
+  const setMaxCourseLoadNum = useSetRecoilState(maxCourseLoadNumAtom);
 
   useEffect(() => {
     if (isMobileDevice()) {
-      setUserHardWareTypeAtom(HardwareType.MOBILE);
+      setUserHardWareType(HardwareType.MOBILE);
+      setMaxCourseLoadNum(DefaultMaxCourseLoadNumMobile);
     }
-  }, [setUserHardWareTypeAtom])
+  }, [setUserHardWareType])
 
   function isMobileDevice() {
     return /Mobi|Android|iPhone|iPad|iPod|Windows Phone|BlackBerry|Mobile|webOS|Opera Mini/i.test(navigator.userAgent);
@@ -54,7 +63,12 @@ function Home() {
           </Suspense>
         </Box>
         <Suspense fallback={(<div>Loading</div>)}>
-          <MainContent/>
+          {
+            (userHardWareType === HardwareType.MOBILE)?
+            <MainContentMobile/>
+              :
+            <MainContent/>
+          }
         </Suspense>
       </Box>
       {
@@ -135,6 +149,7 @@ function PageFooter() {
               fontSize: '1.6rem',
               ...customStyles, // Apply custom border color
             }}
+            inputProps={{ style: { fontSize: '1.4rem' } }}
             value={feedback}
             onChange={handleTextFieldChange}
           />

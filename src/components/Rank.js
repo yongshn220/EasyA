@@ -5,7 +5,12 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useEffect, useMemo, useState} from "react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {maxCourseLoadNumAtom, selectedCourseDataAtom} from "../0.Recoil/summaryState";
+import {
+  HardwareType,
+  maxCourseLoadNumAtom,
+  selectedCourseDataAtom,
+  userHardWareTypeAtom
+} from "../0.Recoil/summaryState";
 import {COLOR} from "../util/util";
 
 const SortDirection = {
@@ -16,6 +21,7 @@ const SortDirection = {
 export default function Rank({title, avgData, rankType}) {
   const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
   const maxCourseLoadNum = useRecoilValue(maxCourseLoadNumAtom);
+  const hardwareType = useRecoilValue(userHardWareTypeAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
   const [sortDirection, setSortDirection] = useState(SortDirection.NORMAL);
 
@@ -24,6 +30,10 @@ export default function Rank({title, avgData, rankType}) {
 
   useEffect(() => {
     const handleResize = () => {
+      if (hardwareType === HardwareType.MOBILE) {
+        setItemsPerRow(3)
+        return
+      }
       // Define the breakpoints and the number of items per row for each breakpoint
       const breakpoints = [
         { breakpoint: 700, items: 1 },
@@ -81,7 +91,7 @@ export default function Rank({title, avgData, rankType}) {
           <ArrowUpwardIcon sx={{marginLeft:'1rem', fontSize: "2.4rem", cursor: 'pointer', color: COLOR.yellow}}   onClick={() => setSortDirection(SortDirection.NORMAL)}/>
         }
       </Box>
-      <Box style={{flex: 1, marginLeft: 40, marginRight: 40, padding:10, borderRadius:10, backgroundColor:'rgba(255, 255, 255, 0.2)'}}>
+      <Box style={{flex: 1, padding:10, borderRadius:10, backgroundColor:'rgba(255, 255, 255, 0.2)'}}>
         <Grid container spacing={1}>
           {
             slicedAvgData.map((data, index) => (

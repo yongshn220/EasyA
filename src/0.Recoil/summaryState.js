@@ -16,6 +16,7 @@ export const DefaultFilteredLevels = [300, 400]
 export const CourseSizes = [0, 20, 50, 100, 200, 300]
 export const DefaultCourseSize = 100
 export const DefaultMaxCourseLoadNum = 100
+export const DefaultMaxCourseLoadNumMobile = 20
 export const NextLoadNumPerStep = 50
 
 

@@ -3,13 +3,19 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import {useMemo, useState} from "react";
-import {DefaultMaxCourseLoadNum, defaultYearAtom, maxCourseLoadNumAtom} from "../0.Recoil/summaryState";
-import {useSetRecoilState} from "recoil";
+import {
+  DefaultMaxCourseLoadNum, DefaultMaxCourseLoadNumMobile,
+  defaultYearAtom, HardwareType as HardWareType,
+  maxCourseLoadNumAtom,
+  userHardWareTypeAtom
+} from "../0.Recoil/summaryState";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {COLOR} from "../util/util";
 
 export default function StartYearMenu() {
   const setDefaultYear = useSetRecoilState(defaultYearAtom);
   const setMaxCourseLoadNum = useSetRecoilState(maxCourseLoadNumAtom)
+  const userHardWareType = useRecoilValue(userHardWareTypeAtom);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -26,7 +32,8 @@ export default function StartYearMenu() {
   const handleChangeYear = (e, year) => {
     e.stopPropagation();
     setAnchorEl(null);
-    setMaxCourseLoadNum(DefaultMaxCourseLoadNum);
+    const defaultLoadNum = (userHardWareType === HardWareType.MOBILE)? DefaultMaxCourseLoadNumMobile : DefaultMaxCourseLoadNum
+    setMaxCourseLoadNum(defaultLoadNum);
     setDefaultYear(year)
   }
 
