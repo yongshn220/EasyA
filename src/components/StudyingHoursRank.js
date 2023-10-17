@@ -9,7 +9,7 @@ import {
   selectedCourseSizeAtom,
   studyingHoursRankAtom
 } from "../0.Recoil/summaryState";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue} from "recoil";
 import FilterHelper from "../Calculation/FilterHelper";
 
 
