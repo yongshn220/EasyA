@@ -9,12 +9,12 @@ import {
   selectedCourseSizeAtom,
   studyingHoursRankAtom
 } from "../0.Recoil/summaryState";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import FilterHelper from "../Calculation/FilterHelper";
 
 
 export default function StudyingHoursRank({data}) {
-  const setStudyingHoursRank = useSetRecoilState(studyingHoursRankAtom)
+  const [studyingHoursRank, setStudyingHoursRank] = useRecoilState(studyingHoursRankAtom)
   const filteredMajors = useRecoilValue(filteredMajorsAtom)
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
   const filteredLevels = useRecoilValue(filteredLevelsAtom);
@@ -61,7 +61,7 @@ export default function StudyingHoursRank({data}) {
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
-      <Rank title={"Minimum Studying Hours"} avgData={avgData} rankType={"StudyingHours"}/>
+      <Rank title={"Minimum Studying Hours"} avgData={avgData} rankType={"StudyingHours"} rankData={studyingHoursRank}/>
     </Box>
   )
 }

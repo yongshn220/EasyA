@@ -6,6 +6,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import {useEffect, useMemo, useState} from "react";
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {
+  courseSearchInputAtom,
   HardwareType,
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
@@ -18,10 +19,11 @@ const SortDirection = {
   "OPPOSITE": "sortDirectionOpposite",
 }
 
-export default function Rank({title, avgData, rankType}) {
+export default function Rank({title, avgData, rankType, rankData}) {
   const setSelectedCourse = useSetRecoilState(selectedCourseDataAtom);
   const maxCourseLoadNum = useRecoilValue(maxCourseLoadNumAtom);
   const userHardwareType = useRecoilValue(userHardWareTypeAtom);
+  const courseSearchInput = useRecoilValue(courseSearchInputAtom);
   const [itemsPerRow, setItemsPerRow] = useState(1);
   const [sortDirection, setSortDirection] = useState(SortDirection.NORMAL);
 
@@ -75,6 +77,15 @@ export default function Rank({title, avgData, rankType}) {
     return editedAvgData.slice(0, maxCourseLoadNum)
   }, [editedAvgData, maxCourseLoadNum])
 
+  const searchFilteredAvgData = useMemo(() => {
+    const keyword = courseSearchInput.replace(/[a-zA-Z]/g, (match) => match.toUpperCase())
+    return editedAvgData.filter((data) => data.name.includes(keyword))
+  }, [editedAvgData, courseSearchInput])
+
+  const finalAvgData = useMemo(() => {
+    return (courseSearchInput === "")? slicedAvgData : searchFilteredAvgData
+  }, [courseSearchInput, slicedAvgData, searchFilteredAvgData])
+
   function handleOnCourseClick(e, courseData) {
     e.stopPropagation();
     setSelectedCourse(courseData)
@@ -94,11 +105,11 @@ export default function Rank({title, avgData, rankType}) {
       <Box style={{flex: 1, padding:10, borderRadius:10, backgroundColor:'rgba(255, 255, 255, 0.2)'}}>
         <Grid container spacing={1}>
           {
-            slicedAvgData.map((data, index) => (
+            finalAvgData.map((data, index) => (
               <Grid item xs={12 / itemsPerRow} key={index}>
                 <div onClick={(e) => handleOnCourseClick(e, data)} style={{ cursor: 'pointer' }}>
                   <BasicCard
-                    rank={index+1}
+                    rank={rankData[data.name]}
                     name={data.name}
                     score={scoreTitle + data[rankType][dataKey] + "%"}
                     sbc={data["SBC"]}

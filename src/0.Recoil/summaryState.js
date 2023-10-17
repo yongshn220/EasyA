@@ -103,6 +103,12 @@ export const currentFilteredDataAtom = atom({
   default: []
 })
 
+
+export const courseSearchInputAtom = atom({
+  key: 'courseSearchInputAtom',
+  default: ""
+})
+
 /* -------------------------
 *     COURSE DETAIL VIEW
 ---------------------------*/

@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import {useEffect, useMemo} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
 import Rank from "./Rank";
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
   currentFilteredDataAtom,
   filteredLevelsAtom,
@@ -16,7 +16,7 @@ import FilterHelper from '../Calculation/FilterHelper'
 
 export default function GradeRank({data}) {
   const setValidCourseNum = useSetRecoilState(validCourseNumAtom);
-  const setGradeRank = useSetRecoilState(gradeRankAtom);
+  const [gradeRank, setGradeRank] = useRecoilState(gradeRankAtom);
   const setCurrentFilteredData = useSetRecoilState(currentFilteredDataAtom)
   const filteredMajors = useRecoilValue(filteredMajorsAtom);
   const filteredSBCs = useRecoilValue(filteredSBCsAtom);
@@ -68,7 +68,7 @@ export default function GradeRank({data}) {
 
   return (
     <Box style={{flex:1, display:'flex', flexDirection:'column', justifyContent:'center'}}>
-      <Rank title={"Highest A's"} avgData={avgData} rankType={"Grade"}/>
+      <Rank title={"Highest A's"} avgData={avgData} rankType={"Grade"} rankData={gradeRank}/>
     </Box>
   )
 }
