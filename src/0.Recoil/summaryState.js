@@ -10,7 +10,8 @@ export const HardwareType = {
   PC: 'hardwareTypePC',
   MOBILE: 'hardwareTypeMobile',
 }
-export const SBCs = ["ARTS", "GLO", "HUM", "QPS", "SBS", "SNW", "TECH", "USA", "STAS", "EXP+", "SBS+", "STEM+", "CER", "DIV", "ESI", "SPK", "WRTD", "None"]
+export const SBCs = ['ARTS', 'CER', 'DIV', 'ESI', 'EXP+', 'GLO', 'HFA+', 'HUM', 'QPS', 'SBS', 'SBS+', 'SNW', 'SPK', 'STEM+', 'STAS', 'TECH', 'USA', 'WRT', 'WRTD', 'None']
+
 export const Levels = [100,200,300,400]
 export const DefaultFilteredLevels = [300, 400]
 export const CourseSizes = [0, 20, 50, 100, 200, 300]
