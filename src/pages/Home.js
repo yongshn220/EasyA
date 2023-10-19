@@ -19,6 +19,7 @@ import {COLOR} from "../util/util";
 import Button from "@mui/material/Button";
 import {postFeedback} from "../api/api";
 import MainContentMobile from "../components/MainContentMobile";
+import UpdateInfo from "../components/UpdateInfo";
 
 export default function HomeWrapper() {
   return (
@@ -47,7 +48,6 @@ function Home() {
   }
 
   function handleClickBackground() {
-    console.log("click background")
     setSelectedCourseData(null)
   }
 
@@ -57,7 +57,10 @@ function Home() {
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
-        <Box style={{display:'flex', flex:'0 0 350px', marginTop:'20px', marginBottom:'40px', justifyContent:'center'}}>
+        <Box style={{display:'flex', flex:0, marginTop:'20px', marginBottom:'40px', pjustifyContent:'center'}}>
+          <UpdateInfo/>
+        </Box>
+        <Box style={{display:'flex', flex:'0 0 350px', marginBottom:'40px', justifyContent:'center'}}>
           <Suspense fallback={(<div></div>)}>
             <CourseFilter/>
           </Suspense>
