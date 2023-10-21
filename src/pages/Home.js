@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  DefaultMaxCourseLoadNumMobile,
+  DefaultMaxCourseLoadNumMobile, feedbackFieldRefAtom,
   HardwareType,
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
@@ -57,7 +57,7 @@ function Home() {
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
-        <Box style={{display:'flex', flex:0, marginTop:'20px', marginBottom:'40px', pjustifyContent:'center'}}>
+        <Box style={{display:'flex', flexDirection:'column', flex:0, marginTop:'20px', marginBottom:'40px', justifyContent:'center'}}>
           <UpdateInfo/>
         </Box>
         <Box style={{display:'flex', flex:'0 0 350px', marginBottom:'40px', justifyContent:'center'}}>
@@ -96,8 +96,13 @@ function PageHeader() {
 
 
 function PageFooter() {
-
   const [feedback, setFeedback] = useState("")
+  const setFeedbackFieldRef = useSetRecoilState(feedbackFieldRefAtom);
+  const feedbackRef = useRef(null);
+
+  useEffect(() => {
+    setFeedbackFieldRef(feedbackRef)
+  }, [feedbackRef, setFeedbackFieldRef])
 
   const customStyles = {
     '& .MuiOutlinedInput-root': {
@@ -141,7 +146,7 @@ function PageFooter() {
         <Box style={{fontSize:'1.6rem', fontWeight:'600', marginTop:'5rem', marginBottom:'1rem'}}>
           Give Us Feedback
         </Box>
-        <Box style={{display: 'flex'}}>
+        <Box ref={feedbackRef} style={{display: 'flex'}}>
           <TextField
             fullWidth
             multiline
