@@ -3,7 +3,7 @@ import StartYearMenu from "./StartYearMenu";
 import {defaultYearAtom} from "../0.Recoil/summaryState";
 import {useRecoilValue} from "recoil";
 import {COLOR} from "../util/util";
-
+import InfoIcon from '@mui/icons-material/Info';
 
 export default function MainBanner() {
   const startYear = useRecoilValue(defaultYearAtom);
@@ -14,6 +14,10 @@ export default function MainBanner() {
       <Box style={{margin:20, fontSize:'2.0rem', fontWeight:'700',}}>Average<br />Between</Box>
       <Box style={{margin:20, fontSize:'5rem', fontWeight:'700'}}>{startYear}~2023</Box>
       <StartYearMenu/>
+      <Box style={{position:'relative', margin:20, fontSize:'1.2rem', fontWeight:'700',}}>
+        <InfoIcon style={{paddingRight: 5}}/>
+        Summer and Winder courses are excluded in the calculation.
+      </Box>
     </Box>
   )
 }
