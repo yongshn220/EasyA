@@ -14,7 +14,7 @@ export default function MainBanner() {
       <Box style={{margin:20, fontSize:'2.0rem', fontWeight:'700',}}>Average<br />Between</Box>
       <Box style={{margin:20, fontSize:'5rem', fontWeight:'700'}}>{startYear}~2023</Box>
       <StartYearMenu/>
-      <Box style={{position:'relative', margin:20, fontSize:'1.2rem', fontWeight:'700',}}>
+      <Box style={{position:'relative', margin:20, fontSize:'1.2rem', fontWeight:'700', color:"#b2b2b2"}}>
         <InfoIcon style={{paddingRight: 5}}/>
         Summer and Winder courses are excluded in the calculation.
       </Box>

@@ -20,8 +20,7 @@ export default function UpdateInfo() {
 
   return (
     <>
-      <Box style={{display:'flex', flex:'1', marginLeft:40, marginRight:40, padding:'20px', borderRadius:'5px', boxShadow: '0px 0px 10px rgba(255, 255, 255, 0.4)', cursor: "pointer", transition: 'background-color 0.3s',}}
-        sx={{"&:hover": { background: "rgba(255, 255, 255, 0.1)"}}}
+      <Box style={{display:'flex', flex:'1', marginLeft:40, marginRight:40, padding:'20px', borderRadius:'5px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.4)', transition: 'background-color 0.3s',}}
         onClick={handleSeeUpdates}
       >
         <Box style={{display:'flex', fontSize:'1.6rem', fontWeight:'600'}}>Recent Update : </Box>

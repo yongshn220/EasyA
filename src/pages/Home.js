@@ -20,6 +20,7 @@ import Button from "@mui/material/Button";
 import {postFeedback} from "../api/api";
 import MainContentMobile from "../components/MainContentMobile";
 import UpdateInfo from "../components/UpdateInfo";
+import LoadingBox from "../components/LoadingBox";
 
 export default function HomeWrapper() {
   return (
@@ -57,15 +58,15 @@ function Home() {
         <Box style={{display:'flex', flex:"0 0 350px", flexDirection:'column', justifyContent:'center'}}>
           <MainBanner/>
         </Box>
-        <Box style={{display:'flex', flexDirection:'column', flex:0, marginTop:'20px', marginBottom:'40px', justifyContent:'center'}}>
-          <UpdateInfo/>
-        </Box>
-        <Box style={{display:'flex', flex:'0', marginBottom:'40px', justifyContent:'center'}}>
-          <Suspense fallback={(<div></div>)}>
-            <CourseFilter/>
-          </Suspense>
-        </Box>
-        <Suspense fallback={(<div style={{fontSize:'1.6rem'}}>Loading all data... (Usually takes less than 10sec)</div>)}>
+        <Suspense fallback={<LoadingBox/>}>
+          <Box style={{display:'flex', flexDirection:'column', flex:0, marginTop:'20px', marginBottom:'40px', justifyContent:'center'}}>
+            <UpdateInfo/>
+          </Box>
+          <Box style={{display:'flex', flex:'0', marginBottom:'40px', justifyContent:'center'}}>
+            <Suspense fallback={(<div></div>)}>
+              <CourseFilter/>
+            </Suspense>
+          </Box>
           {
             (userHardWareType === HardwareType.MOBILE)?
             <MainContentMobile/>
