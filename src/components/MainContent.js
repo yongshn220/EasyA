@@ -10,7 +10,7 @@ import Box from "@mui/material/Box";
 import GradeRank from "./GradeRank";
 import StudyingHoursRank from "./StudyingHoursRank";
 import Button from "@mui/material/Button";
-import React from "react";
+import React, {useEffect} from "react";
 import {COLOR} from "../util/util";
 import CourseSearchBar from "./CourseSearchBar";
 
@@ -20,6 +20,10 @@ export default function MainContent() {
   const summary = useRecoilValue(summaryByStartYearAtom(currentYear))
   const validCourseNum = useRecoilValue(validCourseNumAtom)
   const [maxCourseLoadNum, setMaxCourseLoadNum] = useRecoilState(maxCourseLoadNumAtom)
+
+  useEffect(() => {
+    console.log(courseInfo);
+  }, [courseInfo])
 
   function handleLoadMore() {
     if (maxCourseLoadNum < validCourseNum)
