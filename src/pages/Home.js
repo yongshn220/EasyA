@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import {
   DefaultMaxCourseLoadNumMobile, feedbackFieldRefAtom,
   HardwareType,
@@ -60,7 +60,7 @@ function Home() {
         <Box style={{display:'flex', flexDirection:'column', flex:0, marginTop:'20px', marginBottom:'40px', justifyContent:'center'}}>
           <UpdateInfo/>
         </Box>
-        <Box style={{display:'flex', flex:'0 0 350px', marginBottom:'40px', justifyContent:'center'}}>
+        <Box style={{display:'flex', flex:'0', marginBottom:'40px', justifyContent:'center'}}>
           <Suspense fallback={(<div></div>)}>
             <CourseFilter/>
           </Suspense>

@@ -6,8 +6,8 @@ export async function getSummary(year) {
   return await response.json();
 }
 
-export async function getMajorList() {
-  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/majorlist`, {
+export async function getCourseInfo() {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/courseinfo`, {
     method: "GET",
   })
   return await response.json();

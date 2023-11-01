@@ -1,5 +1,6 @@
 import {useRecoilState, useRecoilValue} from "recoil";
 import {
+  courseInfoAtom,
   defaultYearAtom,
   maxCourseLoadNumAtom, NextLoadNumPerStep,
   summaryByStartYearAtom,
@@ -14,6 +15,7 @@ import {COLOR} from "../util/util";
 import CourseSearchBar from "./CourseSearchBar";
 
 export default function MainContent() {
+  const courseInfo = useRecoilValue(courseInfoAtom) // Preloading.
   const currentYear = useRecoilValue(defaultYearAtom);
   const summary = useRecoilValue(summaryByStartYearAtom(currentYear))
   const validCourseNum = useRecoilValue(validCourseNumAtom)

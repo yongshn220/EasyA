@@ -1,5 +1,5 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
-import {getMajorList, getSummary} from "../api/api";
+import {getCourseInfo, getSummary} from "../api/api";
 
 
 /* -------------------------
@@ -11,7 +11,7 @@ export const HardwareType = {
   MOBILE: 'hardwareTypeMobile',
 }
 export const SBCs = ['ARTS', 'CER', 'DIV', 'ESI', 'EXP+', 'GLO', 'HFA+', 'HUM', 'LANG', 'QPS', 'SBS', 'SBS+', 'SNW', 'SPK', 'STEM+', 'STAS', 'TECH', 'USA', 'WRT', 'WRTD', 'None']
-
+export const Majors = ["AAS","ACC","ADV","AFH","AFS","AIM","AMR","AMS","ANP","ANT","ARB","ARH","ARS","ASC","AST","ATM","BCP","BIO","BME","BUS","CAR","CCS","CDS","CEF","CHE","CHI","CIV","CLL","CLS","CLT","CME","COM","CSE","CWL","DAN","DIA","EAS","EBH","ECO","EDP","EEL","EEO","EGL","ENS","ENV","ESE","ESG","ESM","EST","EUR","EXT","FLA","FLM","FRN","GEO","GER","GLI","GRK","GSS","HAD","HAL","HAN","HAT","HBA","HBH","HBM","HBP","HBW","HBY","HDG","HDO","HDP","HIN","HIS","HNI","HON","HUE","HUF","HUG","HUI","HUL","HUR","HUS","HWC","IAE","IAP","INT","ISE","ITL","JDH","JDS","JPN","JRN","KOR","KSW","LAC","LAN","LAT","LCR","LDR","LHD","LHW","LIA","LIN","MAE","MAP","MAR","MAT","MDA","MEC","MSL","MUS","MVL","OAE","PER","PHI","PHY","POL","POR","PSY","RLS","RUS","SBU","SCH","SCI","SKT","SLN","SOC","SPN","SSE","SUS","THR","TRK","TVW","UKR","VIP","WAE","WRT","WSE","WST"]
 export const Levels = [100,200,300,400]
 export const DefaultFilteredLevels = [300, 400]
 export const CourseSizes = [0, 20, 50, 100, 200, 300]
@@ -46,7 +46,7 @@ export const validCourseNumAtom = atom({
 
 
 /* -------------------------
-*           YEAR
+*           API
 ---------------------------*/
 export const defaultYearAtom = atom({
   key: 'defaultYearAtom',
@@ -63,22 +63,19 @@ export const summaryByStartYearAtom = atomFamily({
   })
 })
 
-/* -------------------------
-*          FILTER
----------------------------*/
-export const majorListAtom = atom({
-  key: 'majorListAtom',
+export const courseInfoAtom = atom({
+  key: 'courseInfoAtom',
   default: selector({
-    key: 'majorListAtom/Default',
+    key: 'courseInfoAtom/Default',
     get: async () => {
-      let majors = await getMajorList();
-      majors = majors.sort();
-      return majors;
+      return await getCourseInfo()
     }
   })
 })
 
-
+/* -------------------------
+*          FILTER
+---------------------------*/
 export const filteredMajorsAtom = atom({
   key: 'filteredMajorsAtom',
   default: []

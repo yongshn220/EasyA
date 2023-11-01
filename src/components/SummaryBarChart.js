@@ -6,8 +6,8 @@ export default function SummaryBarChart({data, options}) {
   return (
     <Chart
       chartType="ColumnChart"
-      width="100%"
-      height="90%"
+      width="95%"
+      height="100%"
       options={options}
       data={data}
     />
