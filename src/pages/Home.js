@@ -65,7 +65,7 @@ function Home() {
             <CourseFilter/>
           </Suspense>
         </Box>
-        <Suspense fallback={(<div>Loading</div>)}>
+        <Suspense fallback={(<div style={{fontSize:'1.6rem'}}>Loading all data... (Usually takes less than 10sec)</div>)}>
           {
             (userHardWareType === HardwareType.MOBILE)?
             <MainContentMobile/>
