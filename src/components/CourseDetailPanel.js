@@ -8,7 +8,7 @@ import {
   studyingHoursRankAtom,
   userHardWareTypeAtom,
   courseInfoAtom
-} from "../0.Recoil/summaryState";
+} from "../0.Recoil/easyAState";
 import {Divider} from "@mui/material";
 
 

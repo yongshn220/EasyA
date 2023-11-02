@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import {useEffect, useMemo} from "react";
 import SortingHelper from "../Calculation/SortingHelper";
-import Rank from "./Rank";
+import Rank from "../pages/EasyA/components/Rank";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {
   currentFilteredDataAtom,
@@ -11,7 +11,7 @@ import {
   gradeRankAtom,
   selectedCourseSizeAtom,
   validCourseNumAtom
-} from "../0.Recoil/summaryState";
+} from "../0.Recoil/easyAState";
 import FilterHelper from '../Calculation/FilterHelper'
 
 export default function GradeRank({data}) {

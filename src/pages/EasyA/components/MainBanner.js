@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
 import StartYearMenu from "./StartYearMenu";
-import {defaultYearAtom} from "../0.Recoil/summaryState";
+import {defaultYearAtom} from "../../../0.Recoil/easyAState";
 import {useRecoilValue} from "recoil";
-import {COLOR} from "../util/util";
+import {COLOR} from "../../../util/util";
 import InfoIcon from '@mui/icons-material/Info';
 
 export default function MainBanner() {

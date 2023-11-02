@@ -1,7 +1,9 @@
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import './App.css';
-import Home from './pages/Home'
+import EasyAHomeWrapper from './pages/EasyA/EasyAHome'
+import DayOffMakerHomeWrapper from './pages/DayOff/DayOffMakerHome'
 import {RecoilRoot} from "recoil";
+import StartPage from "./pages/Start/StartPage";
 
 function App() {
   return (
@@ -9,7 +11,9 @@ function App() {
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Route path="/" element={<StartPage/>}/>
+            <Route path="/easya" element={<EasyAHomeWrapper/>}/>
+            <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
           </Routes>
         </BrowserRouter>
       </RecoilRoot>

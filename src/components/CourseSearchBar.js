@@ -2,7 +2,7 @@ import {TextField} from "@mui/material";
 import React from "react";
 import {COLOR} from "../util/util";
 import {useRecoilState} from "recoil";
-import {courseSearchInputAtom} from "../0.Recoil/summaryState";
+import {courseSearchInputAtom} from "../0.Recoil/easyAState";
 
 export default function CourseSearchBar() {
   const [courseSearchInput, setCourseSearchInput] = useRecoilState(courseSearchInputAtom)

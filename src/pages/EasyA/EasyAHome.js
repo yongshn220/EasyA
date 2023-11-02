@@ -8,31 +8,31 @@ import {
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
   userHardWareTypeAtom
-} from "../0.Recoil/summaryState";
-import MainBanner from "../components/MainBanner";
-import '../App.css';
-import CourseDetailPanel from "../components/CourseDetailPanel";
-import CourseFilter from "../components/CourseFilter";
-import MainContent from "../components/MainContent"
+} from "../../0.Recoil/easyAState";
+import MainBanner from "./components/MainBanner";
+import '../../App.css';
+import CourseDetailPanel from "../../components/CourseDetailPanel";
+import CourseFilter from "./components/CourseFilter";
+import MainContent from "./components/MainContent"
 import {TextField} from "@mui/material";
-import {COLOR} from "../util/util";
+import {COLOR} from "../../util/util";
 import Button from "@mui/material/Button";
-import {postFeedback} from "../api/api";
-import MainContentMobile from "../components/MainContentMobile";
-import UpdateInfo from "../components/UpdateInfo";
-import LoadingBox from "../components/LoadingBox";
+import {postFeedback} from "../../api/api";
+import MainContentMobile from "./components/MainContentMobile";
+import UpdateInfo from "./components/UpdateInfo";
+import LoadingBox from "../../components/LoadingBox";
 
-export default function HomeWrapper() {
+export default function EasyAHomeWrapper() {
   return (
     <div>
       <PageHeader/>
-      <Home/>
+      <EasyAHome/>
       <PageFooter/>
     </div>
   )
 }
 
-function Home() {
+function EasyAHome() {
   const [selectedCourseData, setSelectedCourseData] = useRecoilState(selectedCourseDataAtom);
   const [userHardWareType, setUserHardWareType] = useRecoilState(userHardWareTypeAtom);
   const setMaxCourseLoadNum = useSetRecoilState(maxCourseLoadNumAtom);

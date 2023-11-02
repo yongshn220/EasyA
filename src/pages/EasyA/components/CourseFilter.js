@@ -7,9 +7,9 @@ import {
   filteredSBCsAtom,
   Levels,
   SBCs, CourseSizes, selectedCourseSizeAtom, Majors
-} from "../0.Recoil/summaryState";
+} from "../../../0.Recoil/easyAState";
 import Button from "@mui/material/Button";
-import {COLOR} from "../util/util";
+import {COLOR} from "../../../util/util";
 import React, {useState} from "react";
 
 

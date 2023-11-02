@@ -8,9 +8,9 @@ import {
   defaultYearAtom, HardwareType as HardWareType,
   maxCourseLoadNumAtom,
   userHardWareTypeAtom
-} from "../0.Recoil/summaryState";
+} from "../../../0.Recoil/easyAState";
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {COLOR} from "../util/util";
+import {COLOR} from "../../../util/util";
 
 export default function StartYearMenu() {
   const setDefaultYear = useSetRecoilState(defaultYearAtom);

@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Box from "@mui/material/Box";
-import {COLOR} from "../util/util";
-import {feedbackFieldRefAtom} from "../0.Recoil/summaryState";
+import {COLOR} from "../../../util/util";
+import {feedbackFieldRefAtom} from "../../../0.Recoil/easyAState";
 import {useRecoilValue} from "recoil";
 
 export default function UpdateInfo() {

@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import BasicCard from "./BasicCard";
+import BasicCard from "../../../components/BasicCard";
 import Box from "@mui/material/Box";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -11,8 +11,8 @@ import {
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
   userHardWareTypeAtom
-} from "../0.Recoil/summaryState";
-import {COLOR} from "../util/util";
+} from "../../../0.Recoil/easyAState";
+import {COLOR} from "../../../util/util";
 
 const SortDirection = {
   "NORMAL": "sortDirectionNormal",

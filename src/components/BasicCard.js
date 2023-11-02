@@ -3,7 +3,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useRecoilValue} from "recoil";
-import {selectedCourseDataAtom} from "../0.Recoil/summaryState";
+import {selectedCourseDataAtom} from "../0.Recoil/easyAState";
 import {COLOR} from "../util/util";
 
 export default function BasicCard({rank, name, score, sbc}) {

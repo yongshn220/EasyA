@@ -5,14 +5,14 @@ import {
   maxCourseLoadNumAtom, NextLoadNumPerStep,
   summaryByStartYearAtom,
   validCourseNumAtom
-} from "../0.Recoil/summaryState";
+} from "../../../0.Recoil/easyAState";
 import Box from "@mui/material/Box";
-import GradeRank from "./GradeRank";
-import StudyingHoursRank from "./StudyingHoursRank";
+import GradeRank from "../../../components/GradeRank";
+import StudyingHoursRank from "../../../components/StudyingHoursRank";
 import Button from "@mui/material/Button";
 import React, {useEffect} from "react";
-import {COLOR} from "../util/util";
-import CourseSearchBar from "./CourseSearchBar";
+import {COLOR} from "../../../util/util";
+import CourseSearchBar from "../../../components/CourseSearchBar";
 
 export default function MainContent() {
   const courseInfo = useRecoilValue(courseInfoAtom) // Preloading.
