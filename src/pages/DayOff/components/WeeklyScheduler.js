@@ -16,7 +16,6 @@ const CellDiv = styled('div')({
   alignItems: 'center',
   height:'3vw',
   fontSize: '1.2rem',
-  backgroundColor: 'gray',
   borderColor: 'white',
   border: '0.5px solid',
 });
@@ -38,14 +37,14 @@ export default function WeeklyScheduler() {
   const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{flex:1, margin:'40px'}}>
       <Grid container>
         <Grid xs={1}>
           <HeaderCell>Time</HeaderCell>
         </Grid>
         {
           headers.map((header, index) => (
-            <Grid xs={2} key={index}>
+            <Grid xs={2.2} key={index}>
               <HeaderCell>{header}</HeaderCell>
             </Grid>
           ))
@@ -65,7 +64,7 @@ export default function WeeklyScheduler() {
         </Grid>
         {
           Array.from(Array(5)).map((_, index) => (
-            <Grid key={index} container alignItems="stretch" direction="column" xs={2}>
+            <Grid key={index} container alignItems="stretch" direction="column" xs={2.2}>
               {
                 hours.map(hour => (
                   <Grid key={hour}>

@@ -6,53 +6,153 @@ import {COLOR} from "../../../util/util";
 import {Divider} from "@mui/material";
 import CourseItem from "./CourseItem";
 import data from './2024SpringData.json'
-import {useMemo, useState} from "react";
+import React, {useMemo, useState} from "react";
+import Button from "@mui/material/Button";
+import PopupMessage from "../../../components/PopupMessage";
 
 const courses = Object.keys(data)
 
-export default function FixedCourses() {
+export default function FixedCoursesWrapper() {
+  return (
+    <Box style={{paddingTop:'40px'}}>
+      <Box style={{marginLeft:"40px", marginBottom:'10px', fontSize:'2rem', fontWeight:'500', textAlign:'left'}}>
+        Do you have mandatory courses? <span style={{fontWeight:'700', fontSize:'2.5rem', color:COLOR.yellow}}>Add here!</span>
+      </Box>
+      <FixedCourses/>
+    </Box>
+  )
+}
+
+function FixedCourses() {
+  const [popupMessage, setPopupMessage] = useState({message:"", state:false, severity:"info"})
   const [selectedCRS, setSelectedCRS] = useState(null)
   const [selectedLEC, setSelectedLEC] = useState(null)
   const [selectedREC, setSelectedREC] = useState(null)
+  const [selectedLAB, setSelectedLAB] = useState(null)
+  const [addedCourses, setAddedCourses] = useState([])
 
   const LECs = useMemo(() => {
     if (!selectedCRS) return null;
-    return Object.keys(data[selectedCRS]["LEC"])
+    const lecKeys = Object.keys(data[selectedCRS]["LEC"])
+    return lecKeys.map((lecKey) => {
+      const lec = data[selectedCRS]["LEC"][lecKey]
+      return {
+        label: `${lecKey}  (${lec["day"]} | ${lec["time"]})`,
+        key: lecKey
+      }
+    })
   }, [selectedCRS])
 
-  // const RECs = useMemo(() => {
-  //   if (!selectedCRS || !selectedLEC) return null;
-  //   return Object.keys(data[selectedCRS][selectedLEC]["REC"])
-  // }, [selectedCRS, selectedLEC])
+  const RECs = useMemo(() => {
+    if (!selectedCRS || !selectedLEC) return null;
+    const recKeys = Object.keys(data[selectedCRS]["LEC"][selectedLEC]["REC"])
+    return recKeys.map((recKey) => {
+      const rec = data[selectedCRS]["LEC"][selectedLEC]["REC"][recKey]
+      return {
+        label: `${recKey}  (${rec["day"]} | ${rec["time"]})`,
+        key: recKey
+      }
+    })
+  }, [selectedCRS, selectedLEC])
+
+  const LABs = useMemo(() => {
+    if (!selectedCRS || !selectedLEC) return null;
+    const labKeys = Object.keys(data[selectedCRS]["LEC"][selectedLEC]["LAB"])
+    return labKeys.map((labKey) => {
+      const rec = data[selectedCRS]["LEC"][selectedLEC]["LAB"][labKey]
+      return {
+        label: `${labKey}  (${rec["day"]} | ${rec["time"]})`,
+        key: labKey
+      }
+    })
+  }, [selectedCRS, selectedLEC])
 
   function handleSelectCRS(value) {
     setSelectedCRS(value);
     setSelectedLEC(null)
     setSelectedREC(null)
+    setSelectedLAB(null)
   }
 
   function handleSelectLEC(value) {
-    setSelectedLEC(value)
+    if (!value || value === "") {
+      setSelectedLEC(null)
+    }
+    else {
+      setSelectedLEC(value.key)
+    }
+    setSelectedREC(null)
+    setSelectedLAB(null)
+  }
+
+  function handleSelectREC(value) {
+    if (!value || value.key === "") {
+      setSelectedREC(null)
+    }
+    else {
+      setSelectedREC(value.key)
+    }
+  }
+
+  function handleSelectLAB(value) {
+    if (!value || value.key === "") {
+      setSelectedLAB(null)
+    }
+    else {
+      setSelectedLAB(value.key)
+    }
+  }
+
+  function handleAddCourse() {
+    if (!selectedCRS) {
+      setPopupMessage({message: "You need to select the Subject.", state:true, severity: "warning"})
+      return;
+    }
+    if (!selectedLEC) {
+      setPopupMessage({message: "You need to select the Lecture.", state:true, severity: "warning"})
+      return;
+    }
+
+    const crsId = `${data[selectedCRS]["id"]}-${data[selectedCRS]["number"]}`
+    let addingList = []
+    const slec = data[selectedCRS]["LEC"][selectedLEC]
+    slec["title"] = data[selectedCRS]["title"]
+    slec["id"] = `${crsId} ${slec["id"]}`
+    addingList.push(slec)
+    if (selectedREC){
+      slec["REC"][selectedREC]["id"] = `${crsId} ${slec["REC"][selectedREC]["id"]}`
+      slec["REC"][selectedREC]["title"] = "Recitation"
+      addingList.push(slec["REC"][selectedREC])
+    }
+    if (selectedLAB) {
+      slec["LAB"][selectedLAB]["id"] = `${crsId} ${slec["LAB"][selectedLAB]["id"]}`
+      slec["LAB"][selectedLAB]["title"] = "Laboratory"
+      addingList.push(slec["LAB"][selectedLAB])
+    }
+
+    setAddedCourses([...addedCourses, ...addingList])
   }
 
   return(
     <BaseBox>
+      <PopupMessage severity={popupMessage.severity} state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message}/>
       <Box style={{display:'flex', flex:1, flexDirection:'column', marginTop:'20px', marginRight:'20px'}}>
         <Box style={{display:'flex', marginBottom:'10px'}}>
-          <Box style={{margin:'20px'}}>Subject</Box>
+          <Box style={{margin:'20px', minWidth:'6rem'}}>Subject</Box>
           <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={courses}
             sx={{width:'100%', ...customStyles}}
+            value={selectedCRS}
             onChange={(e, value) => handleSelectCRS(value)}
             renderInput={(params) => <TextField {...params} label="Select Subject..." />}
           />
         </Box>
         {
           (LECs?.length > 0) &&
-          <Box style={{display:'flex'}}>
-            <Box style={{margin:'20px'}}>Lecture</Box>
+          <Box style={{display:'flex', marginBottom:'10px'}}>
+            <Box style={{margin:'20px', minWidth:'6rem'}}>Lecture</Box>
             <Autocomplete
               disablePortal
               id="combo-box-demo"
@@ -64,8 +164,52 @@ export default function FixedCourses() {
             />
           </Box>
         }
+        {
+          (RECs?.length > 0) &&
+          <Box style={{display:'flex', marginBottom:'10px'}}>
+            <Box style={{margin:'20px', minWidth:'6rem'}}>Recitation</Box>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={RECs}
+              value={selectedREC}
+              onChange={(e, value) => handleSelectREC(value)}
+              sx={{width:'100%', ...customStyles}}
+              renderInput={(params) => <TextField {...params} label="Select Recitation..." />}
+            />
+          </Box>
+        }
+        {
+          (LABs?.length > 0) &&
+          <Box style={{display:'flex', marginBottom:'10px'}}>
+            <Box style={{margin:'20px', minWidth:'6rem'}}>Laboratory</Box>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={LABs}
+              value={selectedLAB}
+              onChange={(e, value) => handleSelectLAB(value)}
+              sx={{width:'100%', ...customStyles}}
+              renderInput={(params) => <TextField {...params} label="Select Laboratory..." />}
+            />
+          </Box>
+        }
+        <Box style={{display:'flex', marginBottom:'10px', justifyContent:'right'}}>
+          <Button  variant="contained"
+            sx={{
+              flex: 0.35,
+              fontSize:'1.2rem',
+              marginLeft:'1rem',
+              backgroundColor: COLOR.yellow, // Change this to your desired background color
+              '&:hover': {
+                backgroundColor: COLOR.lightYellow, // Change this for the hover effect
+              },
+            }}
+            onClick={() => handleAddCourse()}
+          >Add</Button>
+        </Box>
       </Box>
-      <Divider style={{flex:'0 0 1', backgroundColor:"#8d8d8d"}}/>
+      <Divider style={{flex:'0 0 1px', backgroundColor:"#8d8d8d"}}/>
       <Box style={{flex:1, marginTop:'20px', marginLeft:'20px'}}>
         <Box sx={{
           height: '100%', // or any desired height
@@ -75,11 +219,11 @@ export default function FixedCourses() {
             background: 'transparent', // Make the scrollbar transparent
           }
         }}>
-          <CourseItem/>
-          <CourseItem/>
-          <CourseItem/>
-          <CourseItem/>
-          <CourseItem/>
+          {
+            addedCourses.map(course => (
+                <CourseItem id={course["id"]} title={course["title"]} building={course["building"]} daytime={`${course["day"]} ${course["time"]}`}/>
+            ))
+          }
         </Box>
       </Box>
     </BaseBox>
@@ -91,8 +235,8 @@ const BaseBox = styled('div')({
   display:'flex',
   flex:'1',
   height:'30vh',
-  marginLeft:10,
-  marginRight:10,
+  marginLeft:'40px',
+  marginRight:'40px',
   padding:'20px',
   borderRadius:'5px',
   boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.4)',
@@ -130,131 +274,3 @@ const customStyles = {
     color: COLOR.lightYellow, // Change hover color for the icons
   }
 };
-
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
-  { label: 'The Dark Knight', year: 2008 },
-  { label: '12 Angry Men', year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: 'Pulp Fiction', year: 1994 },
-  {
-    label: 'The Lord of the Rings: The Return of the King',
-    year: 2003,
-  },
-  { label: 'The Good, the Bad and the Ugly', year: 1966 },
-  { label: 'Fight Club', year: 1999 },
-  {
-    label: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001,
-  },
-  {
-    label: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980,
-  },
-  { label: 'Forrest Gump', year: 1994 },
-  { label: 'Inception', year: 2010 },
-  {
-    label: 'The Lord of the Rings: The Two Towers',
-    year: 2002,
-  },
-  { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { label: 'Goodfellas', year: 1990 },
-  { label: 'The Matrix', year: 1999 },
-  { label: 'Seven Samurai', year: 1954 },
-  {
-    label: 'Star Wars: Episode IV - A New Hope',
-    year: 1977,
-  },
-  { label: 'City of God', year: 2002 },
-  { label: 'Se7en', year: 1995 },
-  { label: 'The Silence of the Lambs', year: 1991 },
-  { label: "It's a Wonderful Life", year: 1946 },
-  { label: 'Life Is Beautiful', year: 1997 },
-  { label: 'The Usual Suspects', year: 1995 },
-  { label: 'Léon: The Professional', year: 1994 },
-  { label: 'Spirited Away', year: 2001 },
-  { label: 'Saving Private Ryan', year: 1998 },
-  { label: 'Once Upon a Time in the West', year: 1968 },
-  { label: 'American History X', year: 1998 },
-  { label: 'Interstellar', year: 2014 },
-  { label: 'Casablanca', year: 1942 },
-  { label: 'City Lights', year: 1931 },
-  { label: 'Psycho', year: 1960 },
-  { label: 'The Green Mile', year: 1999 },
-  { label: 'The Intouchables', year: 2011 },
-  { label: 'Modern Times', year: 1936 },
-  { label: 'Raiders of the Lost Ark', year: 1981 },
-  { label: 'Rear Window', year: 1954 },
-  { label: 'The Pianist', year: 2002 },
-  { label: 'The Departed', year: 2006 },
-  { label: 'Terminator 2: Judgment Day', year: 1991 },
-  { label: 'Back to the Future', year: 1985 },
-  { label: 'Whiplash', year: 2014 },
-  { label: 'Gladiator', year: 2000 },
-  { label: 'Memento', year: 2000 },
-  { label: 'The Prestige', year: 2006 },
-  { label: 'The Lion King', year: 1994 },
-  { label: 'Apocalypse Now', year: 1979 },
-  { label: 'Alien', year: 1979 },
-  { label: 'Sunset Boulevard', year: 1950 },
-  {
-    label: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
-    year: 1964,
-  },
-  { label: 'The Great Dictator', year: 1940 },
-  { label: 'Cinema Paradiso', year: 1988 },
-  { label: 'The Lives of Others', year: 2006 },
-  { label: 'Grave of the Fireflies', year: 1988 },
-  { label: 'Paths of Glory', year: 1957 },
-  { label: 'Django Unchained', year: 2012 },
-  { label: 'The Shining', year: 1980 },
-  { label: 'WALL·E', year: 2008 },
-  { label: 'American Beauty', year: 1999 },
-  { label: 'The Dark Knight Rises', year: 2012 },
-  { label: 'Princess Mononoke', year: 1997 },
-  { label: 'Aliens', year: 1986 },
-  { label: 'Oldboy', year: 2003 },
-  { label: 'Once Upon a Time in America', year: 1984 },
-  { label: 'Witness for the Prosecution', year: 1957 },
-  { label: 'Das Boot', year: 1981 },
-  { label: 'Citizen Kane', year: 1941 },
-  { label: 'North by Northwest', year: 1959 },
-  { label: 'Vertigo', year: 1958 },
-  {
-    label: 'Star Wars: Episode VI - Return of the Jedi',
-    year: 1983,
-  },
-  { label: 'Reservoir Dogs', year: 1992 },
-  { label: 'Braveheart', year: 1995 },
-  { label: 'M', year: 1931 },
-  { label: 'Requiem for a Dream', year: 2000 },
-  { label: 'Amélie', year: 2001 },
-  { label: 'A Clockwork Orange', year: 1971 },
-  { label: 'Like Stars on Earth', year: 2007 },
-  { label: 'Taxi Driver', year: 1976 },
-  { label: 'Lawrence of Arabia', year: 1962 },
-  { label: 'Double Indemnity', year: 1944 },
-  {
-    label: 'Eternal Sunshine of the Spotless Mind',
-    year: 2004,
-  },
-  { label: 'Amadeus', year: 1984 },
-  { label: 'To Kill a Mockingbird', year: 1962 },
-  { label: 'Toy Story 3', year: 2010 },
-  { label: 'Logan', year: 2017 },
-  { label: 'Full Metal Jacket', year: 1987 },
-  { label: 'Dangal', year: 2016 },
-  { label: 'The Sting', year: 1973 },
-  { label: '2001: A Space Odyssey', year: 1968 },
-  { label: "Singin' in the Rain", year: 1952 },
-  { label: 'Toy Story', year: 1995 },
-  { label: 'Bicycle Thieves', year: 1948 },
-  { label: 'The Kid', year: 1921 },
-  { label: 'Inglourious Basterds', year: 2009 },
-  { label: 'Snatch', year: 2000 },
-  { label: '3 Idiots', year: 2009 },
-  { label: 'Monty Python and the Holy Grail', year: 1975 },
-];

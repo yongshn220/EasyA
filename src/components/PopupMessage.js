@@ -9,7 +9,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function PopupMessage({state, setState, message}) {
+export default function PopupMessage({severity, state, setState, message}) {
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -38,12 +38,12 @@ export default function PopupMessage({state, setState, message}) {
     <div>
       <Snackbar
         open={state}
-        autoHideDuration={4000}
+        autoHideDuration={2000}
         onClose={handleClose}
         action={action}
         anchorOrigin={{ vertical:'top', horizontal:'center' }}
       >
-        <Alert severity="info" sx={{ width: '100%' }}>
+        <Alert severity={severity} sx={{ width: '100%' }}>
           <span style={{ fontSize: '1.4rem' }}>{message}</span>
         </Alert>
       </Snackbar>
