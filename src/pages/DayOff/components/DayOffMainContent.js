@@ -12,7 +12,7 @@ export default function DayOffMainContent() {
         Set the time you want to keep empty! <span style={{fontWeight:'700', fontSize:'2.5rem', color:COLOR.yellow}}>Drag or select!</span>
       </Box>
       <WeeklyScheduler/>
-      <Box style={{marginLeft:"40px", marginRight:'40px',marginTop:'20px', marginBottom:'2px', fontSize:'2rem', fontWeight:'500', textAlign:'left'}}>
+      <Box style={{marginLeft:"40px", marginRight:'40px',marginTop:'40px', marginBottom:'2px', fontSize:'2rem', fontWeight:'500', textAlign:'left'}}>
         Ready? <span style={{fontWeight:'700', fontSize:'2.5rem', color:COLOR.yellow}}>Press the button!</span>
       </Box>
       <Box style={{display:'flex', marginLeft:"40px", marginRight:'40px', marginTop:'10px'}}>
