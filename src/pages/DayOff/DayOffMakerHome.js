@@ -3,7 +3,6 @@ import FixedCourses from "./components/FixedCourses";
 import DayOffMainContent from "./components/DayOffMainContent";
 import DayOffFooter from "./components/DayOffFooter";
 
-
 export default function DayOffMakerHomeWrapper() {
   return (
     <div>
@@ -12,8 +11,6 @@ export default function DayOffMakerHomeWrapper() {
     </div>
   )
 }
-
-
 
 function DayOffMakerHome() {
   return (

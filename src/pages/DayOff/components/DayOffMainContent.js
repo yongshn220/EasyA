@@ -4,7 +4,6 @@ import {COLOR} from "../../../util/util";
 import React from "react";
 import Button from "@mui/material/Button";
 
-
 export default function DayOffMainContent() {
   return (
     <Box style={{display:'flex', flexDirection:'column', justifyContent:'center', marginTop:'40px'}}>

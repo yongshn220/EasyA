@@ -9,6 +9,8 @@ import data from './2024SpringData.json'
 import React, {useMemo, useState} from "react";
 import Button from "@mui/material/Button";
 import PopupMessage from "../../../components/PopupMessage";
+import {useRecoilState} from "recoil";
+import {addedCourseListAtom} from "./DayOffState";
 
 const courses = Object.keys(data)
 
@@ -29,7 +31,7 @@ function FixedCourses() {
   const [selectedLEC, setSelectedLEC] = useState(null)
   const [selectedREC, setSelectedREC] = useState(null)
   const [selectedLAB, setSelectedLAB] = useState(null)
-  const [addedCourses, setAddedCourses] = useState([])
+  const [addedCourses, setAddedCourses] = useRecoilState(addedCourseListAtom)
 
   const LECs = useMemo(() => {
     if (!selectedCRS) return null;

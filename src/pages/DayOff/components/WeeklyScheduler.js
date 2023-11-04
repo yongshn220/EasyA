@@ -2,8 +2,10 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
-import {useState} from "react";
-
+import { useState } from "react";
+import {courseToTask, h24toh12} from "./TimeCalculationHelper";
+import {addedCourseListAtom} from "./DayOffState";
+import {useRecoilValue} from "recoil";
 
 const HeaderCell = styled('div')({
   backgroundColor: 'gray',
@@ -24,32 +26,24 @@ const CellDiv = styled('div')(({isSelected}) => ({
 
 const MinuteCell = styled('div')(({isSelected}) => ({
   display:'flex',
-  alignItems: 'center',
   height:'0.5vw',
   fontSize: '1.2rem',
   borderColor: 'white',
   backgroundColor: (isSelected)? "rgba(224,181,72,0.2)" : "rgba(0,0,0,0)"
 }));
 
-const Task = styled('div')({
-  backgroundColor: 'blue',
+const TaskDiv = styled('div')({
+  backgroundColor: '#4169e1', // Example color, you can change this
   color: 'white',
-  borderRadius: '5px',
-  padding: '5px',
-  textAlign: 'center',
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '4px', // Optional, for rounded corners
+  fontSize: '1rem',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.2)', // Optional, for a slight shadow effect
+  pointerEvents: 'auto', // This allows the task to be clickable, if needed
 });
-
-function h24toh12(hour) {
-  if(hour === 0 || hour === 24) {
-    return '12 am';
-  } else if(hour === 12) {
-    return '12 pm';
-  } else if(hour < 12) {
-    return `${hour} am`;
-  } else {
-    return `${hour - 12} pm`;
-  }
-}
 
 export default function WeeklyScheduler() {
   const headers = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
@@ -57,7 +51,7 @@ export default function WeeklyScheduler() {
   const tenMinuteBlocks = Array.from({ length: 15 * 6 }, (_, i) => 8 * 60 + i * 10);
   const [selectedCells, setSelectedCells] = useState(new Set());
   const [isSelecting, setIsSelecting] = useState(false);
-
+  const addedCourseList = useRecoilValue(addedCourseListAtom)
 
   const toggleCellSelection = (day, hour) => {
     const cellKey = `${day}-${hour}`;
@@ -83,32 +77,29 @@ export default function WeeklyScheduler() {
       toggleCellSelection(day, hour);
     }
   };
+
   const handleMouseUp = () => {
     setIsSelecting(false);
   };
 
   const isSelected = (day, hour) => selectedCells.has(`${day}-${hour}`);
 
+  // Example task
   const tasks = [
     {
       name: 'CSE101',
-      day: 1, // 1 for Tuesday
-      startTime: 8 * 60 + 10, // Start time in minutes from 0:00 (8:20 AM)
-      endTime: 9 * 60 + 50, // End time in minutes from 0:00 (9:50 AM)
+      dayIndex: 1, // Tuesday
+      startTime: 8*60+20,
+      mLength: 90,
+      startHour: 8, // 8 AM
+      startMinute: 20,
+      endHour: 9, // 9 AM
+      endMinute: 50
     },
-    // ... more tasks
-  ];
-
-  const isTaskInHour = (task, dayIndex, hour) => {
-    if (task.day !== dayIndex) return false;
-    const taskStart = task.startHour + task.startMinute / 60;
-    const taskEnd = task.endHour + task.endMinute / 60;
-    return hour >= taskStart && hour < taskEnd;
-  };
-
+  ]
 
   return (
-    <Box sx={{flex:1, marginLeft:'40px', marginRight:'40px'}} onMouseUp={handleMouseUp}>
+    <Box sx={{flex: 1, marginLeft: '40px', marginRight: '40px' }} onMouseUp={handleMouseUp}>
       <Grid container>
         <Grid xs={1}>
           <HeaderCell>Time</HeaderCell>
@@ -137,10 +128,10 @@ export default function WeeklyScheduler() {
           Array.from(Array(5)).map((_, dayIndex) => (
             <Grid key={dayIndex} container alignItems="stretch" direction="column" xs={2.2}>
               {
-                tenMinuteBlocks.map((block, blockIndex) => {
+                tenMinuteBlocks.map((timeBlock, blockIndex) => {
                   const isSelectedBlock = isSelected(dayIndex, blockIndex);
-                  const isStartOfHour = block % 60 === 0;
-                  const isEndOfHour = block % 60 === 50;
+                  const isStartOfHour = timeBlock % 60 === 0;
+                  const isEndOfHour = timeBlock % 60 === 50;
                   const cellStyle = {
                     borderTop: isStartOfHour? '0.5px solid white' : 'none',
                     borderBottom: isEndOfHour? '0.5px solid white' : 'none',
@@ -148,19 +139,30 @@ export default function WeeklyScheduler() {
                   };
 
                   return (
-                    <Grid key={block}>
+                    <Grid key={timeBlock}>
                       <MinuteCell
                         isSelected={isSelectedBlock}
-                        onMouseDown={() => handleMouseDown(dayIndex, block)}
-                        onMouseOver={() => handleMouseOver(dayIndex, block)}
+                        onMouseDown={() => handleMouseDown(dayIndex, timeBlock)}
+                        onMouseOver={() => handleMouseOver(dayIndex, timeBlock)}
                         style={cellStyle}
                       >
-                        {/* Render tasks within each 10-minute block */}
-                        {tasks.filter(task => task.day === dayIndex && block >= task.startTime && block < task.endTime).map((task, index) => (
-                          <div key={index} style={{ width: '100%', height: '100%', backgroundColor: 'rgba(0, 123, 255, 0.5)' }}>
-                            {block === task.startTime && task.name}
-                          </div>
-                        ))}
+                        {
+                          addedCourseList.map(course => {
+                            const tasks = courseToTask(course)
+                            return tasks.map((task) => {
+                              if (task.startTime === timeBlock && task.dayIndex === dayIndex) {
+                                return (
+                                  <TaskDiv style={{height: `${0.5 * (task.mLength/10)}vw`, zIndex:100}}>
+                                    {`${task.id} ${task.instructor}`} <br/> {task.time}
+                                  </TaskDiv>
+                                )
+                              }
+                              else {
+                                return <></>
+                              }
+                            })
+                          })
+                        }
                       </MinuteCell>
                     </Grid>
                   );
@@ -173,4 +175,3 @@ export default function WeeklyScheduler() {
     </Box>
   );
 }
-
