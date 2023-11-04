@@ -37,7 +37,7 @@ export default function WeeklyScheduler() {
   const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
 
   return (
-    <Box sx={{flex:1, margin:'40px'}}>
+    <Box sx={{flex:1, marginLeft:'40px', marginRight:'40px'}}>
       <Grid container>
         <Grid xs={1}>
           <HeaderCell>Time</HeaderCell>

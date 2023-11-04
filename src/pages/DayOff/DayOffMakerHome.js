@@ -1,11 +1,15 @@
 import DayOffBanner from "./components/DayOffBanner";
 import FixedCourses from "./components/FixedCourses";
 import DayOffMainContent from "./components/DayOffMainContent";
+import DayOffFooter from "./components/DayOffFooter";
 
 
 export default function DayOffMakerHomeWrapper() {
   return (
-    <DayOffMakerHome/>
+    <div>
+      <DayOffMakerHome/>
+      <DayOffFooter/>
+    </div>
   )
 }
 
