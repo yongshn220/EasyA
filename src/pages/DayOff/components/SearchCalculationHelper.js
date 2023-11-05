@@ -9,7 +9,18 @@ export function SearchAvailableCourses(filledTimeSet) {
     let lectures = Object.values(course["LEC"])
     lectures = filterAvailableLectures(filledTimeSet, lectures)
     filterAvailableRECandLAB(filledTimeSet, lectures)
-    availableCourses.push(...lectures)
+
+    for (let lec of lectures) {
+      if (!isObjEmpty(lec["REC"]) && lec["availableREC"]?.length <= 0)
+        continue
+      if (!isObjEmpty(lec["LAB"]) && lec["availableLAB"]?.length <= 0)
+        continue
+      else {
+        const lectureEntries = lectures.map(lecture => [lecture.id, lecture])
+        course["LEC"] = Object.fromEntries(lectureEntries)
+        availableCourses.push(course)
+      }
+    }
   })
 
   return availableCourses

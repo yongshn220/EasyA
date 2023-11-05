@@ -6,7 +6,7 @@ import Button from "@mui/material/Button";
 import SearchResult from "./SearchResult";
 import {useRecoilValue} from "recoil";
 import {addedCourseListAtom, selectedTimeSetAtom} from "./DayOffState";
-import {coursesToTimeSet, CourseTimeToTimeRange} from "./TimeCalculationHelper";
+import {coursesToTimeSet} from "./TimeCalculationHelper";
 import {SearchAvailableCourses} from "./SearchCalculationHelper";
 
 export default function DayOffMainContent() {
