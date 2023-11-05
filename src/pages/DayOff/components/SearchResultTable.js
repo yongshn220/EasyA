@@ -13,9 +13,12 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
+import {TableFooter} from "@mui/material";
+import Button from "@mui/material/Button";
 
 function Row({course}) {
   const [open, setOpen] = React.useState(false);
+
 
   const bgColor = (open)? "rgba(0,0,0,0.2)" : "tranparent"
 
@@ -77,6 +80,11 @@ function Row({course}) {
 }
 
 export default function SearchResultTable({data}) {
+  const [rowsToShow, setRowsToShow] = React.useState(10);
+
+  const handleLoadMore = () => {
+    setRowsToShow(prev => prev + 10);
+  };
 
   return (
     <TableContainer component={Paper} sx={{backgroundColor: "rgba(0,0,0,0.25)"}}>
@@ -91,11 +99,18 @@ export default function SearchResultTable({data}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((course) => (
+          {data.slice(0, rowsToShow).map((course) => (
             <Row key={course.id} course={course} />
           ))}
         </TableBody>
       </Table>
+      {
+        rowsToShow < data.length && (
+          <div style={{textAlign: 'center', marginTop: '2rem'}}>
+            <Button onClick={handleLoadMore} variant="text" sx={{fontSize:'1.2rem', flex: '0 0 10rem', marginBottom:'1rem', color:COLOR.yellow}}>LOAD MORE</Button>
+          </div>
+        )
+      }
     </TableContainer>
   );
 }
