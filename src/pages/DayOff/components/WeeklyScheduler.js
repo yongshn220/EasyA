@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import { useState } from "react";
-import {courseToTask, h24toh12} from "./TimeCalculationHelper";
-import {addedCourseListAtom} from "./DayOffState";
-import {useRecoilValue} from "recoil";
+import {courseToTask, daytimeIndexToKey, h24toh12} from "./TimeCalculationHelper";
+import {addedCourseListAtom, selectedTimeSetAtom} from "./DayOffState";
+import {useRecoilState, useRecoilValue} from "recoil";
 
 const HeaderCell = styled('div')({
   backgroundColor: 'gray',
@@ -52,7 +52,7 @@ export default function WeeklyScheduler() {
   const headers = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
   const tenMinuteBlocks = Array.from({ length: 15 * 6 }, (_, i) => 8 * 60 + i * 10);
-  const [selectedCells, setSelectedCells] = useState(new Set());
+  const [selectedCells, setSelectedCells] = useRecoilState(selectedTimeSetAtom);
   const [isSelecting, setIsSelecting] = useState(false);
   const [dragMode, setDragMode] = useState(DragMode.SELECT)
   const addedCourseList = useRecoilValue(addedCourseListAtom)
@@ -62,7 +62,7 @@ export default function WeeklyScheduler() {
     let startIndex = blockIndex - (blockIndex % 6)
     let endIndex = blockIndex + (6 - (blockIndex % 6))
     for (startIndex; startIndex < endIndex; startIndex++) {
-      cellKeys.push(`${dayIndex}-${startIndex}`);
+      cellKeys.push(`${dayIndex}-${480 + startIndex*10}`);
     }
 
     const newSelectedCells = new Set([...selectedCells])
@@ -94,11 +94,9 @@ export default function WeeklyScheduler() {
     setIsSelecting(false);
   };
 
-  function isSelected(dayIndex, blockIndex) {
-    return selectedCells.has(`${dayIndex}-${blockIndex}`)
+  function isSelected(dayIndex, timeBlock) {
+    return selectedCells.has(daytimeIndexToKey(dayIndex, timeBlock))
   }
-
-  console.log(selectedCells)
 
   return (
     <Box sx={{flex: 1, marginLeft: '40px', marginRight: '40px' }} onMouseUp={handleMouseUp}>
@@ -131,7 +129,7 @@ export default function WeeklyScheduler() {
             <Grid key={dayIndex} container alignItems="stretch" direction="column" xs={2.2}>
               {
                 tenMinuteBlocks.map((timeBlock, blockIndex) => {
-                  const isSelectedBlock = isSelected(dayIndex, blockIndex);
+                  const isSelectedBlock = isSelected(dayIndex, timeBlock);
                   const isStartOfHour = timeBlock % 60 === 0;
                   const isEndOfHour = timeBlock % 60 === 50;
                   const cellStyle = {

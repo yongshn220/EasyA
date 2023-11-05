@@ -13,48 +13,73 @@ export function h24toh12(hour) {
 }
 
 export function courseToTask(course) {
-  const timeRange = convertTimeRange(course.time)
-  const dayIndexes = convertDaysToIndices(course.day)
-  return dayIndexes.map((index) => ({
+  const timeRange = CourseTimeToTimeRange(course.time)
+  const dayIndices = dayStringToDayIndices(course.day)
+  return dayIndices.map((index) => ({
       id: course.id,
       title: course.title,
       time: course.time,
       building: course.building,
       instructor: course.instructor,
-      startTime: (timeRange[0] * 60) + timeRange[1],
-      endTime: (timeRange[2] * 60) + timeRange[3],
-      mLength: (timeRange[2] - timeRange[0]) * 60 + (timeRange[3] - timeRange[1]),
+      startTime: timeRange[0],
+      endTime: timeRange[1],
+      mLength: timeRange[1] - timeRange[0],
       dayIndex: index,
     }
   ))
 }
 
-function convertTimeRange(timeRange) {
-  // Split the input string into start and end times
-  const [startTime, endTimeWithPeriod] = timeRange.split('-');
-
-  // Extract the period (AM/PM) from the end time
-  const period = endTimeWithPeriod.slice(-2);
-  let [endHours, endMinutes] = endTimeWithPeriod.slice(0, -2).split(':').map(Number);
-
-  // Convert end time to 24-hour format if 'PM' is specified
-  if (period === 'PM' && endHours !== 12) {
-    endHours += 12;
-  } else if (period === 'AM' && endHours === 12) {
-    endHours = 0; // Midnight case
+export function coursesToTimeSet(courses) {
+  let mergedTimeSet = new Set()
+  for (let course of courses) {
+    mergedTimeSet = new Set([...mergedTimeSet, ...dayTimeToTimeSet(course.day, course.time)])
   }
-
-  let [startHours, startMinutes] = startTime.split(':').map(Number);
-
-  // If end time is PM (except 12pm) and start time is less than end-time, then start-time is PM
-  if (period === 'PM' && endHours !== 12 && endHours > startHours) {
-    startHours += 12;
-  }
-
-  return [startHours, startMinutes, endHours, endMinutes];
+  return mergedTimeSet
 }
 
-function convertDaysToIndices(daysStr) {
+export function dayTimeToTimeSet(courseDay, courseTime) {
+  const dayIndices = dayStringToDayIndices(courseDay)
+  const timeRange = CourseTimeToTimeRange(courseTime);
+  const startMinute =  timeRange[0]
+  const endMinute =  timeRange[1]
+
+  let timeSet = new Set()
+  for (let dayIndex of dayIndices) {
+    for (let sm = startMinute; sm < endMinute; sm += 10) {
+      timeSet.add(daytimeIndexToKey(dayIndex, sm))
+    }
+  }
+  return timeSet
+}
+
+export function CourseTimeToTimeRange(courseTime) {
+  // Split the input string into start and end times
+  try {
+    const [startTime, endTimeWithPeriod] = courseTime.split('-');
+    let [startHours, startMinutes] = startTime.split(':').map(Number);
+
+    const period = endTimeWithPeriod.slice(-2);
+    let [endHours, endMinutes] = endTimeWithPeriod.slice(0, -2).split(':').map(Number);
+
+    if (period === 'PM' && endHours !== 12) {
+      if (startHours + 12 <= endHours + 12) {
+        startHours += 12
+        endHours += 12
+      }
+      else {
+        endHours += 12
+      }
+    }
+
+    return [startHours * 60 + startMinutes, endHours * 60 + endMinutes];
+  }
+  catch (e) {
+    console.log(courseTime)
+    return [0,0,0,0]
+  }
+}
+
+export function dayStringToDayIndices(daysStr) {
   const dayMap = { M: 0, TU: 1, W: 2, TH: 3, F: 4 };
   const daysArr = [];
 
@@ -69,16 +94,17 @@ function convertDaysToIndices(daysStr) {
   return daysArr;
 }
 
+export function daytimeIndexToKey(dayIndex, timeBlock) {
+  return `${dayIndex}-${timeBlock}`
+}
 
-/*
-* {
-      name: 'CSE101',
-      dayIndex: 1, // Tuesday
-      startTime: 8*60+20,
-      mLength: 90,
-      startHour: 8, // 8 AM
-      startMinute: 20,
-      endHour: 9, // 9 AM
-      endMinute: 50
-    },
-* */
+export function daytimeKeyToIndex(daytimeKey) {
+  try {
+    const timeBlock = daytimeKey.split("-")
+    return [Number(timeBlock[0]), Number(timeBlock[1])]
+  }
+  catch (e) {
+    console.log("ERR: TimeCalculationHelper.daytimeKeyToIndex")
+    return [0, 0]
+  }
+}

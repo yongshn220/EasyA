@@ -1,5 +1,4 @@
 import {styled} from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import SearchResultTable from "./SearchResultTable"
 import React from "react";
 

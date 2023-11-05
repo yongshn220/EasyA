@@ -4,8 +4,22 @@ import {COLOR} from "../../../util/util";
 import React from "react";
 import Button from "@mui/material/Button";
 import SearchResult from "./SearchResult";
+import {useRecoilValue} from "recoil";
+import {addedCourseListAtom, selectedTimeSetAtom} from "./DayOffState";
+import {coursesToTimeSet, CourseTimeToTimeRange} from "./TimeCalculationHelper";
+import {SearchAvailableCourses} from "./SearchCalculationHelper";
 
 export default function DayOffMainContent() {
+  const addedCourses = useRecoilValue(addedCourseListAtom);
+  const selectedTimeSet = useRecoilValue(selectedTimeSetAtom);
+
+  function handleSearchClick() {
+    const courseTimeSet = coursesToTimeSet(addedCourses)
+    const mergedTimeSet = new Set([...courseTimeSet, ...selectedTimeSet]);
+    const availableCourses = SearchAvailableCourses(mergedTimeSet)
+    console.log(availableCourses)
+  }
+
   return (
     <Box style={{display:'flex', flexDirection:'column', justifyContent:'center', marginTop:'40px'}}>
       <Box style={{marginLeft:"40px", marginRight:'40px', marginBottom:'10px', fontSize:'2rem', fontWeight:'500', textAlign:'left'}}>
@@ -18,6 +32,7 @@ export default function DayOffMainContent() {
       <Box style={{display:'flex', marginLeft:"40px", marginRight:'40px', marginTop:'10px'}}>
         <Button
           variant="contained"
+          onClick={handleSearchClick}
           sx={{
             flex:1,
             fontSize:'1.2rem',
