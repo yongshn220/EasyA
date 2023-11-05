@@ -9,50 +9,19 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
 
-function createData(name, calories, fat, carbs, protein, price) {
-  return {
-    name,
-    calories,
-    fat,
-    carbs,
-    protein,
-    price,
-    history: [
-      {
-        date: '2020-01-05',
-        customerId: '11091700',
-        amount: 3,
-      },
-      {
-        date: '2020-01-02',
-        customerId: 'Anonymous',
-        amount: 1,
-      },
-    ],
-  };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-  createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-];
-
-
 function Row({course}) {
   const [open, setOpen] = React.useState(false);
 
+  const bgColor = (open)? "rgba(0,0,0,0.2)" : "tranparent"
+
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' }, cursor:'pointer' }} onClick={() => setOpen(!open)}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' }, cursor:'pointer', backgroundColor: bgColor}} onClick={() => setOpen(!open)}>
         <TableCell sx={{ border: 'unset' }}>
           <IconButton
             aria-label="expand row"
@@ -67,7 +36,7 @@ function Row({course}) {
         <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageGradeA}</TableCell>
         <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageStudyingHours}</TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow sx={{backgroundColor: bgColor}}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -75,24 +44,26 @@ function Row({course}) {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Lecture</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >DayTime</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Day Time</TableCell>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Instructor</TableCell>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Building</TableCell>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">REC / LAB</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">DayTime</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Day Time</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {course.lectureCombinations.map((lecComb, index) => (
-                    <TableRow key={lecComb.lecId + index}>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} component="th" scope="row">{lecComb.lecId}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}}>{lecComb.lecDay + " " + lecComb.lecTime}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.lecInstructor}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.lecBuilding}</TableCell>
-                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{"REC" + " " + lecComb.recId}</TableCell> }
-                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.recDay + " " + lecComb.recTime}</TableCell> }
-                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{"LAB" + " " + lecComb.labId}</TableCell> }
-                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.labDay + " " + lecComb.labTime}</TableCell> }
+                    <TableRow key={lecComb.lecId + index} sx={{'&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', cursor:'pointer'}}}>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} component="th" scope="row">{lecComb.lecId}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}}>{lecComb.lecDay + " " + lecComb.lecTime}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.lecInstructor}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.lecBuilding}</TableCell>
+                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{"REC" + " " + lecComb.recId}</TableCell> }
+                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.recDay + " " + lecComb.recTime}</TableCell> }
+                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{"LAB" + " " + lecComb.labId}</TableCell> }
+                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.labDay + " " + lecComb.labTime}</TableCell> }
+                      { lecComb.combinationType === "NONE" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">x</TableCell> }
+                      { lecComb.combinationType === "NONE" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">x</TableCell> }
                     </TableRow>
                   ))}
                 </TableBody>
@@ -129,12 +100,12 @@ export default function SearchResultTable({data}) {
     <TableContainer component={Paper} sx={{backgroundColor: "rgba(0,0,0,0.25)"}}>
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
-            <TableCell sx={{borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}/>
-            <TableCell sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Course</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Title</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Average Grade A</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Average Studying Hours</TableCell>
+          <TableRow sx={{ backgroundColor: "rgba(0,0,0,0.15)" }}>
+            <TableCell/>
+            <TableCell sx={{color: COLOR.default, fontSize: '1.4rem'}}>Course</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Title</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Grade A</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Studying Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

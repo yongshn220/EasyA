@@ -1,8 +1,9 @@
 import {styled} from "@mui/material/styles";
 import SearchResultTable from "./SearchResultTable"
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import {isObjEmpty} from "./SearchCalculationHelper";
-
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 function getLectureCombinations(lectures) {
   let lectureCombinations = []
@@ -55,6 +56,7 @@ function getLectureCombinations(lectures) {
 }
 
 export default function SearchResult({courses}) {
+  const [isOpen, setOpen] = useState(false)
 
   const tableData = useMemo(() => {
     return courses.map(course => {
@@ -70,11 +72,32 @@ export default function SearchResult({courses}) {
     })
   }, [courses])
   return (
-    <BaseBox>
-      <CourseItem>
-        <SearchResultTable data={tableData}/>
-      </CourseItem>
-    </BaseBox>
+    <div style={{
+      position:'fixed',
+      bottom:0,
+      height: (isOpen)? '30vh' : '0vh',
+      width:'100vw',
+      zIndex:100
+    }}>
+      <ToggleButton onClick={() => setOpen(!isOpen)} sx={{cursor:'pointer'}}>
+        {
+          isOpen?
+            <ExpandMoreIcon sx={{fontSize:'5rem'}}/>
+            :
+            <ExpandLessIcon sx={{fontSize:'5rem'}}/>
+        }
+      </ToggleButton>
+      {
+        isOpen &&
+        <>
+          <BaseBox>
+            <CourseItem>
+              <SearchResultTable data={tableData}/>
+            </CourseItem>
+          </BaseBox>
+        </>
+      }
+    </div>
   )
 }
 
@@ -88,7 +111,7 @@ const BaseBox = styled('div')({
   borderRadius:'10px',
   boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.4)',
   backgroundImage: `url('/graybg.jpeg')`,
-  zIndex:100,
+  zIndex:2,
 })
 
 
@@ -100,4 +123,15 @@ const CourseItem = styled('div')({
   width: 0,
     background: 'transparent',
   }
+})
+
+
+const ToggleButton = styled('div')({
+  position:'absolute',
+  top:'-4rem', left: '50%', transform: 'translateX(-50%)',
+  height:'10rem', width:'10rem',
+  borderRadius:'50px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.4)',
+  backgroundImage: `url('/graybg.jpeg')`,
+  zIndex:1,
 })
