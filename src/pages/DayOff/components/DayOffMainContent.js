@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import {COLOR} from "../../../util/util";
 import React from "react";
 import Button from "@mui/material/Button";
+import SearchResult from "./SearchResult";
 
 export default function DayOffMainContent() {
   return (
@@ -27,6 +28,7 @@ export default function DayOffMainContent() {
           }}
         >GO SEARCH</Button>
       </Box>
+      <SearchResult/>
     </Box>
   )
 }

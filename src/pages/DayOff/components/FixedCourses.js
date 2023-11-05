@@ -223,7 +223,7 @@ function FixedCourses() {
         }}>
           {
             addedCourses.map(course => (
-                <CourseItem id={course["id"]} title={course["title"]} building={course["building"]} daytime={`${course["day"]} ${course["time"]}`}/>
+              <CourseItem id={course["id"]} title={course["title"]} building={course["building"]} daytime={`${course["day"]} ${course["time"]}`}/>
             ))
           }
         </Box>
