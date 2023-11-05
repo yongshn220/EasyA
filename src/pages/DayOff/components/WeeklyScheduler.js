@@ -28,7 +28,6 @@ const MinuteCell = styled('div')(({isSelected}) => ({
   display:'flex',
   height:'0.5vw',
   fontSize: '1.2rem',
-  borderColor: 'white',
   backgroundColor: (isSelected)? "rgba(224,181,72,0.2)" : "rgba(0,0,0,0)"
 }));
 
@@ -45,36 +44,49 @@ const TaskDiv = styled('div')({
   pointerEvents: 'auto', // This allows the task to be clickable, if needed
 });
 
+const DragMode = {
+  SELECT: "dragModeSelect",
+  REMOVE: "dragModeRemove",
+}
 export default function WeeklyScheduler() {
   const headers = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
   const tenMinuteBlocks = Array.from({ length: 15 * 6 }, (_, i) => 8 * 60 + i * 10);
   const [selectedCells, setSelectedCells] = useState(new Set());
   const [isSelecting, setIsSelecting] = useState(false);
+  const [dragMode, setDragMode] = useState(DragMode.SELECT)
   const addedCourseList = useRecoilValue(addedCourseListAtom)
 
-  const toggleCellSelection = (day, hour) => {
-    const cellKey = `${day}-${hour}`;
-    setSelectedCells(prev => {
-      const newSelectedCells = new Set([...prev]);
-      if (newSelectedCells.has(cellKey)) {
-        newSelectedCells.delete(cellKey);
-      }
-      else {
+  const toggleCellSelection = (dragMode, dayIndex, blockIndex) => {
+    let cellKeys = []
+    let startIndex = blockIndex - (blockIndex % 6)
+    let endIndex = blockIndex + (6 - (blockIndex % 6))
+    for (startIndex; startIndex < endIndex; startIndex++) {
+      cellKeys.push(`${dayIndex}-${startIndex}`);
+    }
+
+    const newSelectedCells = new Set([...selectedCells])
+    for (let cellKey of cellKeys) {
+      if (dragMode === DragMode.SELECT) {
         newSelectedCells.add(cellKey);
       }
-      return newSelectedCells;
-    });
+      else {
+        newSelectedCells.delete(cellKey);
+      }
+    }
+    setSelectedCells(newSelectedCells)
   };
 
-  const handleMouseDown = (day, hour) => {
+  const handleMouseDown = (isSelectedBlock, dayIndex, blockIndex) => {
     setIsSelecting(true);
-    toggleCellSelection(day, hour);
+    const _dragMode = isSelectedBlock? DragMode.REMOVE: DragMode.SELECT
+    setDragMode(_dragMode) // DragMode State is used on MouseOver callback.
+    toggleCellSelection(_dragMode, dayIndex, blockIndex);
   };
 
-  const handleMouseOver = (day, hour) => {
+  const handleMouseOver = (dayIndex, blockIndex) => {
     if (isSelecting) {
-      toggleCellSelection(day, hour);
+      toggleCellSelection(dragMode, dayIndex, blockIndex);
     }
   };
 
@@ -82,21 +94,11 @@ export default function WeeklyScheduler() {
     setIsSelecting(false);
   };
 
-  const isSelected = (day, hour) => selectedCells.has(`${day}-${hour}`);
+  function isSelected(dayIndex, blockIndex) {
+    return selectedCells.has(`${dayIndex}-${blockIndex}`)
+  }
 
-  // Example task
-  const tasks = [
-    {
-      name: 'CSE101',
-      dayIndex: 1, // Tuesday
-      startTime: 8*60+20,
-      mLength: 90,
-      startHour: 8, // 8 AM
-      startMinute: 20,
-      endHour: 9, // 9 AM
-      endMinute: 50
-    },
-  ]
+  console.log(selectedCells)
 
   return (
     <Box sx={{flex: 1, marginLeft: '40px', marginRight: '40px' }} onMouseUp={handleMouseUp}>
@@ -142,8 +144,8 @@ export default function WeeklyScheduler() {
                     <Grid key={timeBlock}>
                       <MinuteCell
                         isSelected={isSelectedBlock}
-                        onMouseDown={() => handleMouseDown(dayIndex, timeBlock)}
-                        onMouseOver={() => handleMouseOver(dayIndex, timeBlock)}
+                        onMouseDown={() => handleMouseDown(isSelectedBlock, dayIndex, blockIndex)}
+                        onMouseOver={() => handleMouseOver(dayIndex, blockIndex)}
                         style={cellStyle}
                       >
                         {
