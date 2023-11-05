@@ -1,10 +1,11 @@
-import data from './2024SpringData.json'
+import courseData from './2024SpringData.json'
 import {CourseTimeToTimeRange, dayStringToDayIndices, daytimeKeyToIndex} from "./TimeCalculationHelper";
 
 
 export function SearchAvailableCourses(filledTimeSet) {
   let availableCourses = []
-
+  let data = JSON.parse(JSON.stringify(courseData))
+  console.log(data)
   Object.entries(data).forEach(([id, course]) => {
     let lectures = Object.values(course["LEC"])
     lectures = filterAvailableLectures(filledTimeSet, lectures)

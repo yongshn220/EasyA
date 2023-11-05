@@ -1,9 +1,10 @@
 import {styled} from "@mui/material/styles";
 import SearchResultTable from "./SearchResultTable"
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {isObjEmpty} from "./SearchCalculationHelper";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import PopupMessage from "../../../components/PopupMessage";
 
 function getLectureCombinations(lectures) {
   let lectureCombinations = []
@@ -57,6 +58,7 @@ function getLectureCombinations(lectures) {
 
 export default function SearchResult({courses}) {
   const [isOpen, setOpen] = useState(false)
+  const [popupMessage, setPopupMessage] = useState({message:"", state:false, severity:"info"})
 
   const tableData = useMemo(() => {
     return courses.map(course => {
@@ -71,6 +73,24 @@ export default function SearchResult({courses}) {
       }
     })
   }, [courses])
+
+  useEffect(() => {
+    if (tableData.length > 0) {
+      setOpen(true)
+    }
+  }, [tableData])
+
+  function handleToggleButtonClick() {
+    if (tableData.length === 0) {
+      return setPopupMessage({
+        message: "No available search results.",
+        state: true,
+        severity: 'info'
+      })
+    }
+    setOpen(!isOpen)
+  }
+
   return (
     <div style={{
       position:'fixed',
@@ -79,7 +99,8 @@ export default function SearchResult({courses}) {
       width:'100vw',
       zIndex:100
     }}>
-      <ToggleButton onClick={() => setOpen(!isOpen)} sx={{cursor:'pointer'}}>
+      <PopupMessage severity={popupMessage.severity} state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message}/>
+      <ToggleButton onClick={handleToggleButtonClick} sx={{cursor:'pointer', display:(tableData.length > 0)? 'block' : 'none'}}>
         {
           isOpen?
             <ExpandMoreIcon sx={{fontSize:'5rem'}}/>
@@ -87,16 +108,11 @@ export default function SearchResult({courses}) {
             <ExpandLessIcon sx={{fontSize:'5rem'}}/>
         }
       </ToggleButton>
-      {
-        isOpen &&
-        <>
-          <BaseBox>
-            <CourseItem>
-              <SearchResultTable data={tableData}/>
-            </CourseItem>
-          </BaseBox>
-        </>
-      }
+      <BaseBox style={{bottom: (isOpen)? 0 : '-100vw'}}>
+        <CourseItem>
+          <SearchResultTable data={tableData}/>
+        </CourseItem>
+      </BaseBox>
     </div>
   )
 }
