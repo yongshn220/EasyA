@@ -1,7 +1,7 @@
 import WeeklyScheduler from "./WeeklyScheduler";
 import Box from "@mui/material/Box";
 import {COLOR} from "../../../util/util";
-import React from "react";
+import React, {useState} from "react";
 import Button from "@mui/material/Button";
 import SearchResult from "./SearchResult";
 import {useRecoilValue} from "recoil";
@@ -12,12 +12,14 @@ import {SearchAvailableCourses} from "./SearchCalculationHelper";
 export default function DayOffMainContent() {
   const addedCourses = useRecoilValue(addedCourseListAtom);
   const selectedTimeSet = useRecoilValue(selectedTimeSetAtom);
+  const [availableCourses, setAvailableCourses] = useState([])
 
   function handleSearchClick() {
     const courseTimeSet = coursesToTimeSet(addedCourses)
     const mergedTimeSet = new Set([...courseTimeSet, ...selectedTimeSet]);
-    const availableCourses = SearchAvailableCourses(mergedTimeSet)
-    console.log(availableCourses)
+    const _availableCourses = SearchAvailableCourses(mergedTimeSet)
+    setAvailableCourses(_availableCourses)
+    console.log(_availableCourses)
   }
 
   return (
@@ -43,7 +45,7 @@ export default function DayOffMainContent() {
           }}
         >GO SEARCH</Button>
       </Box>
-      <SearchResult/>
+      <SearchResult courses={availableCourses}/>
     </Box>
   )
 }

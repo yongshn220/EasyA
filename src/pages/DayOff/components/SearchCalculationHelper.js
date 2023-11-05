@@ -10,16 +10,18 @@ export function SearchAvailableCourses(filledTimeSet) {
     lectures = filterAvailableLectures(filledTimeSet, lectures)
     filterAvailableRECandLAB(filledTimeSet, lectures)
 
+    course["LEC"] = []
     for (let lec of lectures) {
       if (!isObjEmpty(lec["REC"]) && lec["availableREC"]?.length <= 0)
         continue
       if (!isObjEmpty(lec["LAB"]) && lec["availableLAB"]?.length <= 0)
         continue
       else {
-        const lectureEntries = lectures.map(lecture => [lecture.id, lecture])
-        course["LEC"] = Object.fromEntries(lectureEntries)
-        availableCourses.push(course)
+        course["LEC"].push(lec)
       }
+    }
+    if (course["LEC"].length > 0) {
+      availableCourses.push(course)
     }
   })
 
@@ -70,6 +72,6 @@ function isDayTimeAvailable(filledTimeSet, dayString, courseTime) {
 }
 
 
-function isObjEmpty(obj) {
+export function isObjEmpty(obj) {
   return Object.keys(obj).length === 0
 }

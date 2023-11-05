@@ -47,8 +47,7 @@ const rows = [
 ];
 
 
-function Row(props) {
-  const { row } = props;
+function Row({course}) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -63,10 +62,10 @@ function Row(props) {
             {open ? <KeyboardArrowUpIcon sx={{color:'white'}}/> : <KeyboardArrowDownIcon sx={{color:'white'}}/>}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row" sx={{color: 'white', fontSize: '1.2rem', border: 'unset' }} >{row.name}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{row.calories}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{row.fat}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{row.carbs}</TableCell>
+        <TableCell component="th" scope="row" sx={{color: 'white', fontSize: '1.2rem', border: 'unset' }}>{course.id}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.title}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageGradeA}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageStudyingHours}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -76,20 +75,24 @@ function Row(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Lecture</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Time</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Building</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >DayTime</TableCell>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Instructor</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">Building</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">REC / LAB</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}}  align="right">DayTime</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} component="th" scope="row">{historyRow.date}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}}>{historyRow.customerId}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{historyRow.amount}</TableCell>
-                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
-                      </TableCell>
+                  {course.lectureCombinations.map((lecComb, index) => (
+                    <TableRow key={lecComb.lecId + index}>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} component="th" scope="row">{lecComb.lecId}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}}>{lecComb.lecDay + " " + lecComb.lecTime}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.lecInstructor}</TableCell>
+                      <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.lecBuilding}</TableCell>
+                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{"REC" + " " + lecComb.recId}</TableCell> }
+                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.recDay + " " + lecComb.recTime}</TableCell> }
+                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{"LAB" + " " + lecComb.labId}</TableCell> }
+                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem'}} align="right">{lecComb.labDay + " " + lecComb.labTime}</TableCell> }
                     </TableRow>
                   ))}
                 </TableBody>
@@ -120,7 +123,8 @@ Row.propTypes = {
   }).isRequired,
 };
 
-export default function SearchResultTable() {
+export default function SearchResultTable({data}) {
+
   return (
     <TableContainer component={Paper} sx={{backgroundColor: "rgba(0,0,0,0.25)"}}>
       <Table aria-label="collapsible table">
@@ -129,13 +133,13 @@ export default function SearchResultTable() {
             <TableCell sx={{borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}/>
             <TableCell sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Course</TableCell>
             <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Title</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Highest A Rank</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Less Studing Hour Rank</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Average Grade A</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem', borderBottom: "1px solid", borderBottomColor: COLOR.yellow, backgroundColor:COLOR.yellow }}>Average Studying Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <Row key={row.name} row={row} />
+          {data.map((course) => (
+            <Row key={course.id} course={course} />
           ))}
         </TableBody>
       </Table>
