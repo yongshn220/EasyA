@@ -1,5 +1,5 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -14,9 +14,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
 import Button from "@mui/material/Button";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {hoveredLectureHeaderAtom} from "./DayOffState";
 import {useSetRecoilState} from "recoil";
+import useInputField from "../../../customHooks/useInputField";
+import CourseSearchInputField from "./CourseSearchInputField";
 
 function Row({course}) {
   const [open, setOpen] = useState(false);
@@ -56,7 +58,7 @@ function Row({course}) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row" sx={{color: 'white', fontSize: '1.2rem', border: 'unset' }}>{course.id}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.title}</TableCell>
+        <TableCell align="left" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.title}</TableCell>
         <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageGradeA}</TableCell>
         <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageStudyingHours}</TableCell>
       </TableRow>
@@ -105,11 +107,17 @@ function Row({course}) {
 }
 
 export default function SearchResultTable({data}) {
-  const [rowsToShow, setRowsToShow] = React.useState(10);
+  const [rowsToShow, setRowsToShow] = useState(10);
+  const [courseIFValue, onCourseIFChange] = useInputField("")
 
-  const handleLoadMore = () => {
+  const filteredData = useMemo(() => {
+    const crsId = courseIFValue.replace(/[a-zA-Z]/g, (match) => match.toUpperCase())
+    return data.filter((data) => data.id.includes(crsId))
+  }, [data, courseIFValue])
+
+  function handleLoadMore() {
     setRowsToShow(prev => prev + 10);
-  };
+  }
 
   return (
     <TableContainer component={Paper} sx={{backgroundColor: "rgba(0,0,0,0.25)"}}>
@@ -117,20 +125,22 @@ export default function SearchResultTable({data}) {
         <TableHead>
           <TableRow sx={{ backgroundColor: "rgba(0,0,0,0.15)" }}>
             <TableCell/>
-            <TableCell sx={{color: COLOR.default, fontSize: '1.4rem'}}>Course</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Title</TableCell>
+            <TableCell sx={{display:'flex', alignItems:'center', color: COLOR.default, fontSize: '1.4rem'}}>
+              <CourseSearchInputField label="Search Course" value={courseIFValue} onChangeCallback={onCourseIFChange}/>
+            </TableCell>
+            <TableCell align="left" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Title</TableCell>
             <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Grade A</TableCell>
             <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Studying Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.slice(0, rowsToShow).map((course) => (
+          {filteredData.slice(0, rowsToShow).map((course) => (
             <Row key={course.id} course={course} />
           ))}
         </TableBody>
       </Table>
       {
-        rowsToShow < data.length && (
+        rowsToShow < filteredData.length && (
           <div style={{textAlign: 'center', marginTop: '2rem'}}>
             <Button onClick={handleLoadMore} variant="text" sx={{fontSize:'1.2rem', flex: '0 0 10rem', marginBottom:'1rem', color:COLOR.yellow}}>LOAD MORE</Button>
           </div>
