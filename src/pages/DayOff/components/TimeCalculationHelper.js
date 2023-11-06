@@ -17,6 +17,7 @@ export function courseToTask(course) {
   const dayIndices = dayStringToDayIndices(course.day)
   return dayIndices.map((index) => ({
       id: course.id,
+      fullId: course.fullId,
       title: course.title,
       time: course.time,
       building: course.building,

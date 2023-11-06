@@ -30,3 +30,8 @@ export function getLaboratory(crsId, lecId, labId) {
   lab.title = "Laboratory"
   return lab
 }
+
+export function isLectureAdded(newLecture, lectures) {
+  return lectures.some(addedLecture => addedLecture.fullId === newLecture.fullId);
+}
+

@@ -8,9 +8,8 @@ import CourseItem from "./CourseItem";
 import data from './2024SpringData.json'
 import React, {useMemo, useState} from "react";
 import Button from "@mui/material/Button";
-import PopupMessage from "../../../components/PopupMessage";
-import {useRecoilState} from "recoil";
-import {addedCourseListAtom} from "./DayOffState";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {addedCourseListAtom, dayOffPopupMessageAtom} from "./DayOffState";
 import {getLaboratory, getLecture, getRecitation} from "./CourseDataHelper";
 
 const courses = Object.keys(data)
@@ -27,7 +26,7 @@ export default function FixedCoursesWrapper() {
 }
 
 function FixedCourses() {
-  const [popupMessage, setPopupMessage] = useState({message:"", state:false, severity:"info"})
+  const setPopupMessage = useSetRecoilState(dayOffPopupMessageAtom)
   const [selectedCRS, setSelectedCRS] = useState(null)
   const [selectedLEC, setSelectedLEC] = useState(null)
   const [selectedREC, setSelectedREC] = useState(null)
@@ -130,7 +129,6 @@ function FixedCourses() {
 
   return(
     <BaseBox>
-      <PopupMessage severity={popupMessage.severity} state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message}/>
       <Box style={{display:'flex', flex:1, flexDirection:'column', marginTop:'20px', marginRight:'20px'}}>
         <Box style={{display:'flex', marginBottom:'10px'}}>
           <Box style={{margin:'20px', minWidth:'6rem'}}>Subject</Box>

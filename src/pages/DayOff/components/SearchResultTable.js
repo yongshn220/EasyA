@@ -15,19 +15,40 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
 import Button from "@mui/material/Button";
 import {useMemo, useState} from "react";
-import {hoveredLectureHeaderAtom} from "./DayOffState";
-import {useSetRecoilState} from "recoil";
+import {addedCourseListAtom, dayOffPopupMessageAtom, hoveredLectureHeaderAtom} from "./DayOffState";
+import {useRecoilState, useSetRecoilState} from "recoil";
 import useInputField from "../../../customHooks/useInputField";
 import CourseSearchInputField from "./CourseSearchInputField";
+import {getLaboratory, getLecture, getRecitation, isLectureAdded} from "./CourseDataHelper";
 
 function Row({course}) {
   const [open, setOpen] = useState(false);
   const setHoveredLectureHeader = useSetRecoilState(hoveredLectureHeaderAtom)
+  const [addedCourseList, setAddedCourseList] = useRecoilState(addedCourseListAtom)
+  const setPopupMessage = useSetRecoilState(dayOffPopupMessageAtom)
 
   const bgColor = (open)? "rgba(0,0,0,0.2)" : "tranparent"
 
-  function handleLectureClick(lecture) {
+  function handleLectureClick(courseId, lecture) {
+    let addingList = []
+    const lec = getLecture(courseId, lecture.lecId)
+    if (isLectureAdded(lec, addedCourseList)) {
+      setPopupMessage({
+        message: "There is a time conflict on the schedule.",
+        state: true,
+        severity: "warning",
+      })
+    }
+    else {
+      addingList.push(getLecture(courseId, lecture.lecId))
+      if (lecture.combinationType === "REC")
+        addingList.push(getRecitation(courseId, lecture.lecId, lecture.recId))
+      if (lecture.combinationType === "LAB")
+        addingList.push(getLaboratory(courseId, lecture.lecId, lecture.labId))
 
+      setHoveredLectureHeader(null)
+      setAddedCourseList([...addedCourseList, ...addingList])
+    }
   }
 
   function handleLectureHover(courseId, lecture) {
@@ -38,7 +59,11 @@ function Row({course}) {
       recId: lecture.recId,
       labId: lecture.labId,
     }
-    setHoveredLectureHeader(lecHeader)
+
+    const lec = getLecture(courseId, lecture.lecId)
+    if (isLectureAdded(lec, addedCourseList) === false) {
+      setHoveredLectureHeader(lecHeader)
+    }
   }
 
   function handleLectureHoverOff() {
@@ -80,7 +105,7 @@ function Row({course}) {
                 <TableBody>
                   {course.lectureCombinations.map((lecComb, index) => (
                     <TableRow key={lecComb.lecId + index} sx={{'&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', cursor:'pointer'}}}
-                      onClick={() => handleLectureClick(lecComb)}
+                      onClick={() => handleLectureClick(course.id, lecComb)}
                       onMouseEnter={() => handleLectureHover(course.id, lecComb)}
                       onMouseLeave={() => handleLectureHoverOff()}
                     >

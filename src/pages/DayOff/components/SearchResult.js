@@ -5,6 +5,8 @@ import {isObjEmpty} from "./SearchCalculationHelper";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PopupMessage from "../../../components/PopupMessage";
+import {dayOffPopupMessageAtom} from "./DayOffState";
+import {useSetRecoilState} from "recoil";
 
 function getLectureCombinations(lectures) {
   let lectureCombinations = []
@@ -58,7 +60,7 @@ function getLectureCombinations(lectures) {
 
 export default function SearchResult({courses}) {
   const [isOpen, setOpen] = useState(false)
-  const [popupMessage, setPopupMessage] = useState({message:"", state:false, severity:"info"})
+  const setPopupMessage = useSetRecoilState(dayOffPopupMessageAtom)
 
   const tableData = useMemo(() => {
     return courses.map(course => {
@@ -99,7 +101,6 @@ export default function SearchResult({courses}) {
       width:'100vw',
       zIndex:100
     }}>
-      <PopupMessage severity={popupMessage.severity} state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message}/>
       <ToggleButton onClick={handleToggleButtonClick} sx={{cursor:'pointer', display:(tableData.length > 0)? 'block' : 'none'}}>
         {
           isOpen?

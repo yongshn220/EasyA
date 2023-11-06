@@ -188,7 +188,7 @@ export default function WeeklyScheduler() {
                               if (task.startTime === timeBlock && task.dayIndex === dayIndex) {
                                 return (
                                   <TaskDiv taskType={course.taskType} style={{height: `${0.5 * (task.mLength/10)}vw`, zIndex:100}}>
-                                    {`${task.id} ${task.instructor}`} <br/> {task.time}
+                                    {`${task.fullId} ${task.instructor}`} <br/> {task.time}
                                   </TaskDiv>
                                 )
                               }
