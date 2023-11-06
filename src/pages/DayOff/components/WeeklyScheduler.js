@@ -7,7 +7,6 @@ import {courseToTask, daytimeIndexToKey, h24toh12} from "./TimeCalculationHelper
 import {addedCourseListAtom, hoveredLectureHeaderAtom, selectedTimeSetAtom} from "./DayOffState";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {getLaboratory, getLecture, getRecitation} from "./CourseDataHelper";
-import {COLOR} from "../../../util/util";
 
 const HeaderCell = styled('div')({
   backgroundColor: 'gray',

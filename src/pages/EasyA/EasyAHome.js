@@ -3,7 +3,8 @@ import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {
-  DefaultMaxCourseLoadNumMobile, feedbackFieldRefAtom,
+  DefaultMaxCourseLoadNumMobile,
+  // feedbackFieldRefAtom,
   HardwareType,
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
@@ -98,12 +99,12 @@ function PageHeader() {
 
 function PageFooter() {
   const [feedback, setFeedback] = useState("")
-  const setFeedbackFieldRef = useSetRecoilState(feedbackFieldRefAtom);
+  // const setFeedbackFieldRef = useSetRecoilState(feedbackFieldRefAtom);
   const feedbackRef = useRef(null);
 
-  useEffect(() => {
-    setFeedbackFieldRef(feedbackRef)
-  }, [feedbackRef, setFeedbackFieldRef])
+  // useEffect(() => {
+  //   setFeedbackFieldRef(feedbackRef)
+  // }, [feedbackRef, setFeedbackFieldRef])
 
   const customStyles = {
     '& .MuiOutlinedInput-root': {

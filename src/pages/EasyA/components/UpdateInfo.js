@@ -1,21 +1,21 @@
 import React, {useState} from 'react'
 import Box from "@mui/material/Box";
 import {COLOR} from "../../../util/util";
-import {feedbackFieldRefAtom} from "../../../0.Recoil/easyAState";
-import {useRecoilValue} from "recoil";
+// import {feedbackFieldRefAtom} from "../../../0.Recoil/easyAState";
+// import {useRecoilValue} from "recoil";
 
 export default function UpdateInfo() {
   const [fullView, setFullView] = useState(false);
-  const feedbackFieldRef = useRecoilValue(feedbackFieldRefAtom)
+  // const feedbackFieldRef = useRecoilValue(feedbackFieldRefAtom)
 
   function handleSeeUpdates() {
     setFullView(!fullView);
   }
 
   function handleGoToFeedback() {
-    if (feedbackFieldRef.current) {
-      feedbackFieldRef.current.scrollIntoView({behavior: 'smooth'});
-    }
+    // if (feedbackFieldRef.current) {
+    //   feedbackFieldRef.current.scrollIntoView({behavior: 'smooth'});
+    // }
   }
 
   return (

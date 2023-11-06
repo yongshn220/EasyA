@@ -1,5 +1,4 @@
 import * as React from 'react';
-import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
@@ -113,9 +112,9 @@ function Row({course}) {
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}}>{lecComb.lecDay + " " + lecComb.lecTime}</TableCell>
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.lecInstructor}</TableCell>
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.lecBuilding}</TableCell>
-                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{"REC" + " " + lecComb.recId}</TableCell> }
+                      { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{`REC ${lecComb.recId}`}</TableCell> }
                       { lecComb.combinationType === "REC" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.recDay + " " + lecComb.recTime}</TableCell> }
-                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{"LAB" + " " + lecComb.labId}</TableCell> }
+                      { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{`LAB ${lecComb.labId}`}</TableCell> }
                       { lecComb.combinationType === "LAB" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.labDay + " " + lecComb.labTime}</TableCell> }
                       { lecComb.combinationType === "NONE" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">x</TableCell> }
                       { lecComb.combinationType === "NONE" && <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">x</TableCell> }
