@@ -10,3 +10,8 @@ export const selectedTimeSetAtom = atom({
   key: "selectedTimeSetAtom",
   default: new Set()
 })
+
+export const hoveredLectureHeaderAtom = atom({
+  key: "hoveredLectureHeaderAtom",
+  default: null
+})

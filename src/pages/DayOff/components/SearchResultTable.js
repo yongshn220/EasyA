@@ -13,14 +13,35 @@ import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
-import {TableFooter} from "@mui/material";
 import Button from "@mui/material/Button";
+import {useState} from "react";
+import {hoveredLectureHeaderAtom} from "./DayOffState";
+import {useSetRecoilState} from "recoil";
 
 function Row({course}) {
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
+  const setHoveredLectureHeader = useSetRecoilState(hoveredLectureHeaderAtom)
 
   const bgColor = (open)? "rgba(0,0,0,0.2)" : "tranparent"
+
+  function handleLectureClick(lecture) {
+
+  }
+
+  function handleLectureHover(courseId, lecture) {
+    const lecHeader = {
+      crsId: courseId,
+      combinationType: lecture.combinationType,
+      lecId: lecture.lecId,
+      recId: lecture.recId,
+      labId: lecture.labId,
+    }
+    setHoveredLectureHeader(lecHeader)
+  }
+
+  function handleLectureHoverOff() {
+    setHoveredLectureHeader(null)
+  }
 
   return (
     <React.Fragment>
@@ -56,7 +77,11 @@ function Row({course}) {
                 </TableHead>
                 <TableBody>
                   {course.lectureCombinations.map((lecComb, index) => (
-                    <TableRow key={lecComb.lecId + index} sx={{'&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', cursor:'pointer'}}}>
+                    <TableRow key={lecComb.lecId + index} sx={{'&:hover': { backgroundColor: 'rgba(255,255,255,0.2)', cursor:'pointer'}}}
+                      onClick={() => handleLectureClick(lecComb)}
+                      onMouseEnter={() => handleLectureHover(course.id, lecComb)}
+                      onMouseLeave={() => handleLectureHoverOff()}
+                    >
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} component="th" scope="row">{lecComb.lecId}</TableCell>
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}}>{lecComb.lecDay + " " + lecComb.lecTime}</TableCell>
                       <TableCell sx={{color: 'white', fontSize: '1.2rem', marginBottom:'1rem'}} align="right">{lecComb.lecInstructor}</TableCell>

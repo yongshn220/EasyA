@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import PopupMessage from "../../../components/PopupMessage";
 import {useRecoilState} from "recoil";
 import {addedCourseListAtom} from "./DayOffState";
+import {getLaboratory, getLecture, getRecitation} from "./CourseDataHelper";
 
 const courses = Object.keys(data)
 
@@ -115,24 +116,16 @@ function FixedCourses() {
       return;
     }
 
-    const crsId = `${data[selectedCRS]["id"]}-${data[selectedCRS]["number"]}`
     let addingList = []
-    const slec = data[selectedCRS]["LEC"][selectedLEC]
-    slec["title"] = data[selectedCRS]["title"]
-    slec["id"] = `${crsId} ${slec["id"]}`
-    addingList.push(slec)
-    if (selectedREC){
-      slec["REC"][selectedREC]["id"] = `${crsId} ${slec["REC"][selectedREC]["id"]}`
-      slec["REC"][selectedREC]["title"] = "Recitation"
-      addingList.push(slec["REC"][selectedREC])
-    }
-    if (selectedLAB) {
-      slec["LAB"][selectedLAB]["id"] = `${crsId} ${slec["LAB"][selectedLAB]["id"]}`
-      slec["LAB"][selectedLAB]["title"] = "Laboratory"
-      addingList.push(slec["LAB"][selectedLAB])
-    }
+    addingList.push(getLecture(selectedCRS, selectedLEC))
+    if (selectedREC) addingList.push(getRecitation(selectedCRS, selectedLEC, selectedREC))
+    if (selectedLAB) addingList.push(getLaboratory(selectedCRS, selectedLEC, selectedLAB))
 
     setAddedCourses([...addedCourses, ...addingList])
+  }
+
+  function handleRemoveCourse(fullId) {
+    setAddedCourses(addedCourses.filter((course) => course.fullId !== fullId))
   }
 
   return(
@@ -223,7 +216,7 @@ function FixedCourses() {
         }}>
           {
             addedCourses.map(course => (
-              <CourseItem id={course["id"]} title={course["title"]} building={course["building"]} daytime={`${course["day"]} ${course["time"]}`}/>
+              <CourseItem onRemoveCallback={handleRemoveCourse} fullId={course["fullId"]} title={course["title"]} building={course["building"]} daytime={`${course["day"]} ${course["time"]}`}/>
             ))
           }
         </Box>

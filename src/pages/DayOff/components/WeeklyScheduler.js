@@ -2,10 +2,12 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
-import { useState } from "react";
+import {useMemo, useState} from "react";
 import {courseToTask, daytimeIndexToKey, h24toh12} from "./TimeCalculationHelper";
-import {addedCourseListAtom, selectedTimeSetAtom} from "./DayOffState";
+import {addedCourseListAtom, hoveredLectureHeaderAtom, selectedTimeSetAtom} from "./DayOffState";
 import {useRecoilState, useRecoilValue} from "recoil";
+import {getLaboratory, getLecture, getRecitation} from "./CourseDataHelper";
+import {COLOR} from "../../../util/util";
 
 const HeaderCell = styled('div')({
   backgroundColor: 'gray',
@@ -31,8 +33,8 @@ const MinuteCell = styled('div')(({isSelected}) => ({
   backgroundColor: (isSelected)? "rgba(224,181,72,0.2)" : "rgba(0,0,0,0)"
 }));
 
-const TaskDiv = styled('div')({
-  backgroundColor: '#4169e1', // Example color, you can change this
+const TaskDiv = styled('div')(({taskType}) => ({
+  backgroundColor: (taskType !== "hover")? '#4169e1' : 'rgba(65,105,225,0.4)', // Example color, you can change this
   color: 'white',
   flex: 1,
   display: 'flex',
@@ -42,20 +44,53 @@ const TaskDiv = styled('div')({
   fontSize: '1rem',
   boxShadow: '0 2px 4px rgba(0,0,0,0.2)', // Optional, for a slight shadow effect
   pointerEvents: 'auto', // This allows the task to be clickable, if needed
-});
+}));
 
 const DragMode = {
   SELECT: "dragModeSelect",
   REMOVE: "dragModeRemove",
 }
 export default function WeeklyScheduler() {
+  const [selectedCells, setSelectedCells] = useRecoilState(selectedTimeSetAtom);
+  const addedCourseList = useRecoilValue(addedCourseListAtom)
+  const hoveredLectureHeader = useRecoilValue(hoveredLectureHeaderAtom)
+
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [dragMode, setDragMode] = useState(DragMode.SELECT)
+
   const headers = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
   const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20,21,22]
   const tenMinuteBlocks = Array.from({ length: 15 * 6 }, (_, i) => 8 * 60 + i * 10);
-  const [selectedCells, setSelectedCells] = useRecoilState(selectedTimeSetAtom);
-  const [isSelecting, setIsSelecting] = useState(false);
-  const [dragMode, setDragMode] = useState(DragMode.SELECT)
-  const addedCourseList = useRecoilValue(addedCourseListAtom)
+
+
+  const hoveredCourseList = useMemo(() => {
+    if (!hoveredLectureHeader) return []
+    let courses = []
+    let header = hoveredLectureHeader
+
+    let lec = getLecture(header.crsId, header.lecId)
+    lec.taskType = "hover"
+    courses.push(lec)
+
+    if (header.combinationType === "REC") {
+      let rec = getRecitation(header.crsId, header.lecId, header.recId)
+      rec.taskType = "hover"
+      courses.push(rec)
+    }
+
+    if (header.combinationType === "LAB") {
+      let lab = getLaboratory(header.crsId, header.lecId, header.labId)
+      lab.taskType = "hover"
+      courses.push(lab)
+    }
+
+    return courses
+  }, [hoveredLectureHeader])
+
+
+  const mergedCourseList = useMemo(() => {
+    return [...addedCourseList, ...hoveredCourseList]
+  }, [addedCourseList, hoveredCourseList])
 
   const toggleCellSelection = (dragMode, dayIndex, blockIndex) => {
     let cellKeys = []
@@ -147,12 +182,12 @@ export default function WeeklyScheduler() {
                         style={cellStyle}
                       >
                         {
-                          addedCourseList.map(course => {
+                          mergedCourseList.map(course => {
                             const tasks = courseToTask(course)
                             return tasks.map((task) => {
                               if (task.startTime === timeBlock && task.dayIndex === dayIndex) {
                                 return (
-                                  <TaskDiv style={{height: `${0.5 * (task.mLength/10)}vw`, zIndex:100}}>
+                                  <TaskDiv taskType={course.taskType} style={{height: `${0.5 * (task.mLength/10)}vw`, zIndex:100}}>
                                     {`${task.id} ${task.instructor}`} <br/> {task.time}
                                   </TaskDiv>
                                 )

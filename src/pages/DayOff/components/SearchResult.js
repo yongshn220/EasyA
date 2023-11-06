@@ -65,7 +65,7 @@ export default function SearchResult({courses}) {
       let lectureCombinations = getLectureCombinations(course["LEC"])
 
       return {
-        id: course.id + " " + course.number,
+        id: course.id + course.number,
         title: course.title,
         averageGradeA: 60,
         averageStudyingHours: 4,
