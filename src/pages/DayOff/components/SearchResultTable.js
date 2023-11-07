@@ -83,11 +83,13 @@ function Row({course}) {
         </TableCell>
         <TableCell component="th" scope="row" sx={{color: 'white', fontSize: '1.2rem', border: 'unset' }}>{course.id}</TableCell>
         <TableCell align="left" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.title}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageGradeA}</TableCell>
-        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageStudyingHours}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.credits}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.sbcs}</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageGradeA} %</TableCell>
+        <TableCell align="right" sx={{color: 'white', fontSize: '1.2rem', border: 'unset'  }} >{course.averageStudyingHours} hrs</TableCell>
       </TableRow>
       <TableRow sx={{backgroundColor: bgColor}}>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Table size="small" aria-label="purchases">
@@ -153,8 +155,10 @@ export default function SearchResultTable({data}) {
               <CourseSearchInputField label="Search Course" value={courseIFValue} onChangeCallback={onCourseIFChange}/>
             </TableCell>
             <TableCell align="left" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Title</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Grade A</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Average Studying Hours</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>Credits</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>SBC</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg. Grade A</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg. Studying Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

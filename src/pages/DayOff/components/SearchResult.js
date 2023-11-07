@@ -68,8 +68,10 @@ export default function SearchResult({courses}) {
       return {
         id: course.id + course.number,
         title: course.title,
-        averageGradeA: "Will available soon",
-        averageStudyingHours: "Will available soon",
+        averageGradeA: course.avgA,
+        averageStudyingHours: course.avgHours,
+        credits: course.credits,
+        sbcs: course.sbcs.join(", "),
         lectureCombinations: lectureCombinations
       }
     })
