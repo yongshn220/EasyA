@@ -6,10 +6,12 @@ import PopupMessage from "../../components/PopupMessage";
 import React from "react";
 import {useRecoilState} from "recoil";
 import {dayOffPopupMessageAtom} from "./components/DayOffState";
+import DayOffHeader from "./components/DayOffHeader";
 
 export default function DayOffMakerHomeWrapper() {
   return (
     <div>
+      <DayOffHeader/>
       <DayOffMakerHome/>
       <DayOffFooter/>
     </div>

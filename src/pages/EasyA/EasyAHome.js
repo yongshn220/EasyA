@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Suspense} from "react";
 import Box from "@mui/material/Box";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {
   DefaultMaxCourseLoadNumMobile,
-  // feedbackFieldRefAtom,
   HardwareType,
   maxCourseLoadNumAtom,
   selectedCourseDataAtom,
@@ -22,6 +21,7 @@ import {postFeedback} from "../../api/api";
 import MainContentMobile from "./components/MainContentMobile";
 import UpdateInfo from "./components/UpdateInfo";
 import LoadingBox from "../../components/LoadingBox";
+import {useNavigate} from "react-router-dom";
 
 export default function EasyAHomeWrapper() {
   return (
@@ -87,10 +87,28 @@ function EasyAHome() {
 }
 
 function PageHeader() {
+  const navigate = useNavigate();
+  function navigateToHome() {
+    navigate("/")
+  }
+
+  function navigateToDayOffPage() {
+    navigate("/dayoffmaker")
+  }
+
   return (
     <>
-      <Box style={{display:'flex', position:'relative', height:'50px', width:'100%', backgroundImage: `url('/graybg.jpeg')` }}>
-        <Box style={{display:'flex', flex: '0', width: "100vw", marginLeft:'1vw', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700'}}>SBU@EasyA</Box>
+      <Box style={{display:'flex', height:'50px', width:'100%', backgroundImage: `url('/graybg.jpeg')`, backgroundColor:'red'}}>
+        <Box style={{position:'relative', marginLeft:'1vw', paddingTop:'1rem', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700', textAlign:'left', cursor:'pointer'}}
+          onClick={navigateToHome}
+        >
+          HOME
+        </Box>
+        <Box style={{position:'relative', marginLeft:'3rem', paddingTop:'1rem', justifyContent:'center', alignItems:'center', fontSize:'1.6rem', fontWeight:'700', textAlign:'left', cursor:'pointer'}}
+          onClick={navigateToDayOffPage}
+        >
+          Scheduler
+        </Box>
       </Box>
     </>
   );
@@ -99,12 +117,6 @@ function PageHeader() {
 
 function PageFooter() {
   const [feedback, setFeedback] = useState("")
-  // const setFeedbackFieldRef = useSetRecoilState(feedbackFieldRefAtom);
-  const feedbackRef = useRef(null);
-
-  // useEffect(() => {
-  //   setFeedbackFieldRef(feedbackRef)
-  // }, [feedbackRef, setFeedbackFieldRef])
 
   const customStyles = {
     '& .MuiOutlinedInput-root': {
@@ -148,7 +160,7 @@ function PageFooter() {
         <Box style={{fontSize:'1.6rem', fontWeight:'600', marginTop:'5rem', marginBottom:'1rem'}}>
           Give Us Feedback
         </Box>
-        <Box ref={feedbackRef} style={{display: 'flex'}}>
+        <Box style={{display: 'flex'}}>
           <TextField
             fullWidth
             multiline
