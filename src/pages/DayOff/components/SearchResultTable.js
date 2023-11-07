@@ -14,11 +14,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {COLOR} from "../../../util/util";
 import Button from "@mui/material/Button";
 import {useMemo, useState} from "react";
-import {addedCourseListAtom, dayOffPopupMessageAtom, hoveredLectureHeaderAtom} from "./DayOffState";
-import {useRecoilState, useSetRecoilState} from "recoil";
+import {addedCourseListAtom, dayOffPopupMessageAtom, defaultYearAtom, hoveredLectureHeaderAtom} from "./DayOffState";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import useInputField from "../../../customHooks/useInputField";
 import CourseSearchInputField from "./CourseSearchInputField";
 import {getLaboratory, getLecture, getRecitation, isLectureAdded} from "./CourseDataHelper";
+import {summaryByStartYearAtom} from "../../../0.Recoil/easyAState";
 
 function Row({course}) {
   const [open, setOpen] = useState(false);

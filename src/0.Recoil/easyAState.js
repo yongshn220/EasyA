@@ -124,13 +124,3 @@ export const studyingHoursRankAtom = atom({
   key: "studyingHoursRankAtom",
   default: {}
 })
-
-
-/* -------------------
-*    TARGET REF
-----------------------*/
-
-export const feedbackFieldRefAtom = atom({
-  key: "feedbackFieldRefAtom",
-  default: null
-})
