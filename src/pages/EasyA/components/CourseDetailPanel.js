@@ -99,7 +99,7 @@ export default function CourseDetailPanel() {
             </Suspense>
           </Box>
           <Box style={{marginRight:'40px',marginTop:'100px', marginBottom:'20px', fontSize:'1.2rem', fontWeight:'500', textAlign:'center', color:COLOR.default}}>
-            The data is collected from <span style={{color:COLOR.yellow}}>Spring {currentYear}</span>.
+            The data is collected from <span style={{color:COLOR.yellow}}>Spring {currentYear}</span> to current.
             <br/> Change the start year if you want previous data.
           </Box>
         </Inner>
