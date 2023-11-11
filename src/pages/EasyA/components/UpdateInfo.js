@@ -13,9 +13,10 @@ export default function UpdateInfo() {
   }
 
   function handleGoToFeedback() {
-    // if (feedbackFieldRef.current) {
-    //   feedbackFieldRef.current.scrollIntoView({behavior: 'smooth'});
-    // }
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
   }
 
   return (
@@ -23,8 +24,10 @@ export default function UpdateInfo() {
       <Box style={{display:'flex', flex:'1', marginLeft:40, marginRight:40, padding:'20px', borderRadius:'5px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.4)', transition: 'background-color 0.3s',}}
         onClick={handleSeeUpdates}
       >
-        <Box style={{display:'flex', fontSize:'1.6rem', fontWeight:'600'}}>Recent Update : </Box>
-        <Box style={{display:'flex', flex:1, fontSize:'1.6rem', fontWeight:'400', justifyContent:'flex-end', marginRight:'10px'}}>Prerequisite and Advisory-Prerequisite are added to each course.</Box>
+        <Box style={{display:'flex', fontSize:'1.6rem', fontWeight:'600'}}>Recent Update [2023.11.10]</Box>
+        <Box style={{display:'flex', flex:1, fontSize:'1.6rem', fontWeight:'400', justifyContent:'flex-end', marginRight:'10px'}}>
+          Now you can view the average grades of each courses by professor.
+        </Box>
       </Box>
 
       <Box sx={{display:'flex', flex: 1, justifyContent:'flex-end', marginTop:'10px', marginRight:'40px'}}>

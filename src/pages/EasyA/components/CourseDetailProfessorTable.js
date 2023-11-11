@@ -44,14 +44,14 @@ function Row({data}) {
                 <TableHead>
                   <TableRow>
                     <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Semester</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >A</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >A-</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B+</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B-</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >C+</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >C</TableCell>
-                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Fail</TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >A <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >A- <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B+ <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >B- <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >C+ <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >C <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
+                    <TableCell sx={{color: 'white', fontSize: '1.2rem'}} >Fail <span style={{color: '#a8a8a8'}}>(%)</span></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -88,8 +88,8 @@ export default function CourseDetailProfessorTable({profId}) {
           <TableRow sx={{ backgroundColor: "rgba(0,0,0,0.0)" }}>
             <TableCell/>
             <TableCell sx={{display:'flex', alignItems:'center', color: COLOR.default, fontSize: '1.4rem'}}>Professor</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg Grade A (%)</TableCell>
-            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg Studying Hours (hrs)</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg Grade A</TableCell>
+            <TableCell align="right" sx={{color: COLOR.default, fontSize: '1.4rem'}}>avg Studying Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
