@@ -1,16 +1,16 @@
 import Box from "@mui/material/Box";
 import {useMemo, useEffect} from "react";
-import SortingHelper from "../Calculation/SortingHelper";
-import Rank from "../pages/EasyA/components/Rank";
+import SortingHelper from "../../../Calculation/SortingHelper";
+import Rank from "./Rank";
 import {
   filteredLevelsAtom,
   filteredMajorsAtom,
   filteredSBCsAtom,
   selectedCourseSizeAtom,
   studyingHoursRankAtom
-} from "../0.Recoil/easyAState";
+} from "../../../0.Recoil/easyAState";
 import {useRecoilState, useRecoilValue} from "recoil";
-import FilterHelper from "../Calculation/FilterHelper";
+import FilterHelper from "../../../Calculation/FilterHelper";
 
 
 export default function StudyingHoursRank({data}) {

@@ -1,7 +1,7 @@
 import React from "react";
 import {useRecoilState} from "recoil";
-import {courseSearchInputAtom} from "../0.Recoil/easyAState";
-import {YellowSearchBar} from "./YellowSearchBar";
+import {courseSearchInputAtom} from "../../../0.Recoil/easyAState";
+import {YellowSearchBar} from "../../../components/YellowSearchBar";
 
 export default function CourseSearchBar() {
   const [courseSearchInput, setCourseSearchInput] = useRecoilState(courseSearchInputAtom)

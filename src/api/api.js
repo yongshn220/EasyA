@@ -13,6 +13,13 @@ export async function getCourseInfo() {
   return await response.json();
 }
 
+export async function getProfessorSummary(id) {
+  const response = await fetch(`${process.env.REACT_APP_API_SERVER}/professorSummary?id=${id}`, {
+    method: "GET",
+  })
+  return await response.json();
+}
+
 export async function postFeedback(feedback) {
   const response = await fetch(`${process.env.REACT_APP_API_SERVER}/postfeedback/`, {
     method: "POST",

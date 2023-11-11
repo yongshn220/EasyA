@@ -11,7 +11,7 @@ import {
 } from "../../0.Recoil/easyAState";
 import MainBanner from "./components/MainBanner";
 import '../../App.css';
-import CourseDetailPanel from "../../components/CourseDetailPanel";
+import CourseDetailPanel from "./components/CourseDetailPanel";
 import CourseFilter from "./components/CourseFilter";
 import MainContent from "./components/MainContent"
 import {TextField} from "@mui/material";

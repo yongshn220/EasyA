@@ -1,5 +1,5 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
-import {getCourseInfo, getSummary} from "../api/api";
+import {getCourseInfo, getProfessorSummary, getSummary} from "../api/api";
 
 
 /* -------------------------
@@ -59,6 +59,16 @@ export const summaryByStartYearAtom = atomFamily({
     key: 'summaryByStartYearAtomAtom/Default',
     get: (year) => async () => {
       return await getSummary(year);
+    }
+  })
+})
+
+export const professorSummaryByIdAtom = atomFamily({
+  key: "professorSummaryByIdAtom",
+  default: selectorFamily({
+    key: "professorSummaryByIdAtom/Default",
+    get: (id) => async () => {
+      return await getProfessorSummary(id)
     }
   })
 })

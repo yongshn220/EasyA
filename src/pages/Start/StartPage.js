@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import {COLOR} from "../../util/util";
 import {useNavigate} from 'react-router-dom';
+import React from "react";
 
 
 export default function StartPage() {

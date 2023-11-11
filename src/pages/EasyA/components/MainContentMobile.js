@@ -6,12 +6,12 @@ import {
   validCourseNumAtom
 } from "../../../0.Recoil/easyAState";
 import Box from "@mui/material/Box";
-import GradeRank from "../../../components/GradeRank";
-import StudyingHoursRank from "../../../components/StudyingHoursRank";
+import GradeRank from "./GradeRank";
+import StudyingHoursRank from "./StudyingHoursRank";
 import Button from "@mui/material/Button";
 import React, {useState} from "react";
 import {COLOR} from "../../../util/util";
-import CourseSearchBar from "../../../components/CourseSearchBar";
+import CourseSearchBar from "./CourseSearchBar";
 
 const RankType = {
   GRADE: "grade",
