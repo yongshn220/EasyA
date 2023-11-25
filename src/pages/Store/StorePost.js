@@ -1,6 +1,6 @@
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
-import {Checkbox, Input, TextField} from "@mui/material";
+import {Checkbox, Input} from "@mui/material";
 import {COLOR} from "../../util/util";
 import Comment from "./Comment";
 

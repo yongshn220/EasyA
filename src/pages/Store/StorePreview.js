@@ -3,19 +3,26 @@
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import StoreItemBox from "./StoreItemBox";
+import {useNavigate} from "react-router-dom";
 
 export default function StorePreview() {
+  const navigate = useNavigate();
+
+  function HandleStoreClick() {
+    navigate('/store')
+  }
+
   return (
     <Base>
-      <TitleArea>
+      <TitleArea onClick={HandleStoreClick}>
         <Title>Buy & Sell</Title>
         <SubTitle>Try buying and selling items in the campus.</SubTitle>
       </TitleArea>
       <Content>
-        <StoreItemBox/>
-        <StoreItemBox/>
-        <StoreItemBox/>
-        <StoreItemBox/>
+        {/*<StoreItemBox/>*/}
+        {/*<StoreItemBox/>*/}
+        {/*<StoreItemBox/>*/}
+        {/*<StoreItemBox/>*/}
       </Content>
     </Base>
   )
@@ -35,6 +42,7 @@ const TitleArea = styled('div')({
   height: '8rem',
   marginLeft:'1rem',
   justifyContent:'center',
+  cursor:'pointer',
 });
 
 const Title = styled('div')({

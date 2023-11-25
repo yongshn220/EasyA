@@ -1,6 +1,7 @@
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import ItemColumnBox from "./ItemColumnBox";
+import {useNavigate} from "react-router-dom";
 
 const site1 = {
   title: "SBU Easy A Ranking",
@@ -8,9 +9,15 @@ const site1 = {
 }
 
 export default function UsefulSitesPreview() {
+  const navigate = useNavigate();
+
+  function HandleUsefulSitesClick() {
+    navigate('/sites')
+  }
+
   return (
     <Base>
-      <TitleArea>
+      <TitleArea onClick={HandleUsefulSitesClick}>
         <Title>Useful Sites</Title>
         <SubTitle>Share the useful websites you know.</SubTitle>
       </TitleArea>
@@ -21,7 +28,6 @@ export default function UsefulSitesPreview() {
     </Base>
   )
 }
-
 
 const Base = styled('div')({
   display: 'flex',
@@ -37,6 +43,7 @@ const TitleArea = styled('div')({
   height: '8rem',
   marginLeft:'1rem',
   justifyContent:'center',
+  cursor:'pointer',
 });
 
 const Title = styled('div')({

@@ -4,6 +4,7 @@ import StorePreview from "../../Store/StorePreview";
 
 
 export default function HomeContent() {
+
   return (
     <Base>
       <UsefulSitesPreview/>

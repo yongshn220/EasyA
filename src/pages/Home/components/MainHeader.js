@@ -1,13 +1,35 @@
 import {styled} from "@mui/material/styles";
-import {InsideWidthDesktop} from "../../../util/util";
+import {ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
+import {useNavigate} from "react-router-dom";
 
 
 export default function MainHeader() {
+  const navigate = useNavigate();
+
+  function HandleUsefulSitesClick() {
+    navigate('/sites')
+  }
+
+  function HandleStoreClick() {
+    navigate('/store')
+  }
+
+  function HandleHomeClick() {
+    navigate('/')
+  }
+
   return (
     <Base>
       <Outside/>
       <Inside>
-        <HomeTitle>EasyA</HomeTitle>
+        <Side>
+          <HomeTitle onClick={HandleHomeClick}>EasyA</HomeTitle>
+        </Side>
+        <Center>
+          <MenuItem onClick={HandleUsefulSitesClick}>Useful Sites</MenuItem>
+          <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
+        </Center>
+        <Side/>
       </Inside>
       <Outside/>
     </Base>
@@ -26,10 +48,23 @@ const Base = styled('div')({
 
 
 const HomeTitle = styled('div')({
+  display:'flex',
+  justifyContent:'center',
   fontSize: '2rem',
   fontWeight: '700',
   marginLeft:'2rem',
-  color: 'black'
+  color: 'black',
+  cursor:'pointer',
+});
+
+const MenuItem = styled('div')({
+  display:'flex',
+  fontSize: '1.6rem',
+  fontWeight: '700',
+  marginLeft:'2rem',
+  alignItems:'flex-end',
+  color: 'black',
+  cursor:'pointer',
 });
 
 const Inside = styled('div')({
@@ -38,6 +73,17 @@ const Inside = styled('div')({
   '@media (max-width: 1200px)': {
     flex: '0 0 100%',
   },
+});
+
+const Center = styled('div')({
+  display:'flex',
+  flex: `0 0 ${ContentWidthDesktop}`,
+  justifyContent:'flex-start',
+});
+
+const Side = styled('div')({
+  flex:1,
+  justifyContent:'flex-start',
 });
 
 const Outside = styled('div')({

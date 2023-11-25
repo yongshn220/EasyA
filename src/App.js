@@ -7,20 +7,23 @@ import HomePage from "./pages/Home/HomePage";
 import StoreHome from "./pages/Store/StoreHome";
 import StoreCreatePost from "./pages/Store/StoreCreatePost";
 import StorePost from "./pages/Store/StorePost";
+import React, {Suspense} from "react";
 
 function App() {
   return (
     <div className="App">
       <RecoilRoot>
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage/>}/>
-            <Route path="/store" element={<StoreHome/>}/>
-            <Route path="/store/post/:id" element={<StorePost/>}/>
-            <Route path="/store/create" element={<StoreCreatePost/>}/>
-            <Route path="/easya" element={<EasyAHomeWrapper/>}/>
-            <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
-          </Routes>
+          <Suspense fallback={(<div>loading</div>)}>
+            <Routes>
+              <Route path="/" element={<HomePage/>}/>
+              <Route path="/store" element={<StoreHome/>}/>
+              <Route path="/store/post/:id" element={<StorePost/>}/>
+              <Route path="/store/create" element={<StoreCreatePost/>}/>
+              <Route path="/easya" element={<EasyAHomeWrapper/>}/>
+              <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </RecoilRoot>
     </div>

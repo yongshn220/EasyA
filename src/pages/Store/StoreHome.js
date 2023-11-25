@@ -1,13 +1,21 @@
 import React from "react";
+import {Suspense} from "react";
 import {styled} from "@mui/material/styles";
 import HomeWrapper from "../../components/HomeWrapper";
 import {COLOR} from "../../util/util";
 import StoreItemBox from "./StoreItemBox";
 import Grid from "@mui/material/Grid";
+import {useNavigate} from "react-router-dom";
+import {storePostIdsAtom} from "../../0.Recoil/postState";
+import {useRecoilValue} from "recoil";
+
+
 export default function StoreHome() {
+  const storePostIds = useRecoilValue(storePostIdsAtom)
+  const navigate = useNavigate()
 
   function handlePost() {
-
+    navigate('/store/create')
   }
 
   return (
@@ -18,30 +26,15 @@ export default function StoreHome() {
         </Button>
         <Content>
           <Grid container>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
-            <Grid item xs={3}>
-              <StoreItemBox/>
-            </Grid>
+            {
+              storePostIds.map((id) => (
+                <Suspense fallback={(<div>loading</div>)}>
+                  <Grid item xs={3}>
+                    <StoreItemBox id={id}/>
+                  </Grid>
+                </Suspense>
+              ))
+            }
           </Grid>
         </Content>
       </Base>

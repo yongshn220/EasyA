@@ -1,12 +1,17 @@
 import {styled} from "@mui/material/styles";
+import {storePostAtom} from "../../0.Recoil/postState";
+import {useRecoilValue} from "recoil";
 
 
-export default function StoreItemBox() {
+export default function StoreItemBox({id}) {
+  const storePost = useRecoilValue(storePostAtom(id))
+
   return(
     <Base>
-      <ImageBox/>
+      <ImageBox>
+      </ImageBox>
       <Title>
-        Event Examplanation
+        {storePost?.title}
       </Title>
     </Base>
   )
