@@ -3,7 +3,7 @@ import './App.css';
 import EasyAHomeWrapper from './pages/EasyA/EasyAHome'
 import DayOffMakerHomeWrapper from './pages/DayOff/DayOffMakerHome'
 import {RecoilRoot} from "recoil";
-import StartPage from "./pages/Start/StartPage";
+import HomePage from "./pages/Home/HomePage";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<StartPage/>}/>
+            <Route path="/" element={<HomePage/>}/>
             <Route path="/easya" element={<EasyAHomeWrapper/>}/>
             <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
           </Routes>
