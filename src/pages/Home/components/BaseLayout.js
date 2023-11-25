@@ -1,6 +1,7 @@
 import {styled} from "@mui/material/styles";
 import MainHeader from "./MainHeader";
 import React from "react";
+import {InsideWidthDesktop} from "../../../util/util";
 
 
 export default function BaseLayout({children}) {
@@ -8,7 +9,11 @@ export default function BaseLayout({children}) {
     <Base>
       <MainHeader/>
       <Body>
-        {children}
+        <OutSide/>
+        <Inside>
+          {children}
+        </Inside>
+        <OutSide/>
       </Body>
     </Base>
   )
@@ -20,9 +25,22 @@ const Base = styled('div')({
   position: 'absolute',
   width: '100vw',
   minHeight: '100vh',
-  backgroundColor: 'white',
   color:'black',
+  backgroundColor:'#E1E1E1'
 });
+
+const Inside = styled('div')({
+  display: 'flex',
+  flex: `0 0 ${InsideWidthDesktop}`,
+  '@media (max-width: 1200px)': {
+    flex: '0 0 100%',
+  },
+});
+
+const OutSide = styled('div')({
+  flex: 1,
+});
+
 
 const Body = styled('div')({
   display: 'flex',

@@ -1,12 +1,13 @@
-import UsefulSitesPreview from "../../UsefulSites/UsefulSitesPreview";
 import {styled} from "@mui/material/styles";
+import UsefulSitesPreview from "../../UsefulSites/UsefulSitesPreview";
+import EventsPreview from "../../Events/EventsPreview";
 
 
 export default function HomeContent() {
   return (
     <Base>
       <UsefulSitesPreview/>
-      <UsefulSitesPreview/>
+      <EventsPreview/>
     </Base>
   )
 }

@@ -1,10 +1,15 @@
 import {styled} from "@mui/material/styles";
+import {InsideWidthDesktop} from "../../../util/util";
 
 
 export default function MainHeader() {
   return (
     <Base>
-      <HomeTitle>EasyA</HomeTitle>
+      <Outside/>
+      <Inside>
+        <HomeTitle>EasyA</HomeTitle>
+      </Inside>
+      <Outside/>
     </Base>
   )
 }
@@ -16,12 +21,25 @@ const Base = styled('div')({
   alignItems:'center',
   paddingLeft:'2rem',
   paddingRight:'2rem',
-  color: 'white'
+  backgroundColor:'white',
 });
 
 
 const HomeTitle = styled('div')({
-  fontSize: '1.6rem',
+  fontSize: '2rem',
   fontWeight: '700',
+  marginLeft:'2rem',
   color: 'black'
+});
+
+const Inside = styled('div')({
+  display: 'flex',
+  flex: `0 0 ${InsideWidthDesktop}`,
+  '@media (max-width: 1200px)': {
+    flex: '0 0 100%',
+  },
+});
+
+const Outside = styled('div')({
+  flex: 1
 });

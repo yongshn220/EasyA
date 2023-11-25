@@ -1,27 +1,28 @@
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
-import ItemColumnBox from "./ItemColumnBox";
+import ItemSquareBox from "./ItemSquareBox";
 
 const site1 = {
   title: "SBU Easy A Ranking",
   subTitle: "Check and find which class has been giving the most A grades so far."
 }
 
-export default function UsefulSitesPreview() {
+export default function EventsPreview() {
   return (
     <Base>
       <TitleArea>
-        <Title>Useful Sites</Title>
-        <SubTitle>Share the useful websites you know.</SubTitle>
+        <Title>Events</Title>
+        <SubTitle>Share the upcoming events on campus.</SubTitle>
       </TitleArea>
       <Content>
-        <ItemColumnBox content={site1}/>
-        <ItemColumnBox content={site1}/>
+        <ItemSquareBox/>
+        <ItemSquareBox/>
+        <ItemSquareBox/>
+        <ItemSquareBox/>
       </Content>
     </Base>
   )
 }
-
 
 const Base = styled('div')({
   display: 'flex',
@@ -54,6 +55,6 @@ const SubTitle = styled('div')({
 
 const Content = styled('div')({
   display: 'flex',
-  flexDirection: 'column',
+  height:'25rem',
 });
 

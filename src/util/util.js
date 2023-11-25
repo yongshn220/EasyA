@@ -9,7 +9,8 @@ export const COLOR = {
   fontGray50: "rgb(96,96,96)",
 }
 
-export const ContentWidthDesktop = '750px'
+export const InsideWidthDesktop = '1200px'
+export const ContentWidthDesktop = '800px'
 
 export const whiteYellowInputFieldStyle = {
   '& .MuiOutlinedInput-root': {
