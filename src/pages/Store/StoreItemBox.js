@@ -1,7 +1,7 @@
 import {styled} from "@mui/material/styles";
 
 
-export default function ItemSquareBox() {
+export default function StoreItemBox() {
   return(
     <Base>
       <ImageBox/>

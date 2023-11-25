@@ -1,19 +1,21 @@
+
+
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
-import ItemSquareBox from "./ItemSquareBox";
+import StoreItemBox from "./StoreItemBox";
 
-export default function EventsPreview() {
+export default function StorePreview() {
   return (
     <Base>
       <TitleArea>
-        <Title>Events</Title>
-        <SubTitle>Share the upcoming events on campus.</SubTitle>
+        <Title>Buy & Sell</Title>
+        <SubTitle>Try buying and selling items in the campus.</SubTitle>
       </TitleArea>
       <Content>
-        <ItemSquareBox/>
-        <ItemSquareBox/>
-        <ItemSquareBox/>
-        <ItemSquareBox/>
+        <StoreItemBox/>
+        <StoreItemBox/>
+        <StoreItemBox/>
+        <StoreItemBox/>
       </Content>
     </Base>
   )

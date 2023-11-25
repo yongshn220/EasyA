@@ -7,6 +7,8 @@ export const COLOR = {
   lineGray: "#c5c5c5",
   fontGray80: "rgb(51,51,51)",
   fontGray50: "rgb(96,96,96)",
+  mainYellow: "#FFB700",
+  mainLightYellow: "#ffd361",
 }
 
 export const InsideWidthDesktop = '1200px'

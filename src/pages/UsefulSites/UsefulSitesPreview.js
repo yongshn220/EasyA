@@ -26,7 +26,7 @@ export default function UsefulSitesPreview() {
 const Base = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  marginTop:'2rem',
+  marginTop:'1rem',
   paddingLeft:'2rem',
   paddingRight:'2rem',
 });
