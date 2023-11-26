@@ -8,22 +8,35 @@ const site1 = {
   subTitle: "Check and find which class has been giving the most A grades so far."
 }
 
+const site2 = {
+  title: "Day-off Making Scheduler",
+  subTitle: "Find available courses that matches on your schedule."
+}
+
 export default function UsefulSitesPreview() {
   const navigate = useNavigate();
 
   function HandleUsefulSitesClick() {
-    navigate('/sites')
+    // navigate('/sites')
+  }
+
+  function goToEasyASite() {
+    navigate('/easya')
+  }
+
+  function goToSchedulerSite() {
+    navigate('/dayoffmaker')
   }
 
   return (
     <Base>
       <TitleArea onClick={HandleUsefulSitesClick}>
         <Title>Useful Sites</Title>
-        <SubTitle>Share the useful websites you know.</SubTitle>
+        <SubTitle>Try below sites to make your campus life easier.</SubTitle>
       </TitleArea>
       <Content>
-        <ItemColumnBox content={site1}/>
-        <ItemColumnBox content={site1}/>
+        <ItemColumnBox onClick={goToEasyASite} content={site1}/>
+        <ItemColumnBox onClick={goToSchedulerSite} content={site2}/>
       </Content>
     </Base>
   )

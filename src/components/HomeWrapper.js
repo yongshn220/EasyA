@@ -1,7 +1,7 @@
 import BaseLayout from "../pages/Home/components/BaseLayout";
 import React from "react";
 import {styled} from "@mui/material/styles";
-import {COLOR, ContentWidthDesktop} from "../util/util";
+import {ContentWidthDesktop} from "../util/util";
 
 
 export default function HomeWrapper({children}) {
@@ -16,14 +16,11 @@ export default function HomeWrapper({children}) {
   )
 }
 
-
 const Content = styled('div')({
   position:'relative',
   display: 'flex',
   flexDirection: 'column',
   flex: `0 0 ${ContentWidthDesktop}`,
-  borderLeft: `1px solid ${COLOR.lineGray}`,
-  borderRight: `1px solid ${COLOR.lineGray}`,
 });
 
 const Side = styled('div')({

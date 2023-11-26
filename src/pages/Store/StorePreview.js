@@ -13,6 +13,10 @@ export default function StorePreview() {
     navigate('/store')
   }
 
+  function handlePostClick(id) {
+    navigate(`/store/post/${id}`)
+  }
+
   return (
     <Base>
       <TitleArea onClick={HandleStoreClick}>
@@ -22,7 +26,7 @@ export default function StorePreview() {
       <Content>
         {
           postIds.map(id => (
-            <StoreItemBox id={id}/>
+            <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
           ))
         }
       </Content>

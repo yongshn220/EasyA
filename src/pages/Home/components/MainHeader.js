@@ -6,16 +6,20 @@ import {useNavigate} from "react-router-dom";
 export default function MainHeader() {
   const navigate = useNavigate();
 
-  function HandleUsefulSitesClick() {
-    navigate('/sites')
-  }
-
   function HandleStoreClick() {
     navigate('/store')
   }
 
   function HandleHomeClick() {
     navigate('/')
+  }
+
+  function HandleLogin() {
+    navigate('/login')
+  }
+
+  function HandleSignUp() {
+    navigate('/signup')
   }
 
   return (
@@ -26,10 +30,12 @@ export default function MainHeader() {
           <HomeTitle onClick={HandleHomeClick}>EasyA</HomeTitle>
         </Side>
         <Center>
-          <MenuItem onClick={HandleUsefulSitesClick}>Useful Sites</MenuItem>
           <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
         </Center>
-        <Side/>
+        <Side>
+          <MenuItem onClick={HandleLogin}>Login</MenuItem>
+          <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
+        </Side>
       </Inside>
       <Outside/>
     </Base>
@@ -83,6 +89,7 @@ const Center = styled('div')({
 
 const Side = styled('div')({
   flex:1,
+  display:'flex',
   justifyContent:'flex-start',
 });
 

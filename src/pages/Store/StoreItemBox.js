@@ -1,6 +1,7 @@
 import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
+import {useNavigate} from "react-router-dom";
 
 
 export default function StoreItemBox({onClick, id}) {
@@ -10,9 +11,8 @@ export default function StoreItemBox({onClick, id}) {
     <Base onClick={onClick}>
       <ImageBox style={{ backgroundImage: `url(${storePost.img})` }}>
       </ImageBox>
-      <Title>
-        {storePost?.title}
-      </Title>
+      <Title>{storePost?.title}</Title>
+      <Price>${storePost?.price}</Price>
     </Base>
   )
 }
@@ -36,6 +36,12 @@ const ImageBox = styled('div')({
 });
 
 const Title = styled('div')({
-  fontSize:'1.2rem',
+  fontSize:'1.6rem',
+  textAlign:'left',
+});
+
+const Price = styled('div')({
+  fontSize:'1.6rem',
+  fontWeight:'600',
   textAlign:'left',
 });

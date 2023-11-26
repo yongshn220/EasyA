@@ -6,12 +6,12 @@ import Comment from "./Comment";
 import {useParams} from "react-router-dom";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
+import CreateComment from "./CreateComment";
 
 
 export default function StorePost() {
   const { id } = useParams();
   const post = useRecoilValue(storePostAtom(Number(id)))
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
   return (
     <HomeWrapper>
@@ -27,34 +27,7 @@ export default function StorePost() {
             {post.description}
           </DescriptionArea>
         </Content>
-        <CommentPostArea>
-          <Input
-            id="outlined-multiline-flexible"
-            placeholder="Add a comment..."
-            disableUnderline
-            fullWidth
-            autoComplete="off"
-            inputProps={{maxLength: 100,}}
-            style={{fontSize:'1.6rem', height:'5rem', paddingLeft:'1rem', marginBottom:'1rem', backgroundColor:'white'}}
-          />
-          <div style={{flex: 1, display: 'flex', justifyContent:'flex-end', fontSize:'1.2rem', fontWeight:'600'}}>
-            <div style={{flex:1}}/>
-            <div style={{flex:0}}>
-              <Checkbox {...label} defaultChecked sx={{ '& .MuiSvgIcon-root': { fontSize: '2rem' },  '&.Mui-checked': {color: COLOR.fontGray50,},}} />
-            </div>
-            <div style={{display:'flex', flex: '0 0 12rem', flexDirection:'column', justifyContent:'center'}}>
-              <div style={{display: 'inline-block', fontSize:'1.2rem', fontWeight:'700', color:COLOR.fontGray80}}>
-                Secrete Comment
-              </div>
-              <div style={{display: 'inline-block', fontSize:'1rem', fontWeight:'600', color:COLOR.fontGray50}}>
-                Only seller can see it
-              </div>
-            </div>
-          </div>
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight:'1rem', marginTop:'1rem'}}>
-            <Button>Comment</Button>
-          </div>
-        </CommentPostArea>
+        <CreateComment/>
         <CommentArea>
           {
             post.comments.map(comment => (
@@ -120,12 +93,6 @@ const Content = styled('div')({
   backgroundColor:'white',
 });
 
-const CommentPostArea = styled('div')({
-  display:'flex',
-  flexDirection:'column',
-  flex: 1,
-});
-
 const CommentArea = styled('div')({
   display:'flex',
   flexDirection:'column',
@@ -140,19 +107,3 @@ const ImageBox = styled('div')({
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image
 });
-
-const Button = styled('div')({
-  display:'flex',
-  fontSize:'1.6rem',
-  fontWeight:'600',
-  width:'10rem',
-  height:'3rem',
-  alignItems:'center',
-  justifyContent:'center',
-  backgroundColor: COLOR.mainYellow,
-  '&:hover': {
-    backgroundColor: COLOR.mainLightYellow,
-  },
-  color: 'white',
-  cursor:'pointer',
-})
