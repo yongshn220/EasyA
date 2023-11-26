@@ -3,12 +3,32 @@ import {styled} from "@mui/material/styles";
 import {TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {useState} from "react";
-import DeleteIcon from '@mui/icons-material/Delete'; // Import the delete icon
+import DeleteIcon from '@mui/icons-material/Delete';
+import {useRecoilState} from "recoil";
+import {tpostListAtom} from "../../0.Recoil/postState";
+import {useNavigate} from "react-router-dom"; // Import the delete icon
 
 
-export default function StoreCreatePost()
+export default function StoreCreatePost() {
+  const [tpostList, setTPostList] = useRecoilState(tpostListAtom)
+  const navigate = useNavigate()
+  const [image, setImage] = useState(null);
+  const [title, setTitle] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
 
-  {const [image, setImage] = useState(null);
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    const value = event.target.value;
+    setPrice(value !== '' ? parseInt(value, 10) : '');
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -25,6 +45,20 @@ export default function StoreCreatePost()
     setImage(null);
   };
 
+  function handlePost() {
+    // Temp
+    const id = tpostList.length + 2
+    const post = {
+      img: image,
+      id,
+      userId: id,
+      title,
+      price,
+      description,
+    }
+    setTPostList([...tpostList, post])
+    navigate('/store')
+  }
 
   return(
     <HomeWrapper>
@@ -60,15 +94,27 @@ export default function StoreCreatePost()
             maxRows={4}
             fullWidth
             autoComplete="off"
-            sx={{marginTop:'2rem'}}
+            value={title}
+            onChange={handleTitleChange}
+            sx={{
+              marginTop:'2rem',
+              '& .MuiInputBase-input': { fontSize: '1.6rem' },
+            }}
           />
           <TextField
-          id="outlined-multiline-flexible"
-          label="Price"
-          maxRows={4}
-          fullWidth
-          autoComplete="off"
-          sx={{marginTop:'2rem'}}
+            id="price-input"
+            type="number"
+            label="Price"
+            maxRows={4}
+            fullWidth
+            autoComplete="off"
+            value={price}
+            onChange={handlePriceChange}
+            InputProps={{ inputProps: { min: 0 } }}
+            sx={{
+              marginTop:'2rem',
+              '& .MuiInputBase-input': { fontSize: '1.6rem' },
+            }}
           />
           <TextField
             id="outlined-multiline-static"
@@ -77,9 +123,15 @@ export default function StoreCreatePost()
             rows={15}
             fullWidth
             autoComplete="off"
-            sx={{marginTop:'2rem', marginBottom:'2rem'}}
+            value={description}
+            onChange={handleDescriptionChange}
+            sx={{
+              marginTop:'2rem',
+              marginBottom:'2rem',
+              '& .MuiInputBase-input': { fontSize: '1.6rem' },
+            }}
           />
-          <Button>Post</Button>
+          <Button onClick={handlePost}>Post</Button>
         </Content>
       </Base>
     </HomeWrapper>

@@ -5,6 +5,7 @@ export const COLOR = {
   transparentYellow: "rgba(224,181,72,0.3)",
   lightYellow: "#e7c675",
   lineGray: "#c5c5c5",
+  lineGray30: "#e0e0e0",
   fontGray80: "rgb(51,51,51)",
   fontGray50: "rgb(96,96,96)",
   mainYellow: "#FFB700",

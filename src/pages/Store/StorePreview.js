@@ -1,11 +1,12 @@
-
-
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import StoreItemBox from "./StoreItemBox";
 import {useNavigate} from "react-router-dom";
+import {storePostIdsAtom} from "../../0.Recoil/postState";
+import {useRecoilValue} from "recoil";
 
 export default function StorePreview() {
+  const postIds = useRecoilValue(storePostIdsAtom)
   const navigate = useNavigate();
 
   function HandleStoreClick() {
@@ -19,10 +20,11 @@ export default function StorePreview() {
         <SubTitle>Try buying and selling items in the campus.</SubTitle>
       </TitleArea>
       <Content>
-        {/*<StoreItemBox/>*/}
-        {/*<StoreItemBox/>*/}
-        {/*<StoreItemBox/>*/}
-        {/*<StoreItemBox/>*/}
+        {
+          postIds.map(id => (
+            <StoreItemBox id={id}/>
+          ))
+        }
       </Content>
     </Base>
   )

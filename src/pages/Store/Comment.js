@@ -2,12 +2,20 @@ import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 
 
-export default function Comment() {
+export default function Comment({comment}) {
   return (
     <Base>
-      <User>#1</User>
-      <Text>hello This is a sample comment. This is a sample Comment.</Text>
+      <User>{comment.username}</User>
+      <Text>{comment.text}</Text>
       <Reply>Reply</Reply>
+      {
+        comment.replies.map(reply => (
+          <InnerBase>
+            <User>{reply.username}</User>
+            <Text>{reply.text}</Text>
+          </InnerBase>
+        ))
+      }
     </Base>
   )
 }
@@ -20,6 +28,17 @@ const Base = styled('div')({
   paddingTop:'1rem',
   paddingBottom:'1rem',
   borderBottom: `0.5px solid ${COLOR.lineGray}`,
+  backgroundColor:'white',
+});
+
+const InnerBase = styled('div')({
+  display:'flex',
+  flexDirection:'column',
+  paddingLeft:'1rem',
+  justifyContent:'center',
+  marginTop:'1rem',
+  paddingTop:'1rem',
+  borderLeft: `2px solid ${COLOR.lineGray}`,
   backgroundColor:'white',
 });
 

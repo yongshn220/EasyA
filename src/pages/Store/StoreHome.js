@@ -14,14 +14,18 @@ export default function StoreHome() {
   const storePostIds = useRecoilValue(storePostIdsAtom)
   const navigate = useNavigate()
 
-  function handlePost() {
+  function handleCreatePost() {
     navigate('/store/create')
+  }
+
+  function handlePostClick(id) {
+    navigate(`/store/post/${id}`)
   }
 
   return (
     <HomeWrapper>
       <Base>
-        <Button onClick={handlePost}>
+        <Button onClick={handleCreatePost}>
           Post
         </Button>
         <Content>
@@ -30,7 +34,7 @@ export default function StoreHome() {
               storePostIds.map((id) => (
                 <Suspense fallback={(<div>loading</div>)}>
                   <Grid item xs={3}>
-                    <StoreItemBox id={id}/>
+                    <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
                   </Grid>
                 </Suspense>
               ))

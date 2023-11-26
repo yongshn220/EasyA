@@ -3,24 +3,28 @@ import {styled} from "@mui/material/styles";
 import {Checkbox, Input} from "@mui/material";
 import {COLOR} from "../../util/util";
 import Comment from "./Comment";
+import {useParams} from "react-router-dom";
+import {storePostAtom} from "../../0.Recoil/postState";
+import {useRecoilValue} from "recoil";
 
 
 export default function StorePost() {
-
+  const { id } = useParams();
+  const post = useRecoilValue(storePostAtom(Number(id)))
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
   return (
     <HomeWrapper>
       <Base>
-        <TitleArea>
-          <Title>Buy & Sell</Title>
-        </TitleArea>
+        {/*<TitleArea>*/}
+        {/*  <Title></Title>*/}
+        {/*</TitleArea>*/}
         <Content>
-          <ImageBox/>
-          <TextArea>This is Test Area</TextArea>
-          <TextArea>$10</TextArea>
+          <ImageBox style={{ backgroundImage: `url(${post.img})` }}/>
+          <TextArea>{post.title}</TextArea>
+          <TextArea>${post.price}</TextArea>
           <DescriptionArea>
-            This is Test Area This is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test AreaThis is Test Area
+            {post.description}
           </DescriptionArea>
         </Content>
         <CommentPostArea>
@@ -52,9 +56,11 @@ export default function StorePost() {
           </div>
         </CommentPostArea>
         <CommentArea>
-          <Comment/>
-          <Comment/>
-          <Comment/>
+          {
+            post.comments.map(comment => (
+              <Comment comment={comment}/>
+            ))
+          }
         </CommentArea>
       </Base>
     </HomeWrapper>
@@ -131,7 +137,8 @@ const ImageBox = styled('div')({
   width: '100%',
   height: '40rem',
   marginBottom: '3rem',
-  backgroundColor:'gray',
+  backgroundPosition: 'center', // Center the image
+  backgroundRepeat: 'no-repeat', // Do not repeat the image
 });
 
 const Button = styled('div')({
