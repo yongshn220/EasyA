@@ -4,9 +4,10 @@ import { styled } from '@mui/material/styles';
 import Autocomplete from "@mui/material/Autocomplete";
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
+import {signup} from "../../api/api";
 
 
-export default function SignUpContent() {
+export default function SignUpContent({setIsSignedUp, setFinalEmail}) {
   const navigate = useNavigate()
   const [email, setEamil] = useState('');
   const [password, setPassword] = useState('');
@@ -30,13 +31,13 @@ export default function SignUpContent() {
 
   const handleSignUp = (event) => {
     event.preventDefault();
-    setEmailError(false);;
-    setPasswordError(false);;
-    setPasswordConfirmError(false);
+    setEmailError(false)
+    setPasswordError(false)
+    setPasswordConfirmError(false)
 
     if (!validateEmail(email)) {
-      setEmailError(true);
-      return;
+      setEmailError(true)
+      return
     }
 
     if (!validatePassword(password)) {
@@ -48,8 +49,9 @@ export default function SignUpContent() {
       setPasswordConfirmError(true)
     }
 
-    console.log({ email, password, major });
-    // TODO: Replace with actual server call
+    setIsSignedUp(true)
+    setFinalEmail(email)
+    signup(email, password, major)
   };
 
   return (
@@ -110,7 +112,7 @@ export default function SignUpContent() {
         <SignUpButton fullWidth onClick={handleSignUp}>
           Sign Up
         </SignUpButton>
-        <Button onClick={goToLogin} color="primary">
+        <Button style={{color: COLOR.mainYellow, fontSize:'1rem', marginTop:'1rem'}} onClick={goToLogin} color="primary">
           Already have an account? Log In
         </Button>
       </Content>
@@ -123,16 +125,19 @@ const Base = styled('div')({
   display:'flex',
   justifyContent:'center',
   width: '100%',
-  height: '100%',
-  backgroundColor:'white',
 });
 
 const Content = styled('div')({
   display:'flex',
   flexDirection:'column',
-  maxWidth:'400px',
+  alignItems:'center',
+  width:'80%',
   textAlign: 'center',
   marginTop:'5rem',
+  padding:'3rem',
+  borderRadius:'5px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+  backgroundColor:'white',
 });
 
 const Title = styled('div')({

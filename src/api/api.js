@@ -33,3 +33,34 @@ export async function postFeedback(feedback) {
   })
   return await response.json();
 }
+
+
+export async function signup(email, password, major) {
+  try {
+    const response = await fetch(`${serverURI}/account/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Set the content type to JSON
+      },
+      body: JSON.stringify({
+        email,
+        password,
+        major,
+        is_verified: false,
+        verification_code: null,
+      }),
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}
+
+
+export async function verifyEmail(token) {
+  const response = await fetch(`${serverURI}/account/verify?token=${token}`, {
+    method: "GET"
+  })
+  return await response.json()
+}

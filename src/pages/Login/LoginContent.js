@@ -54,7 +54,7 @@ export default function LoginContent() {
           Log In
         </LoginButton>
 
-        <Button onClick={goToSignUp} color="primary">
+        <Button style={{color: COLOR.mainYellow, fontSize:'1rem', marginTop:'1rem'}} onClick={goToSignUp} color="primary">
           Don't have an account? Sign up
         </Button>
       </Content>
@@ -66,16 +66,19 @@ const Base = styled('div')({
   display:'flex',
   justifyContent:'center',
   width: '100%',
-  height: '100%',
-  backgroundColor:'white',
 });
 
 const Content = styled('div')({
   display:'flex',
   flexDirection:'column',
-  maxWidth:'400px',
+  alignItems:'center',
+  width:'80%',
   textAlign: 'center',
   marginTop:'5rem',
+  padding:'3rem',
+  borderRadius:'5px',
+  boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+  backgroundColor:'white',
 });
 
 const Title = styled('div')({
