@@ -8,7 +8,12 @@ export default function SignUpHome() {
   const [finalEmail, setFinalEmail] = useState("")
   return (
     <HomeWrapper>
-      {(isSignedUp === false)? <SignUpContent setIsSignedUp={setIsSignedUp} setFinalEmail={setFinalEmail}/> : <VerificationSendConfirm email={finalEmail} setIsSignedUp={setIsSignedUp}/>}
+      {
+        (isSignedUp === false)?
+        <SignUpContent setIsSignedUp={setIsSignedUp} setFinalEmail={setFinalEmail}/>
+        :
+        <VerificationSendConfirm email={finalEmail} setIsSignedUp={setIsSignedUp}/>
+      }
     </HomeWrapper>
   )
 }

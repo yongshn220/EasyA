@@ -1,19 +1,34 @@
 import React, { useState } from 'react';
-import { TextField, Button } from '@mui/material';
+import {TextField, Button, Alert} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
+import {login} from "../../api/api";
+import {useSetRecoilState} from "recoil";
+import {userAccessTokenAtom} from "../../0.Recoil/accountState";
 
 
 export default function LoginContent() {
+  const setUserAccessToken = useSetRecoilState(userAccessTokenAtom)
   const navigate = useNavigate()
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginFail, setLoginFail] = useState(false)
 
-  const handleLogin = (event) => {
+
+  function handleLogin(event) {
     event.preventDefault();
-    console.log(username, password);
-  };
+    login(email, password).then((res) => {
+      if (res.status_code === 200) {
+        setUserAccessToken(res.access_token)
+        console.log(res.access_token)
+        navigate('/')
+      }
+      else {
+        setLoginFail(true)
+      }
+    })
+  }
 
   function goToSignUp() {
     navigate('/signup')
@@ -28,12 +43,13 @@ export default function LoginContent() {
         <SubTitle>
           Login in to your account with university email.
         </SubTitle>
+        { loginFail && <Alert severity="error" sx={{fontSize: '1rem'}}>Incorrect email or password.</Alert>}
         <TextField
           fullWidth
           label="SBU Email"
           margin="normal"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           sx={{
             '& .MuiInputBase-input': { fontSize: '1.6rem' },
           }}
@@ -49,7 +65,6 @@ export default function LoginContent() {
             '& .MuiInputBase-input': { fontSize: '1.6rem' },
           }}
         />
-
         <LoginButton fullWidth onClick={handleLogin}>
           Log In
         </LoginButton>
