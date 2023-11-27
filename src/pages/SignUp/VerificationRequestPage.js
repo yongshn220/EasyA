@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
 import {verifyEmail} from "../../api/api";
 import HomeWrapper from "../../components/HomeWrapper";
@@ -7,7 +7,7 @@ import {Button} from "@mui/material";
 import {COLOR} from "../../util/util";
 
 
-export default function VerifyPage() {
+export default function VerificationRequestPage() {
   const location = useLocation();
   const [verifyStatus, setVerifyStatus] = useState(0)
 
@@ -16,20 +16,19 @@ export default function VerifyPage() {
     const token = queryParams.get('token');
 
     if (token && verifyStatus === 0) {
+      console.log("Try verify")
       verifyEmail(token).then((res) => {
         console.log(res)
-        if (res?.status_code === 200 || res?.status_code === 208) {
+        if (res?.status_code === 200 || res?.status_code === 208)
           setVerifyStatus(200)
-        }
-        else {
-          setVerifyStatus(400)
-        }
+        else
+          setVerifyStatus((prev) => (prev === 200)? 200 : 400)
       })
     }
     else {
       setVerifyStatus(400)
     }
-  }, [location]);
+  }, []);
 
   return (
     <HomeWrapper>
@@ -68,7 +67,7 @@ export default function VerifyPage() {
 
 const Base = styled('div')({
   display:'flex',
-  justifyContent:'center',
+  flexDirection:'column',
   width: '100%',
 });
 

@@ -58,6 +58,23 @@ export async function signup(email, password, major) {
 }
 
 
+export async function resendVerificationEmail(email) {
+  try {
+    const response = await fetch(`${serverURI}/account/resend`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Set the content type to JSON
+      },
+      body: JSON.stringify({email: email})
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}
+
+
 export async function verifyEmail(token) {
   const response = await fetch(`${serverURI}/account/verify?token=${token}`, {
     method: "GET"

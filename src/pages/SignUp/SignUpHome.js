@@ -1,6 +1,6 @@
 import SignUpContent from "./SignUpContent";
 import HomeWrapper from "../../components/HomeWrapper";
-import EmailVerification from "./EmailVerification";
+import VerificationSendConfirm from "./VerificationSendConfirm";
 import {useState} from "react";
 
 export default function SignUpHome() {
@@ -8,7 +8,7 @@ export default function SignUpHome() {
   const [finalEmail, setFinalEmail] = useState("")
   return (
     <HomeWrapper>
-      {(isSignedUp === false)? <SignUpContent setIsSignedUp={setIsSignedUp} setFinalEmail={setFinalEmail}/> : <EmailVerification email={finalEmail} setIsSignedUp={setIsSignedUp}/>}
+      {(isSignedUp === false)? <SignUpContent setIsSignedUp={setIsSignedUp} setFinalEmail={setFinalEmail}/> : <VerificationSendConfirm email={finalEmail} setIsSignedUp={setIsSignedUp}/>}
     </HomeWrapper>
   )
 }

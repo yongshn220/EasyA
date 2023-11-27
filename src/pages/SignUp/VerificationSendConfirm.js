@@ -2,12 +2,26 @@ import {styled} from "@mui/material/styles";
 import {Button} from "@mui/material";
 import {COLOR} from "../../util/util";
 import React from "react";
+import {resendVerificationEmail} from "../../api/api";
+import {useNavigate} from "react-router-dom";
 
 
-export default function EmailVerification({email, setIsSignedUp}) {
+export default function VerificationSendConfirm({email, setIsSignedUp}) {
+  const navigate = useNavigate()
+  function resendEmail() {
+    resendVerificationEmail(email).then((res) => {
+      if (res.status_code === 200) {
+        alert("Verification email has been sent again.")
+      }
+    })
+  }
 
   function resetSignUp() {
     setIsSignedUp(false)
+  }
+
+  function gotoLogin() {
+    navigate('/login')
   }
 
   return (
@@ -27,10 +41,14 @@ export default function EmailVerification({email, setIsSignedUp}) {
         <BodyText>
           Still can't find the email?
         </BodyText>
-        <ResendButton>Resend Email</ResendButton>
-        <Button onClick={resetSignUp} style={{color: 'black', fontSize:'1rem', marginTop:'1rem'}} onClick={resetSignUp} color="primary">
-          Sign Up again
-        </Button>
+        <ResendButton onClick={resendEmail} >Resend Email</ResendButton>
+        <ResendButton style={{marginTop:'1rem',}} onClick={resetSignUp} >sign up again</ResendButton>
+      </Content>
+      <Content>
+        <Title>
+          Verified successfully?
+        </Title>
+        <LoginButton onClick={gotoLogin}>LOGIN</LoginButton>
       </Content>
     </Base>
   )
@@ -39,7 +57,9 @@ export default function EmailVerification({email, setIsSignedUp}) {
 
 const Base = styled('div')({
   display:'flex',
+  flexDirection:'column',
   justifyContent:'center',
+  alignItems:'center',
   width: '100%',
 });
 
@@ -70,6 +90,17 @@ const BodyText = styled('div')({
 });
 
 const ResendButton = styled(Button)({
+  color: COLOR.mainYellow,
+  padding: '10px 0',
+  fontSize:'1.2rem',
+  width:'15rem',
+  border: `1px solid ${COLOR.mainYellow}`,
+  '&:hover': {
+    backgroundColor:COLOR.mainLightYellow10
+  },
+});
+
+const LoginButton = styled(Button)({
   backgroundColor: COLOR.mainYellow, // Use your theme color here
   color: 'white',
   padding: '10px 0',

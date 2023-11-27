@@ -10,7 +10,7 @@ import StorePost from "./pages/Store/StorePost";
 import React, {Suspense} from "react";
 import LoginHome from "./pages/Login/LoginHome";
 import SignUpHome from "./pages/SignUp/SignUpHome";
-import VerifyPage from "./pages/SignUp/VerifyPage";
+import VerificationRequestPage from "./pages/SignUp/VerificationRequestPage";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
               <Route path="/" element={<HomePage/>}/>
               <Route path="/login" element={<LoginHome/>}/>
               <Route path="/signup" element={<SignUpHome/>}/>
-              <Route path="/verify" element={<VerifyPage/>}/>
+              <Route path="/verify" element={<VerificationRequestPage/>}/>
               <Route path="/store" element={<StoreHome/>}/>
               <Route path="/store/post/:id" element={<StorePost/>}/>
               <Route path="/store/create" element={<StoreCreatePost/>}/>
