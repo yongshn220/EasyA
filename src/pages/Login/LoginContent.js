@@ -4,24 +4,30 @@ import { styled } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
 import {login} from "../../api/api";
-import {useSetRecoilState} from "recoil";
-import {userAccessTokenAtom} from "../../0.Recoil/accountState";
+import {useRecoilState} from "recoil";
+import {userAtom} from "../../0.Recoil/accountState";
 
 
 export default function LoginContent() {
-  const setUserAccessToken = useSetRecoilState(userAccessTokenAtom)
+  const [user, setUser] = useRecoilState(userAtom)
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false)
 
+  if (user.loggedIn) {
+    navigate('/')
+  }
 
   function handleLogin(event) {
     event.preventDefault();
     login(email, password).then((res) => {
       if (res.status_code === 200) {
-        setUserAccessToken(res.access_token)
-        console.log(res.access_token)
+        setUser({
+          loggedIn: true,
+          email: res.email,
+          accessToken: res.access_token
+        })
         navigate('/')
       }
       else {

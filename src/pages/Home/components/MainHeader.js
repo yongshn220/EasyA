@@ -1,9 +1,12 @@
 import {styled} from "@mui/material/styles";
-import {ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
+import {ContentWidthDesktop, InsideWidthDesktop, COLOR} from "../../../util/util";
+import Avatar from '@mui/material/Avatar';
 import {useNavigate} from "react-router-dom";
-
+import {userAtom} from "../../../0.Recoil/accountState";
+import {useRecoilValue} from "recoil";
 
 export default function MainHeader() {
+  const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
 
   function HandleStoreClick() {
@@ -22,6 +25,15 @@ export default function MainHeader() {
     navigate('/signup')
   }
 
+  function stringAvatar(name) {
+    return {
+      sx: {
+        bgcolor: COLOR.mainYellow,
+      },
+      children: `${name.split(' ')[0][0]}`,
+    };
+  }
+
   return (
     <Base>
       <Outside/>
@@ -33,8 +45,16 @@ export default function MainHeader() {
           <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
         </Center>
         <Side>
-          <MenuItem onClick={HandleLogin}>Login</MenuItem>
-          <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
+          {
+            (user.loggedIn === false) &&
+            <>
+              <MenuItem onClick={HandleLogin}>Login</MenuItem>
+              <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
+            </>
+          }
+          {
+            user.loggedIn && <Avatar {...stringAvatar(user?.email?.toUpperCase())} />
+          }
         </Side>
       </Inside>
       <Outside/>
@@ -56,6 +76,7 @@ const Base = styled('div')({
 const HomeTitle = styled('div')({
   display:'flex',
   justifyContent:'center',
+  alignItems:'center',
   fontSize: '2rem',
   fontWeight: '700',
   marginLeft:'2rem',
@@ -68,7 +89,7 @@ const MenuItem = styled('div')({
   fontSize: '1.6rem',
   fontWeight: '700',
   marginLeft:'2rem',
-  alignItems:'flex-end',
+  alignItems:'center',
   color: 'black',
   cursor:'pointer',
 });
