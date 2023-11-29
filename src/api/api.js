@@ -35,9 +35,6 @@ export async function postFeedback(feedback) {
 }
 
 
-
-
-
 export async function signup(email, password, major) {
   try {
     const response = await fetch(`${serverURI}/account/signup`, {
@@ -103,3 +100,45 @@ export async function login(email, password) {
     return { status_code: 400, error: error.message };
   }
 }
+
+export async function checkTokenValidity(accessToken) {
+  try {
+    const response = await fetch(`${serverURI}/account/token`, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      },
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}
+
+
+export async function createPost(user, images, title, price, description) {
+  try {
+    console.log(user)
+    const response = await fetch(`${serverURI}/post/create`, {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      body: JSON.stringify({
+        email: user.email,
+        images,
+        title,
+        price,
+        description,
+        comments: []
+      })
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}
+

@@ -1,13 +1,31 @@
 import {styled} from "@mui/material/styles";
-import {ContentWidthDesktop, InsideWidthDesktop, COLOR} from "../../../util/util";
-import Avatar from '@mui/material/Avatar';
+import {ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
 import {useNavigate} from "react-router-dom";
-import {userAtom} from "../../../0.Recoil/accountState";
-import {useRecoilValue} from "recoil";
+import {emptyUser, userAtom} from "../../../0.Recoil/accountState";
+import {useRecoilState} from "recoil";
+import AvatarMenu from "./AvatarMenu";
+import PopupMessage from "../../../components/PopupMessage";
+import {popupMessageAtom} from "../../../0.Recoil/utilState";
+import {useEffect} from "react";
+import {checkTokenValidity} from "../../../api/api";
 
 export default function MainHeader() {
-  const user = useRecoilValue(userAtom);
+  const [popupMessage, setPopupMessage] = useRecoilState(popupMessageAtom)
+  const [user, setUser] = useRecoilState(userAtom);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.loggedIn) {
+      checkTokenValidity(user.accessToken).then((res) => {
+        if (res.status_code !== 200) {
+          console.log("Token expired.")
+          setUser(emptyUser)
+          localStorage.removeItem("user")
+          navigate('/')
+        }
+      })
+    }
+  }, [user, navigate, setUser])
 
   function HandleStoreClick() {
     navigate('/store')
@@ -25,17 +43,11 @@ export default function MainHeader() {
     navigate('/signup')
   }
 
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: COLOR.mainYellow,
-      },
-      children: `${name.split(' ')[0][0]}`,
-    };
-  }
+
 
   return (
     <Base>
+      <PopupMessage state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message} severity={popupMessage.severity}/>
       <Outside/>
       <Inside>
         <Side>
@@ -53,7 +65,7 @@ export default function MainHeader() {
             </>
           }
           {
-            user.loggedIn && <Avatar {...stringAvatar(user?.email?.toUpperCase())} />
+            user.loggedIn && <AvatarMenu user={user}/>
           }
         </Side>
       </Inside>

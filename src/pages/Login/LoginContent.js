@@ -23,11 +23,13 @@ export default function LoginContent() {
     event.preventDefault();
     login(email, password).then((res) => {
       if (res.status_code === 200) {
-        setUser({
+        const _user = {
           loggedIn: true,
           email: res.email,
           accessToken: res.access_token
-        })
+        }
+        setUser(_user)
+        localStorage.setItem('user', JSON.stringify(_user))
         navigate('/')
       }
       else {

@@ -1,21 +1,25 @@
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
-import {TextField} from "@mui/material";
+import {InputAdornment, TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useRecoilState} from "recoil";
-import {tpostListAtom} from "../../0.Recoil/postState";
-import {useNavigate} from "react-router-dom"; // Import the delete icon
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {useNavigate} from "react-router-dom";
+import {userAtom} from "../../0.Recoil/accountState";
+import {createPost} from "../../api/api";
+import {popupMessageAtom} from "../../0.Recoil/utilState"; // Import the delete icon
 
 
 export default function StoreCreatePost() {
-  const [tpostList, setTPostList] = useRecoilState(tpostListAtom)
+  const user = useRecoilValue(userAtom)
+  const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -31,33 +35,36 @@ export default function StoreCreatePost() {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const files = Array.from(e.target.files);
+    const totalImages = images.length + files.length;
+
+    if (totalImages <= 5) {
+      files.forEach(file => {
+        if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImages(prevImages => [...prevImages, reader.result]);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+    else {
+      console.error("Cannot upload more than 5 images");
     }
   };
 
-  const handleDeleteImage = () => {
-    setImage(null);
+  const handleDeleteImage = (index) => {
+    setImages(images => images.filter((_, i) => i !== index));
   };
 
   function handlePost() {
-    // Temp
-    const id = tpostList.length + 2
-    const post = {
-      img: image,
-      id,
-      userId: id,
-      title,
-      price,
-      description,
-    }
-    setTPostList([...tpostList, post])
-    navigate('/store')
+    createPost(user, images, title, price, description).then((res) => {
+      if (res.status_code === 200) {
+        setPopupMessage({state: true, message: "Your post uploaded successfully.", severity: "info"})
+        navigate('/store');
+      }
+    });
   }
 
   return(
@@ -67,30 +74,38 @@ export default function StoreCreatePost() {
           <Title>Sell an Item</Title>
         </TitleArea>
         <Content>
-          <ImageBox style={{ backgroundImage: `url(${image})` }}>
-            {image && (
-              <DeleteButton onClick={handleDeleteImage}>
-                <DeleteIcon style={{fontSize:'2rem'}}/>
-              </DeleteButton>
-            )}
-            {!image && (
-              <label htmlFor="file-input">
-                <UploadButton variant="contained" component="span">
-                  Upload Image
-                </UploadButton>
-              </label>
-            )}
+          <ImageArea>
+            {
+              images.map((img, index) => (
+              <ImageBox key={index} style={{ backgroundImage: `url(${img})` }}>
+                <DeleteButton onClick={() => handleDeleteImage(index)}>
+                  <DeleteIcon style={{ fontSize: '2rem' }} />
+                </DeleteButton>
+              </ImageBox>
+              ))
+            }
             <input
               type="file"
               id="file-input"
               style={{ display: 'none' }}
               accept="image/*"
               onChange={handleImageChange}
+              multiple
             />
-          </ImageBox>
+          </ImageArea>
+          {
+            (images.length < 5) && (
+              <label htmlFor="file-input">
+                <UploadButton variant="contained" component="span">
+                  Upload Image
+                </UploadButton>
+              </label>
+            )
+          }
+          <div style={{fontSize:'1.6rem', fontWeight:'600', color:COLOR.mainYellow}}>{images.length}/5</div>
           <TextField
             id="outlined-multiline-flexible"
-            label="Title"
+            label={<div style={{backgroundColor:'white', paddingRight:'5px'}}>Title</div>}
             maxRows={4}
             fullWidth
             autoComplete="off"
@@ -99,26 +114,35 @@ export default function StoreCreatePost() {
             sx={{
               marginTop:'2rem',
               '& .MuiInputBase-input': { fontSize: '1.6rem' },
+              '& .MuiInputLabel-root': { fontSize: '1.6rem' },
             }}
           />
           <TextField
             id="price-input"
             type="number"
-            label="Price"
+            label={<div style={{backgroundColor:'white', paddingRight:'5px'}}>Price</div>}
             maxRows={4}
             fullWidth
             autoComplete="off"
             value={price}
             onChange={handlePriceChange}
-            InputProps={{ inputProps: { min: 0 } }}
+            InputProps={{
+              inputProps: { min: 0 },
+              startAdornment: (
+                <InputAdornment position="start">
+                  <span style={{ fontSize: '1.6rem' }}>$</span>
+                </InputAdornment>
+              )
+            }}
             sx={{
               marginTop:'2rem',
               '& .MuiInputBase-input': { fontSize: '1.6rem' },
+              '& .MuiInputLabel-root': { fontSize: '1.6rem' },
             }}
           />
           <TextField
             id="outlined-multiline-static"
-            label="Description"
+            label={<div style={{backgroundColor:'white', paddingRight:'5px'}}>Description</div>}
             multiline
             rows={15}
             fullWidth
@@ -129,6 +153,7 @@ export default function StoreCreatePost() {
               marginTop:'2rem',
               marginBottom:'2rem',
               '& .MuiInputBase-input': { fontSize: '1.6rem' },
+              '& .MuiInputLabel-root': { fontSize: '1.6rem' },
             }}
           />
           <Button onClick={handlePost}>Post</Button>
@@ -186,19 +211,32 @@ const Button = styled('div')({
   cursor:'pointer',
 })
 
+const ImageArea = styled('div')({
+  position:'relative',
+  display:'flex',
+  justifyContent:'left',
+  alignItems:'center',
+  width: '100%',
+  height: '20rem',
+  border: `1px solid ${COLOR.lineGray}`,
+  padding: '0.5rem',
+  boxSizing: 'border-box',
+  marginBottom:'2rem',
+});
+
 const ImageBox = styled('div')({
   position:'relative',
   display:'flex',
   justifyContent:'center',
   alignItems:'center',
-  width: '100%',
-  height: '20rem',
+  width: '20%',
+  height: '100%',
   borderRadius:'5px',
-  border: `1px solid ${COLOR.lineGray}`,
+  margin:'1px',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
-});
+})
 
 const UploadButton = styled('div')({
   display:'flex',
@@ -219,9 +257,9 @@ const UploadButton = styled('div')({
 
 const DeleteButton = styled('button')({
   position: 'absolute',
-  right: '1rem',
-  bottom: '1rem',
-  backgroundColor: 'white',
+  right: '0.5rem',
+  bottom: '0.5rem',
+  backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
 });
