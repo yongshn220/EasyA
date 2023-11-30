@@ -1,26 +1,58 @@
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
-import {Checkbox, Input} from "@mui/material";
-import {COLOR} from "../../util/util";
 import Comment from "./Comment";
 import {useParams} from "react-router-dom";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
 import CreateComment from "./CreateComment";
+import { useSwipeable } from 'react-swipeable';
+import {useState} from "react";
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 export default function StorePost() {
-  const { id } = useParams();
-  const post = useRecoilValue(storePostAtom(Number(id)))
+  const { _id } = useParams();
+  const post = useRecoilValue(storePostAtom(_id))
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => nextImage(),
+    onSwipedRight: () => prevImage(),
+    preventDefaultTouchmoveEvent: true,
+    trackMouse: true
+  });
+
+  if (!post) return <></>
+
+  function nextImage() {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.images.length);
+  }
+
+  function prevImage() {
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? post.images.length - 1 : prevIndex - 1))
+  }
+
+  function ImageDots({ length, currentIndex }) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        {Array.from({ length }, (_, index) => (
+          <Dot key={index} active={index === currentIndex} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <HomeWrapper>
       <Base>
-        {/*<TitleArea>*/}
-        {/*  <Title></Title>*/}
-        {/*</TitleArea>*/}
-        <Content>
-          <ImageBox style={{ backgroundImage: `url(${post.img})` }}/>
+        <Content {...handlers}>
+          <ImageArea>
+            <LeftButton onClick={prevImage}/>
+            <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
+            <RightButton onClick={nextImage}/>
+          </ImageArea>
+          <ImageDots length={post.images.length} currentIndex={currentImageIndex} />
           <TextArea>{post.title}</TextArea>
           <TextArea>${post.price}</TextArea>
           <DescriptionArea>
@@ -46,18 +78,14 @@ const Base = styled('div')({
   marginBottom:'2rem',
 });
 
-const TitleArea = styled('div')({
+const Content = styled('div')({
   display:'flex',
   flexDirection:'column',
-  height: '6rem',
-  marginLeft:'1rem',
-  justifyContent:'center',
-});
-
-const Title = styled('div')({
-  fontSize: '2rem',
-  fontWeight:'700',
-  textAlign:'left',
+  flex: 1,
+  padding: '4rem',
+  marginBottom: '2rem',
+  alignItems: 'center',
+  backgroundColor:'white',
 });
 
 const TextArea = styled('div')({
@@ -76,21 +104,11 @@ const DescriptionArea = styled('div')({
   display:'flex',
   flexDirection:'column',
   fontSize: '1.6rem',
-  height: '20rem',
+  height: 'auto',
   width:'100%',
   marginLeft: '1rem',
   textAlign:'left',
   paddingTop:'2rem',
-});
-
-const Content = styled('div')({
-  display:'flex',
-  flexDirection:'column',
-  flex: 1,
-  padding: '2rem',
-  marginBottom: '2rem',
-  alignItems: 'center',
-  backgroundColor:'white',
 });
 
 const CommentArea = styled('div')({
@@ -100,10 +118,43 @@ const CommentArea = styled('div')({
   marginTop:'1rem',
 });
 
+const ImageArea = styled('div')({
+  display:'flex',
+  alignItems:'center',
+  justifyContent:'center',
+  width:'100%',
+});
+
+
 const ImageBox = styled('div')({
   width: '100%',
   height: '40rem',
-  marginBottom: '3rem',
+  marginBottom: '1rem',
+  backgroundColor:'#2d2d2d',
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image
+  backgroundSize: '100% auto', // Adjusts the size to maintain aspect ratio
 });
+
+const LeftButton = styled(KeyboardArrowLeftIcon)({
+  position:'absolute',
+  left:'0.5rem',
+  fontSize:'3rem',
+  cursor:'pointer'
+});
+
+const RightButton = styled(KeyboardArrowRightIcon)({
+  position:'absolute',
+  right:'0.5rem',
+  fontSize:'3rem',
+  cursor:'pointer'
+});
+
+const Dot = styled('div')(({ active }) => ({
+  height: '0.8rem',
+  width: '0.8rem',
+  backgroundColor: active ? '#757575' : '#d5d5d5', // Active dot is darker
+  borderRadius: '50%',
+  display: 'inline-block',
+  margin: '5px',
+}));

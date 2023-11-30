@@ -1,5 +1,6 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
 import {TServer} from "../pages/TempServer";
+import {getPost, getPosts} from "../api/api";
 
 
 export const tpostListAtom = atom({
@@ -11,9 +12,13 @@ export const storePostIdsAtom = atom({
   key: 'storePostIdsAtom',
   default: selector({
     key: 'postIdsAtom/Default',
-    get: async ({get}) => {
-      const postList = get(tpostListAtom)
-      return postList.map((post) => post.id)
+    get: async () => {
+      const res = await getPosts()
+      if (res.status_code === 200) {
+        console.log(res.posts)
+        return res.posts.map(post => post._id)
+      }
+      else return []
     }
   })
 })
@@ -22,9 +27,13 @@ export const storePostAtom = atomFamily({
   key: 'storePostAtom',
   default: selectorFamily({
     key: 'postAtom/Default',
-    get: (id) => async ({get}) => {
-      const postList = get(tpostListAtom)
-      return postList.find((post) => post.id === id)
+    get: (_id) => async () => {
+      const res = await getPost(_id)
+      console.log(res)
+      if (res.status_code === 200) {
+        return res.post
+      }
+      else return null
     },
   })
 });

@@ -142,3 +142,28 @@ export async function createPost(user, images, title, price, description) {
   }
 }
 
+export async function getPosts() {
+  try {
+    const response = await fetch(`${serverURI}/post/all`, {
+      method: "GET",
+    })
+    console.log(response)
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
+
+export async function getPost(_id) {
+  try {
+    const response = await fetch(`${serverURI}/post/one/?_id=${_id}`, {
+      method: "GET",
+    })
+    console.log(response.post)
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}

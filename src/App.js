@@ -24,7 +24,7 @@ function App() {
               <Route path="/signup" element={<SignUpHome/>}/>
               <Route path="/verify" element={<VerificationRequestPage/>}/>
               <Route path="/store" element={<StoreHome/>}/>
-              <Route path="/store/post/:id" element={<StorePost/>}/>
+              <Route path="/store/post/:_id" element={<StorePost/>}/>
               <Route path="/store/create" element={<StoreCreatePost/>}/>
               <Route path="/easya" element={<EasyAHomeWrapper/>}/>
               <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>

@@ -14,6 +14,7 @@ import {userAtom} from "../../0.Recoil/accountState";
 export default function StoreHome() {
   const user = useRecoilValue(userAtom)
   const storePostIds = useRecoilValue(storePostIdsAtom)
+  console.log(storePostIds)
   const navigate = useNavigate()
 
   function handleCreatePost() {

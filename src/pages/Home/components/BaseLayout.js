@@ -26,7 +26,6 @@ const Base = styled('div')({
   width: '100vw',
   minHeight: '100vh',
   color:'black',
-  backgroundColor:'#E1E1E1'
 });
 
 const Inside = styled('div')({
@@ -45,5 +44,5 @@ const OutSide = styled('div')({
 const Body = styled('div')({
   display: 'flex',
   flex: 1,
-  backgroundColor:'#E1E1E1'
+  backgroundColor:'#f3f3f3'
 });

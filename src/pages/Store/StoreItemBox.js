@@ -1,18 +1,21 @@
 import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
-import {useNavigate} from "react-router-dom";
 
 
 export default function StoreItemBox({onClick, id}) {
-  const storePost = useRecoilValue(storePostAtom(id))
+  const post = useRecoilValue(storePostAtom(id))
+
+  if (!post) return <></>
+
+  console.log(post)
 
   return(
     <Base onClick={onClick}>
-      <ImageBox style={{ backgroundImage: `url(${storePost.img})` }}>
+      <ImageBox style={{ backgroundImage: `url(${post.images[0]})` }}>
       </ImageBox>
-      <Title>{storePost?.title}</Title>
-      <Price>${storePost?.price}</Price>
+      <Title>{post?.title}</Title>
+      <Price>${post?.price}</Price>
     </Base>
   )
 }
@@ -30,9 +33,10 @@ const ImageBox = styled('div')({
   width:'100%',
   aspectRatio: '1/1',
   marginBottom:'0.5rem',
-  backgroundColor:'#c3e3fa',
+  backgroundColor:'#5e5e5e',
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image
+  backgroundSize: 'auto 100%', // Adjusts the size to maintain aspect ratio
 });
 
 const Title = styled('div')({
