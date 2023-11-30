@@ -24,8 +24,8 @@ export default function LoginContent() {
     login(email, password).then((res) => {
       if (res.status_code === 200) {
         const _user = {
+          ...res.user,
           loggedIn: true,
-          email: res.email,
           accessToken: res.access_token
         }
         setUser(_user)

@@ -1,6 +1,6 @@
 import {atom} from "recoil";
 
-export const emptyUser = {email: "", accessToken: "", loggedIn: false}
+export const emptyUser = {loggedIn: false, accessToken: "", email: "", major: ""}
 
 export const userAtom = atom({
   key: 'userAtom',

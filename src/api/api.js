@@ -167,3 +167,51 @@ export async function getPost(_id) {
     return { status_code: 400, error: error.message}
   }
 }
+
+export async function addComment(user, postId, text) {
+  try {
+    const response = await fetch(`${serverURI}/comment/add_comment`, {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      body: JSON.stringify({
+        postId: postId.toString(),
+        comment: {
+          username: `${user.major} major`,
+          email: user.email,
+          text: text,
+          replies: [],
+        }
+      })
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}
+
+
+export async function addReply(user, commentId, text) {
+  try {
+    const response = await fetch(`${serverURI}/comment/add_reply`, {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      body: JSON.stringify({
+        commentId: commentId,
+        email: user.email,
+        username: user.major,
+        text: text,
+      })
+    })
+    return await response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message };
+  }
+}

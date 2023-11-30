@@ -28,7 +28,6 @@ const Base = styled('div')({
   paddingTop:'1rem',
   paddingBottom:'1rem',
   borderBottom: `0.5px solid ${COLOR.lineGray}`,
-  backgroundColor:'white',
 });
 
 const InnerBase = styled('div')({
@@ -39,7 +38,6 @@ const InnerBase = styled('div')({
   marginTop:'1rem',
   paddingTop:'1rem',
   borderLeft: `2px solid ${COLOR.lineGray}`,
-  backgroundColor:'white',
 });
 
 const User = styled('div')({

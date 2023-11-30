@@ -33,6 +33,7 @@ const ImageBox = styled('div')({
   width:'100%',
   aspectRatio: '1/1',
   marginBottom:'0.5rem',
+  borderRadius:'5px',
   backgroundColor:'#5e5e5e',
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image
@@ -42,10 +43,14 @@ const ImageBox = styled('div')({
 const Title = styled('div')({
   fontSize:'1.6rem',
   textAlign:'left',
+  paddingLeft:'0.5rem',
+  paddingRight:'0.5rem',
 });
 
 const Price = styled('div')({
   fontSize:'1.6rem',
   fontWeight:'600',
   textAlign:'left',
+  paddingLeft:'0.5rem',
+  paddingRight:'0.5rem',
 });

@@ -59,7 +59,7 @@ export default function StorePost() {
             {post.description}
           </DescriptionArea>
         </Content>
-        <CreateComment/>
+        <CreateComment postId={post._id}/>
         <CommentArea>
           {
             post.comments.map(comment => (
@@ -83,8 +83,10 @@ const Content = styled('div')({
   flexDirection:'column',
   flex: 1,
   padding: '4rem',
+  marginTop:'1rem',
   marginBottom: '2rem',
   alignItems: 'center',
+  borderRadius: '5px',
   backgroundColor:'white',
 });
 
@@ -115,7 +117,10 @@ const CommentArea = styled('div')({
   display:'flex',
   flexDirection:'column',
   flex: 1,
-  marginTop:'1rem',
+  marginTop:'2rem',
+  width:'100%',
+  borderRadius:'5px',
+  backgroundColor:'white'
 });
 
 const ImageArea = styled('div')({
@@ -130,6 +135,7 @@ const ImageBox = styled('div')({
   width: '100%',
   height: '40rem',
   marginBottom: '1rem',
+  borderRadius:'5px',
   backgroundColor:'#2d2d2d',
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image

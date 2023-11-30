@@ -2,11 +2,16 @@ import {Checkbox, Input} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {styled} from "@mui/material/styles";
 import {useState} from "react";
+import {addComment} from "../../api/api";
+import {useRecoilValue} from "recoil";
+import {userAtom} from "../../0.Recoil/accountState";
 
 
-export default function CreateComment() {
+export default function CreateComment({postId}) {
+  const user = useRecoilValue(userAtom)
   const [commentText, setCommentText] = useState('');
   const [isSecret, setIsSecret] = useState(false);
+
 
   const handleInputChange = (event) => {
     setCommentText(event.target.value);
@@ -16,10 +21,15 @@ export default function CreateComment() {
     setIsSecret(event.target.checked);
   };
 
-  const handleCommentSubmit = () => {
-    // Here you can handle the comment submission logic
-    console.log('Comment Text:', commentText);
-    console.log('Is Secret:', isSecret);
+  const HandleAddComment = () => {
+    addComment(user, postId, commentText).then(res =>{
+      if (res.status_code === 200) {
+        console.log("suc", res)
+      }
+      else {
+        console.log("fail", res)
+      }
+    })
 
     // Reset fields after submission
     setCommentText('');
@@ -38,10 +48,9 @@ export default function CreateComment() {
         value={commentText}
         onChange={handleInputChange}
         inputProps={{maxLength: 100,}}
-        style={{fontSize:'1.6rem', height:'5rem', paddingLeft:'1rem', marginBottom:'1rem', backgroundColor:'white'}}
+        style={{fontSize:'1.6rem', height:'5rem', paddingLeft:'1rem', marginBottom:'1rem', backgroundColor:'white', borderRadius: '5px',}}
       />
       <div style={{flex: 1, display: 'flex', justifyContent:'flex-end', fontSize:'1.2rem', fontWeight:'600'}}>
-        <div style={{flex:1}}/>
         <div style={{flex:0}}>
           <Checkbox
             defaultChecked
@@ -60,7 +69,7 @@ export default function CreateComment() {
         </div>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight:'1rem', marginTop:'1rem'}}>
-        <Button onClick={handleCommentSubmit}>Comment</Button>
+        <Button onClick={HandleAddComment}>Comment</Button>
       </div>
     </Base>
   )
@@ -71,6 +80,9 @@ const Base = styled('div')({
   display:'flex',
   flexDirection:'column',
   flex: 1,
+  border: '3px solid white',
+  borderRadius:'5px',
+  padding:'2rem',
 });
 
 const Button = styled('div')({
@@ -81,6 +93,7 @@ const Button = styled('div')({
   height:'3rem',
   alignItems:'center',
   justifyContent:'center',
+  borderRadius:'5px',
   backgroundColor: COLOR.mainYellow,
   '&:hover': {
     backgroundColor: COLOR.mainLightYellow,

@@ -78,11 +78,11 @@ const Button = styled('div')({
   height:'3rem',
   alignItems:'center',
   justifyContent:'center',
+  borderRadius:'5px',
+  color: 'white',
+  cursor:'pointer',
   backgroundColor: COLOR.mainYellow,
   '&:hover': {
     backgroundColor: COLOR.mainLightYellow,
   },
-  color: 'white',
-  borderRadius:'2px',
-  cursor:'pointer',
 })
