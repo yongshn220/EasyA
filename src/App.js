@@ -11,6 +11,7 @@ import React, {Suspense} from "react";
 import LoginHome from "./pages/Login/LoginHome";
 import SignUpHome from "./pages/SignUp/SignUpHome";
 import VerificationRequestPage from "./pages/SignUp/VerificationRequestPage";
+import ProfileHome from "./pages/Profile/ProfileHome";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path="/login" element={<LoginHome/>}/>
               <Route path="/signup" element={<SignUpHome/>}/>
               <Route path="/verify" element={<VerificationRequestPage/>}/>
+              <Route path="/profile" element={<ProfileHome/>}/>
               <Route path="/store" element={<StoreHome/>}/>
               <Route path="/store/post/:_id" element={<StorePost/>}/>
               <Route path="/store/create" element={<StoreCreatePost/>}/>

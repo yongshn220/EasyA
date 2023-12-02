@@ -43,8 +43,6 @@ export default function MainHeader() {
     navigate('/signup')
   }
 
-
-
   return (
     <Base>
       <PopupMessage state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message} severity={popupMessage.severity}/>

@@ -12,8 +12,7 @@ export default function StoreItemBox({onClick, id}) {
 
   return(
     <Base onClick={onClick}>
-      <ImageBox style={{ backgroundImage: `url(${post.images[0]})` }}>
-      </ImageBox>
+      <ImageBox style={{ backgroundImage: `url(${post.images[0]})` }}/>
       <Title>{post?.title}</Title>
       <Price>${post?.price}</Price>
     </Base>
@@ -23,9 +22,8 @@ export default function StoreItemBox({onClick, id}) {
 const Base = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-  flex:1,
+  flex: "0 0 15rem",
   padding:'0.5rem',
-  backgroundColor:'white',
   cursor:'pointer',
 });
 

@@ -28,13 +28,18 @@ export default function AvatarMenu({user}) {
     navigate('/')
   }
 
+  function gotoProfile(popupState) {
+    popupState.close()
+    navigate('/profile')
+  }
+
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <React.Fragment>
             <Avatar {...stringAvatar(user?.email?.toUpperCase())} {...bindTrigger(popupState)}/>
           <Menu {...bindMenu(popupState)}>
-            <MenuItem onClick={popupState.close} sx={{fontSize:'1.6rem'}}>Profile</MenuItem>
+            <MenuItem onClick={() => gotoProfile(popupState)} sx={{fontSize:'1.6rem'}}>Profile</MenuItem>
             <MenuItem onClick={() => logout(popupState)} sx={{fontSize:'1.6rem'}}>Logout</MenuItem>
           </Menu>
         </React.Fragment>
