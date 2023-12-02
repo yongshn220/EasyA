@@ -120,7 +120,7 @@ export async function checkTokenValidity(accessToken) {
 export async function createPost(user, images, title, price, description) {
   try {
     console.log(user)
-    const response = await fetch(`${serverURI}/post/create`, {
+    const response = await fetch(`${serverURI}/post/create_post`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
@@ -144,10 +144,9 @@ export async function createPost(user, images, title, price, description) {
 
 export async function getPosts() {
   try {
-    const response = await fetch(`${serverURI}/post/all`, {
+    const response = await fetch(`${serverURI}/post/get_post_ids`, {
       method: "GET",
     })
-    console.log(response)
     return response.json()
   }
   catch (error) {
@@ -155,10 +154,13 @@ export async function getPosts() {
   }
 }
 
-export async function getPost(_id) {
+export async function getPost(user, _id) {
   try {
-    const response = await fetch(`${serverURI}/post/one/?_id=${_id}`, {
+    const response = await fetch(`${serverURI}/post/get_post?_id=${_id}`, {
       method: "GET",
+      headers: {
+        'Authorization': `Bearer ${user.accessToken}`
+      },
     })
     console.log(response.post)
     return response.json()
@@ -168,7 +170,7 @@ export async function getPost(_id) {
   }
 }
 
-export async function addComment(user, postId, text) {
+export async function addComment(user, postId, text, is_secret) {
   try {
     const response = await fetch(`${serverURI}/comment/add_comment`, {
       method: "POST",
@@ -183,6 +185,7 @@ export async function addComment(user, postId, text) {
           email: user.email,
           text: text,
           replies: [],
+          is_secret: is_secret,
         }
       })
     })
@@ -194,7 +197,7 @@ export async function addComment(user, postId, text) {
 }
 
 
-export async function addReply(user, commentId, text) {
+export async function addReply(user, postId, commentId, text, is_secret) {
   try {
     const response = await fetch(`${serverURI}/comment/add_reply`, {
       method: "POST",
@@ -203,10 +206,14 @@ export async function addReply(user, commentId, text) {
         'Authorization': `Bearer ${user.accessToken}`
       },
       body: JSON.stringify({
-        commentId: commentId,
-        email: user.email,
-        username: user.major,
-        text: text,
+        postId: postId.toString(),
+        commentId: commentId.toString(),
+        reply: {
+          username: `${user.major} major`,
+          email: user.email,
+          text: text,
+          is_secret: is_secret,
+        }
       })
     })
     return await response.json()

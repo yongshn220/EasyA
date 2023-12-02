@@ -1,21 +1,59 @@
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
+import {useMemo, useState} from "react";
+import CreateReply from "./CreateReply";
+import {useRecoilValue} from "recoil";
+import {userAtom} from "../../0.Recoil/accountState";
+import LockIcon from '@mui/icons-material/Lock';
+import Tooltip from '@mui/material/Tooltip';
 
 
-export default function Comment({comment}) {
+export default function Comment({postId, comment}) {
+  const user = useRecoilValue(userAtom)
+  const [openReply, setOpenReply] = useState(false)
+
+  const isMySecretComment = useMemo(() => (
+    comment.is_secret && comment.email === user.email
+  ), [comment, user])
+
   return (
     <Base>
       <User>{comment.username}</User>
-      <Text>{comment.text}</Text>
-      <Reply>Reply</Reply>
+      <Text>
+        {
+          isMySecretComment &&
+          <Tooltip
+            title="Only author and commenter can see it."
+            componentsProps={{tooltip: {sx: {fontSize: '1.2rem'}}}}
+            sx={{ cursor: 'pointer', marginRight:'0.5rem' }}
+          >
+            <LockIcon/>
+          </Tooltip>
+        }
+        {comment.text}
+      </Text>
+      <Reply onClick={() => setOpenReply(!openReply)}>Reply</Reply>
       {
         comment.replies.map(reply => (
           <InnerBase>
             <User>{reply.username}</User>
-            <Text>{reply.text}</Text>
+            <Text>
+              {
+                isMySecretComment &&
+                <Tooltip
+                  title="Only author and commenter can see it."
+                  componentsProps={{tooltip: {sx: {fontSize: '1.2rem'}}}}
+                  sx={{ cursor: 'pointer', marginRight:'0.5rem' }}
+                >
+                  <LockIcon/>
+                </Tooltip>
+              }
+              {reply.text}
+            </Text>
           </InnerBase>
         ))
       }
+      { openReply && <CreateReply postId={postId} commentId={comment._id}/> }
     </Base>
   )
 }
@@ -61,4 +99,5 @@ const Reply = styled('div')({
   textAlign:'left',
   color: COLOR.fontGray50,
   marginTop:'0.5rem',
+  cursor:'pointer',
 })

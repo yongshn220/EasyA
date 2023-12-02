@@ -2,27 +2,27 @@ import {Checkbox, Input} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {styled} from "@mui/material/styles";
 import {useState} from "react";
-import {addComment} from "../../api/api";
+import {addReply} from "../../api/api";
 import {useRecoilValue} from "recoil";
 import {userAtom} from "../../0.Recoil/accountState";
 
 
-export default function CreateComment({postId}) {
+export default function CreateReply({postId, commentId}) {
   const user = useRecoilValue(userAtom)
-  const [commentText, setCommentText] = useState('');
+  const [replyText, setReplyText] = useState('');
   const [isSecret, setIsSecret] = useState(false);
 
 
   const handleInputChange = (event) => {
-    setCommentText(event.target.value);
+    setReplyText(event.target.value);
   };
 
   const handleCheckboxChange = (event) => {
     setIsSecret(event.target.checked);
   };
 
-  const HandleAddComment = () => {
-    addComment(user, postId, commentText, isSecret).then(res =>{
+  const HandleAddReply = () => {
+    addReply(user, postId, commentId, replyText, isSecret).then(res =>{
       if (res.status_code === 200) {
         console.log("suc", res)
       }
@@ -32,7 +32,7 @@ export default function CreateComment({postId}) {
     })
 
     // Reset fields after submission
-    setCommentText('');
+    setReplyText('');
     setIsSecret(false);
   };
 
@@ -41,11 +41,11 @@ export default function CreateComment({postId}) {
     <Base>
       <Input
         id="outlined-multiline-flexible"
-        placeholder="Add a comment..."
+        placeholder="Add a reply..."
         disableUnderline
         fullWidth
         autoComplete="off"
-        value={commentText}
+        value={replyText}
         onChange={handleInputChange}
         inputProps={{maxLength: 100,}}
         style={{fontSize:'1.6rem', height:'5rem', paddingLeft:'1rem', marginBottom:'1rem', backgroundColor:'white', borderRadius: '5px',
@@ -62,7 +62,7 @@ export default function CreateComment({postId}) {
         </div>
         <div style={{display:'flex', flex: '0 0 12rem', flexDirection:'column', justifyContent:'center'}}>
           <div style={{display: 'inline-block', fontSize:'1.2rem', fontWeight:'700', color:COLOR.fontGray80}}>
-            Secret Comment
+            Secret Reply
           </div>
           <div style={{display: 'inline-block', fontSize:'1rem', fontWeight:'600', color:COLOR.fontGray50}}>
             Only seller can see it
@@ -70,7 +70,7 @@ export default function CreateComment({postId}) {
         </div>
       </div>
       <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', marginRight:'1rem', marginTop:'1rem'}}>
-        <Button onClick={HandleAddComment}>Comment</Button>
+        <Button onClick={HandleAddReply}>Reply</Button>
       </div>
     </Base>
   )

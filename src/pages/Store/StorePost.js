@@ -63,7 +63,7 @@ export default function StorePost() {
         <CommentArea>
           {
             post.comments.map(comment => (
-              <Comment comment={comment}/>
+              <Comment postId={post._id} comment={comment}/>
             ))
           }
         </CommentArea>
