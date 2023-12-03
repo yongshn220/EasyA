@@ -8,15 +8,18 @@ import {useRecoilValue} from "recoil";
 import StoreItemBox from "../Store/StoreItemBox";
 import {myStorePostIdsAtom} from "../../0.Recoil/postState";
 import ProfileSetting from "./ProfileSetting";
+import {Suspense} from "react";
+import Grid from "@mui/material/Grid";
+import {useNavigate} from "react-router-dom";
 
 
 export default function ProfileHome() {
   const user = useRecoilValue(userAtom)
   const postIds = useRecoilValue(myStorePostIdsAtom(user.email))
-  console.log(postIds)
+  const navigate = useNavigate()
 
-  function handlePostClick() {
-
+  function handlePostClick(id) {
+    navigate(`/store/post/${id}`)
   }
 
   return (
@@ -29,11 +32,17 @@ export default function ProfileHome() {
           </CommunityMenu>
         </ProfileArea>
         <Content>
-          {
-            postIds.map(id => (
-              <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
-            ))
-          }
+          <Grid container>
+            {
+              postIds.map((id) => (
+                <Suspense fallback={(<div>loading</div>)}>
+                  <Grid item xs={3}>
+                    <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
+                  </Grid>
+                </Suspense>
+              ))
+            }
+          </Grid>
         </Content>
       </Base>
     </HomeWrapper>
@@ -78,9 +87,8 @@ const MenuItem = styled('div')({
 
 const Content = styled('div')({
   display: 'flex',
-  height:'25rem',
   borderRadius: '5px',
-  padding:'2rem',
+  padding:'1rem',
   boxSizing: 'border-box',
   backgroundColor:'white',
 });

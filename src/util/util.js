@@ -38,3 +38,17 @@ export const whiteYellowInputFieldStyle = {
     color: 'white', // Change this to your desired label color
   },
 };
+
+
+export function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: COLOR.mainYellow,
+      cursor:'pointer',
+      width:'7rem',
+      height: '7rem',
+      margin: '2rem',
+    },
+    children: `${name.split(' ')[0][0]}`,
+  };
+}

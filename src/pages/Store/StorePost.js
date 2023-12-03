@@ -9,7 +9,24 @@ import { useSwipeable } from 'react-swipeable';
 import {useState} from "react";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import MenuIcon from '@mui/icons-material/Menu';
+import Avatar from "@mui/material/Avatar";
+import {COLOR} from "../../util/util";
+import * as React from "react";
 
+
+export function stringAvatar(name) {
+  return {
+    sx: {
+      bgcolor: COLOR.mainYellow,
+      cursor:'pointer',
+      width:'4rem',
+      height: '4rem',
+      marginRight:'2rem',
+    },
+    children: `${name.split(' ')[0][0]}`,
+  };
+}
 
 export default function StorePost() {
   const { _id } = useParams();
@@ -47,6 +64,20 @@ export default function StorePost() {
     <HomeWrapper>
       <Base>
         <Content {...handlers}>
+          <Header>
+            <HeaderProfile>
+              <HeaderAuthorInfo>
+                <Avatar {...stringAvatar(post.email?.toUpperCase())} />
+                <AuthorName>CSE Major</AuthorName>
+              </HeaderAuthorInfo>
+              <HeaderPostInfo>
+                12/21 14:23
+              </HeaderPostInfo>
+            </HeaderProfile>
+            <HeaderMenu>
+              <MenuIcon sx={{fontSize:'2rem'}}/>
+            </HeaderMenu>
+          </Header>
           <ImageArea>
             <LeftButton onClick={prevImage}/>
             <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
@@ -78,6 +109,7 @@ const Base = styled('div')({
   marginBottom:'2rem',
 });
 
+
 const Content = styled('div')({
   display:'flex',
   flexDirection:'column',
@@ -89,6 +121,43 @@ const Content = styled('div')({
   borderRadius: '5px',
   backgroundColor:'white',
 });
+
+const Header = styled('div')({
+  display:'flex',
+  width:'100%',
+  height:'7rem',
+})
+
+const HeaderProfile = styled('div')({
+  display:'flex',
+  flexDirection: 'column',
+  flex: 1,
+})
+
+const HeaderAuthorInfo = styled('div')({
+  display:'flex',
+  marginBottom:'1rem',
+  flex: 1,
+})
+
+const AuthorName = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  fontSize:'1.6rem',
+  fontWeight:'600',
+})
+
+const HeaderPostInfo = styled('div')({
+  display:'flex',
+  flex: 1,
+})
+
+const HeaderMenu = styled('div')({
+  display:'flex',
+  flex: 1,
+  alignItems:'center',
+  justifyContent:'flex-end',
+})
 
 const TextArea = styled('div')({
   display:'flex',

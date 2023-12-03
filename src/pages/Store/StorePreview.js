@@ -4,6 +4,8 @@ import StoreItemBox from "./StoreItemBox";
 import {useNavigate} from "react-router-dom";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
+import React, {Suspense} from "react";
+import Grid from "@mui/material/Grid";
 
 export default function StorePreview() {
   const postIds = useRecoilValue(storePostIdsAtom)
@@ -24,11 +26,17 @@ export default function StorePreview() {
         <SubTitle>Try buying and selling items in the campus.</SubTitle>
       </TitleArea>
       <Content>
-        {
-          postIds.map(id => (
-            <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
-          ))
-        }
+        <Grid container>
+          {
+            postIds.map((id) => (
+              <Suspense fallback={(<div>loading</div>)}>
+                <Grid item xs={2.4}>
+                  <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
+                </Grid>
+              </Suspense>
+            ))
+          }
+        </Grid>
       </Content>
     </Base>
   )
@@ -66,6 +74,9 @@ const SubTitle = styled('div')({
 
 const Content = styled('div')({
   display: 'flex',
-  height:'25rem',
+  padding:'1rem',
+  boxSizing: 'border-box',
+  borderRadius:'5px',
+  backgroundColor:'white',
 });
 

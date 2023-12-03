@@ -68,7 +68,7 @@ const Content = styled('div')({
   flex: 1,
   marginTop:'1rem',
   backgroundColor:'white',
-});
+})
 
 const Button = styled('div')({
   display:'flex',

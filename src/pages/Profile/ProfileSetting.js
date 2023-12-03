@@ -9,7 +9,7 @@ import {useRecoilValue} from "recoil";
 import {userAtom} from "../../0.Recoil/accountState";
 
 
-function stringAvatar(name) {
+export function stringAvatar(name) {
   return {
     sx: {
       bgcolor: COLOR.mainYellow,
@@ -21,6 +21,8 @@ function stringAvatar(name) {
     children: `${name.split(' ')[0][0]}`,
   };
 }
+
+
 
 export default function ProfileSetting() {
   const user = useRecoilValue(userAtom)
