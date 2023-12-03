@@ -5,33 +5,15 @@ import Avatar from "@mui/material/Avatar";
 import * as React from "react";
 import {userAtom} from "../../0.Recoil/accountState";
 import {useRecoilValue} from "recoil";
-import {Majors} from "../../0.Recoil/easyAState";
-import {Input, TextField} from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
 import StoreItemBox from "../Store/StoreItemBox";
-import {storePostIdsAtom} from "../../0.Recoil/postState";
+import {myStorePostIdsAtom} from "../../0.Recoil/postState";
+import ProfileSetting from "./ProfileSetting";
 
-function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: COLOR.mainYellow,
-      cursor:'pointer',
-      width:'7rem',
-      height: '7rem',
-      margin: '2rem',
-    },
-    children: `${name.split(' ')[0][0]}`,
-  };
-}
 
 export default function ProfileHome() {
   const user = useRecoilValue(userAtom)
-  const postIds = useRecoilValue(storePostIdsAtom)
-
-
-  function setMajor(major) {
-
-  }
+  const postIds = useRecoilValue(myStorePostIdsAtom(user.email))
+  console.log(postIds)
 
   function handlePostClick() {
 
@@ -41,32 +23,7 @@ export default function ProfileHome() {
     <HomeWrapper>
       <Base>
         <ProfileArea>
-          <ProfileSetting>
-            <Avatar {...stringAvatar(user?.email?.toUpperCase())} />
-            <Info>
-              <InfoItem>
-                <InfoItemKey>Email</InfoItemKey>
-                <InfoItemValue>{user.email}</InfoItemValue>
-              </InfoItem>
-              <InfoItem>
-                <InfoItemKey>Major</InfoItemKey>
-                <Autocomplete
-                  disablePortal
-                  id="combo-box-demo"
-                  options={Majors}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Major" margin="normal"/>
-                  )}
-                  onInputChange={(event, newInputValue) => {
-                    setMajor(newInputValue);
-                  }}
-                  sx={{
-                    '& .MuiInputBase-input': { fontSize: '1.2rem' },
-                  }}
-                />
-              </InfoItem>
-            </Info>
-          </ProfileSetting>
+          <ProfileSetting/>
           <CommunityMenu>
             <MenuItem>Buy & Sell</MenuItem>
           </CommunityMenu>
@@ -99,43 +56,6 @@ const ProfileArea = styled('div')({
   marginBottom:'2rem',
   borderRadius: '5px',
   backgroundColor:'white',
-})
-
-const ProfileSetting = styled('div')({
-  display: 'flex',
-  flex: 1,
-  width: '100%',
-  alignItems:'center',
-  padding: '2rem',
-  boxSizing: 'border-box',
-})
-
-const Info = styled('div')({
-  display: 'flex',
-  flexDirection:'column',
-  flex: 1,
-  justifyContent:'center',
-  height:'100%',
-})
-
-const InfoItem = styled('div')({
-  display:'flex',
-  alignItems:'center',
-  height:'3rem',
-  paddingLeft: '2rem',
-  paddingRight: '2rem',
-  marginTop:'1rem',
-  marginBottom:'1rem',
-})
-
-const InfoItemKey = styled('div')({
-  fontSize: '1.6rem',
-  fontWeight: '500',
-  marginRight:'4rem',
-})
-
-const InfoItemValue = styled('div')({
-  fontSize: '1.6rem',
 })
 
 const CommunityMenu = styled('div')({

@@ -116,7 +116,6 @@ export async function checkTokenValidity(accessToken) {
   }
 }
 
-
 export async function createPost(user, images, title, price, description) {
   try {
     console.log(user)
@@ -142,10 +141,27 @@ export async function createPost(user, images, title, price, description) {
   }
 }
 
-export async function getPosts() {
+export async function getPostIds() {
   try {
     const response = await fetch(`${serverURI}/post/get_post_ids`, {
       method: "GET",
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
+
+export async function getPostIdsByEmail(user, email) {
+  try {
+    const response = await fetch(`${serverURI}/post/get_post_ids_by_email`, {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      body: JSON.stringify({email})
     })
     return response.json()
   }
@@ -162,7 +178,6 @@ export async function getPost(user, _id) {
         'Authorization': `Bearer ${user.accessToken}`
       },
     })
-    console.log(response.post)
     return response.json()
   }
   catch (error) {
@@ -195,7 +210,6 @@ export async function addComment(user, postId, text, is_secret) {
     return { status_code: 400, error: error.message };
   }
 }
-
 
 export async function addReply(user, postId, commentId, text, is_secret) {
   try {
