@@ -85,11 +85,14 @@ export default function StorePost() {
               <PostHeaderMenu user={user} _id={post._id}/>
             </HeaderMenu>
           </Header>
-          <ImageArea>
-            <LeftButton onClick={prevImage}/>
-            <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
-            <RightButton onClick={nextImage}/>
-          </ImageArea>
+          {
+            (post.images.length > 0) &&
+            <ImageArea>
+              <LeftButton onClick={prevImage}/>
+              <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
+              <RightButton onClick={nextImage}/>
+            </ImageArea>
+          }
           <ImageDots length={post.images.length} currentIndex={currentImageIndex} />
           <TextArea>{post.title}</TextArea>
           <TextArea>${post.price}</TextArea>
@@ -210,13 +213,13 @@ const ImageArea = styled('div')({
 
 const ImageBox = styled('div')({
   width: '100%',
-  height: '40rem',
+  aspectRatio: '1/1',
   marginBottom: '1rem',
   borderRadius:'5px',
   backgroundColor:'#2d2d2d',
   backgroundPosition: 'center', // Center the image
   backgroundRepeat: 'no-repeat', // Do not repeat the image
-  backgroundSize: '100% auto', // Adjusts the size to maintain aspect ratio
+  backgroundSize: 'contain', // Adjusts the size to maintain aspect ratio
 });
 
 const LeftButton = styled(KeyboardArrowLeftIcon)({

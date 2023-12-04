@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate, useParams} from "react-router-dom";
 import {userAtom} from "../../0.Recoil/accountState";
-import {createPost} from "../../api/api";
+import {editPost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete icon
 
@@ -18,11 +18,12 @@ export default function StoreEditPost() {
   const user = useRecoilValue(userAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
-  const [images, setImages] = useState([]);
-  const [title, setTitle] = useState('');
-  const [price, setPrice] = useState('');
-  const [description, setDescription] = useState('');
-
+  const [images, setImages] = useState(post.images);
+  const [imagesToAdd, setImagesToAdd] = useState([]);
+  const [imagesToDelete, setImagesToDelete] = useState([]);
+  const [title, setTitle] = useState(post.title);
+  const [price, setPrice] = useState(post.price);
+  const [description, setDescription] = useState(post.description);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -47,6 +48,7 @@ export default function StoreEditPost() {
           const reader = new FileReader();
           reader.onloadend = () => {
             setImages(prevImages => [...prevImages, reader.result]);
+            setImagesToAdd(prevImages => [...prevImages, reader.result])
           };
           reader.readAsDataURL(file);
         }
@@ -58,13 +60,30 @@ export default function StoreEditPost() {
   };
 
   const handleDeleteImage = (index) => {
+    const imageToDelete = images[index];
+
+    // If the image is a newly added image, not include it in the ImagesToDelete.
+    if (imagesToAdd.includes(imageToDelete)) {
+      setImagesToAdd(imagesToAdd => imagesToAdd.filter(img => img !== imageToDelete));
+    }
+    else {
+      setImagesToDelete(prevImagesToDelete => [...prevImagesToDelete, imageToDelete]);
+    }
+
     setImages(images => images.filter((_, i) => i !== index));
   };
 
-  function handlePost() {
-    createPost(user, images, title, price, description).then((res) => {
+  function handleUpdate() {
+    const postUpdateRequest = {
+      images_to_add: imagesToAdd,
+      images_to_delete: imagesToDelete,
+      title: title,
+      price: price,
+      description: description
+    }
+    editPost(user, postUpdateRequest, _id).then((res) => {
       if (res.status_code === 200) {
-        setPopupMessage({state: true, message: "Your post uploaded successfully.", severity: "info"})
+        setPopupMessage({state: true, message: "Your post updated successfully.", severity: "info"})
         navigate('/store');
       }
     });
@@ -74,7 +93,7 @@ export default function StoreEditPost() {
     <HomeWrapper>
       <Base>
         <TitleArea>
-          <Title>Sell an Item</Title>
+          <Title>Edit your item</Title>
         </TitleArea>
         <Content>
           <ImageArea>
@@ -159,7 +178,7 @@ export default function StoreEditPost() {
               '& .MuiInputLabel-root': { fontSize: '1.6rem' },
             }}
           />
-          <Button onClick={handlePost}>Post</Button>
+          <Button onClick={handleUpdate}>Update</Button>
         </Content>
       </Base>
     </HomeWrapper>
