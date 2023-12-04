@@ -5,13 +5,16 @@ import {COLOR} from "../../util/util";
 import {useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilValue, useSetRecoilState} from "recoil";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {userAtom} from "../../0.Recoil/accountState";
 import {createPost} from "../../api/api";
-import {popupMessageAtom} from "../../0.Recoil/utilState"; // Import the delete icon
+import {popupMessageAtom} from "../../0.Recoil/utilState";
+import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete icon
 
 
-export default function StoreCreatePost() {
+export default function StoreEditPost() {
+  const { _id } = useParams();
+  const post = useRecoilValue(storePostAtom(_id))
   const user = useRecoilValue(userAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
@@ -77,11 +80,11 @@ export default function StoreCreatePost() {
           <ImageArea>
             {
               images.map((img, index) => (
-              <ImageBox key={index} style={{ backgroundImage: `url(${img})` }}>
-                <DeleteButton onClick={() => handleDeleteImage(index)}>
-                  <DeleteIcon style={{ fontSize: '2rem' }} />
-                </DeleteButton>
-              </ImageBox>
+                <ImageBox key={index} style={{ backgroundImage: `url(${img})` }}>
+                  <DeleteButton onClick={() => handleDeleteImage(index)}>
+                    <DeleteIcon style={{ fontSize: '2rem' }} />
+                  </DeleteButton>
+                </ImageBox>
               ))
             }
             <input

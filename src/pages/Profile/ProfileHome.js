@@ -1,7 +1,6 @@
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
-import Avatar from "@mui/material/Avatar";
 import * as React from "react";
 import {userAtom} from "../../0.Recoil/accountState";
 import {useRecoilValue} from "recoil";

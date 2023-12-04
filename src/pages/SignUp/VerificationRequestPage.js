@@ -16,9 +16,7 @@ export default function VerificationRequestPage() {
     const token = queryParams.get('token');
 
     if (token && verifyStatus === 0) {
-      console.log("Try verify")
       verifyEmail(token).then((res) => {
-        console.log(res)
         if (res?.status_code === 200 || res?.status_code === 208)
           setVerifyStatus(200)
         else
@@ -28,7 +26,7 @@ export default function VerificationRequestPage() {
     else {
       setVerifyStatus(400)
     }
-  }, []);
+  }, [location.search, verifyStatus]);
 
   return (
     <HomeWrapper>

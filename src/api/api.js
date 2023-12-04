@@ -185,6 +185,44 @@ export async function getPost(user, _id) {
   }
 }
 
+export async function deletePost(user, _id) {
+  try {
+    const response = await fetch(`${serverURI}/post/delete_post/${_id}`, {
+      method: "DELETE",
+      headers: {
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
+
+export async function editPost(user, postUpdateRequest, _id) {
+  try {
+    const response = await fetch(`${serverURI}/post/edit_post/${_id}`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${user.accessToken}`
+      },
+      body: JSON.stringify({
+        images_to_add: postUpdateRequest.images_to_add,
+        images_to_delete: postUpdateRequest.images_to_delete,
+        title: postUpdateRequest.title,
+        price: postUpdateRequest.price,
+        description: postUpdateRequest.description
+      })
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
+
 export async function addComment(user, postId, text, is_secret) {
   try {
     const response = await fetch(`${serverURI}/comment/add_comment`, {

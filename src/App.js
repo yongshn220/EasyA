@@ -12,6 +12,7 @@ import LoginHome from "./pages/Login/LoginHome";
 import SignUpHome from "./pages/SignUp/SignUpHome";
 import VerificationRequestPage from "./pages/SignUp/VerificationRequestPage";
 import ProfileHome from "./pages/Profile/ProfileHome";
+import StoreEditPost from "./pages/Store/StoreEditPost";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/store" element={<StoreHome/>}/>
               <Route path="/store/post/:_id" element={<StorePost/>}/>
               <Route path="/store/create" element={<StoreCreatePost/>}/>
+              <Route path="/store/edit/:_id" element={<StoreEditPost/>}/>
               <Route path="/easya" element={<EasyAHomeWrapper/>}/>
               <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
             </Routes>

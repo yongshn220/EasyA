@@ -14,6 +14,7 @@ import {COLOR} from "../../util/util";
 import * as React from "react";
 import PostHeaderMenu from "./PostHeaderMenu";
 import {formatTimestamp} from "../../util/timeHelper";
+import {userAtom} from "../../0.Recoil/accountState";
 
 
 export function stringAvatar() {
@@ -30,6 +31,7 @@ export function stringAvatar() {
 export default function StorePost() {
   const { _id } = useParams();
   const post = useRecoilValue(storePostAtom(_id))
+  const user = useRecoilValue(userAtom)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handlers = useSwipeable({
@@ -59,6 +61,11 @@ export default function StorePost() {
     );
   }
 
+  // TODO: This should be done in the server side to hide the owner's email.
+  function isMyPost() {
+    return user.email === post.email
+  }
+
 
   return (
     <HomeWrapper>
@@ -68,14 +75,14 @@ export default function StorePost() {
             <HeaderProfile>
               <HeaderAuthorInfo>
                 <Avatar {...stringAvatar()} />
-                <AuthorName>Seller</AuthorName>
+                <AuthorName>{isMyPost? "Me" : "Seller"}</AuthorName>
               </HeaderAuthorInfo>
               <HeaderPostInfo>
                 {formatTimestamp(post.timestamp)}
               </HeaderPostInfo>
             </HeaderProfile>
             <HeaderMenu>
-              <PostHeaderMenu/>
+              <PostHeaderMenu user={user} _id={post._id}/>
             </HeaderMenu>
           </Header>
           <ImageArea>
