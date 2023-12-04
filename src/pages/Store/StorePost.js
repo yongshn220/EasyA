@@ -9,7 +9,6 @@ import { useSwipeable } from 'react-swipeable';
 import {useState} from "react";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from "@mui/material/Avatar";
 import {COLOR} from "../../util/util";
 import * as React from "react";
@@ -21,10 +20,9 @@ export function stringAvatar() {
   return {
     sx: {
       bgcolor: COLOR.mainYellow,
-      cursor:'pointer',
       width:'4rem',
       height: '4rem',
-      marginRight:'2rem',
+      marginRight:'1rem',
     },
   };
 }
@@ -61,9 +59,6 @@ export default function StorePost() {
     );
   }
 
-  function handleMenuClick() {
-
-  }
 
   return (
     <HomeWrapper>
@@ -73,7 +68,7 @@ export default function StorePost() {
             <HeaderProfile>
               <HeaderAuthorInfo>
                 <Avatar {...stringAvatar()} />
-                <AuthorName>CSE Major</AuthorName>
+                <AuthorName>Seller</AuthorName>
               </HeaderAuthorInfo>
               <HeaderPostInfo>
                 {formatTimestamp(post.timestamp)}
