@@ -13,9 +13,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from "@mui/material/Avatar";
 import {COLOR} from "../../util/util";
 import * as React from "react";
+import PostHeaderMenu from "./PostHeaderMenu";
+import {formatTimestamp} from "../../util/timeHelper";
 
 
-export function stringAvatar(name) {
+export function stringAvatar() {
   return {
     sx: {
       bgcolor: COLOR.mainYellow,
@@ -24,7 +26,6 @@ export function stringAvatar(name) {
       height: '4rem',
       marginRight:'2rem',
     },
-    children: `${name.split(' ')[0][0]}`,
   };
 }
 
@@ -60,6 +61,10 @@ export default function StorePost() {
     );
   }
 
+  function handleMenuClick() {
+
+  }
+
   return (
     <HomeWrapper>
       <Base>
@@ -67,15 +72,15 @@ export default function StorePost() {
           <Header>
             <HeaderProfile>
               <HeaderAuthorInfo>
-                <Avatar {...stringAvatar(post.email?.toUpperCase())} />
+                <Avatar {...stringAvatar()} />
                 <AuthorName>CSE Major</AuthorName>
               </HeaderAuthorInfo>
               <HeaderPostInfo>
-                12/21 14:23
+                {formatTimestamp(post.timestamp)}
               </HeaderPostInfo>
             </HeaderProfile>
             <HeaderMenu>
-              <MenuIcon sx={{fontSize:'2rem'}}/>
+              <PostHeaderMenu/>
             </HeaderMenu>
           </Header>
           <ImageArea>
@@ -125,7 +130,7 @@ const Content = styled('div')({
 const Header = styled('div')({
   display:'flex',
   width:'100%',
-  height:'7rem',
+  height:'8rem',
 })
 
 const HeaderProfile = styled('div')({
@@ -150,12 +155,13 @@ const AuthorName = styled('div')({
 const HeaderPostInfo = styled('div')({
   display:'flex',
   flex: 1,
+  fontSize:'1.2rem',
 })
 
 const HeaderMenu = styled('div')({
   display:'flex',
   flex: 1,
-  alignItems:'center',
+  alignItems:'flex-start',
   justifyContent:'flex-end',
 })
 
