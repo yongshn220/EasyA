@@ -1,9 +1,7 @@
 export function formatTimestamp(timestamp) {
-  timestamp = timestamp * 1000 // JS timestamp is millisecond.
+  timestamp = timestamp * 1000 // JS timestamp is millisecond. -> * 1000
   // Create a new Date object from the timestamp
   const date = new Date(timestamp);
-  console.log(17016619512)
-  console.log(date)
   // Extract the components
   const month = date.getMonth() + 1; // getMonth() returns 0-11
   const day = date.getDate(); // getDate() returns 1-31

@@ -14,8 +14,19 @@ import {COLOR} from "../../util/util";
 import * as React from "react";
 import PostHeaderMenu from "./PostHeaderMenu";
 import {formatTimestamp} from "../../util/timeHelper";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {ErrorBoundary} from "react-error-boundary";
 
+
+export default function StorePostWrapper() {
+  return (
+    <HomeWrapper>
+      <ErrorBoundary fallback={<></>}>
+        <StorePost/>
+      </ErrorBoundary>
+    </HomeWrapper>
+    )
+}
 
 export function stringAvatar() {
   return {
@@ -28,9 +39,10 @@ export function stringAvatar() {
   };
 }
 
-export default function StorePost() {
+function StorePost() {
   const { _id } = useParams();
   const post = useRecoilValue(storePostAtom(_id))
+  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -63,53 +75,51 @@ export default function StorePost() {
 
   // TODO: This should be done in the server side to hide the owner's email.
   function isMyPost() {
+    if (!user) return false
     return user.email === post.email
   }
 
-
   return (
-    <HomeWrapper>
-      <Base>
-        <Content {...handlers}>
-          <Header>
-            <HeaderProfile>
-              <HeaderAuthorInfo>
-                <Avatar {...stringAvatar()} />
-                <AuthorName>{isMyPost? "Me" : "Seller"}</AuthorName>
-              </HeaderAuthorInfo>
-              <HeaderPostInfo>
-                {formatTimestamp(post.timestamp)}
-              </HeaderPostInfo>
-            </HeaderProfile>
-            <HeaderMenu>
-              <PostHeaderMenu user={user} _id={post._id}/>
-            </HeaderMenu>
-          </Header>
-          {
-            (post.images.length > 0) &&
-            <ImageArea>
-              <LeftButton onClick={prevImage}/>
-              <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
-              <RightButton onClick={nextImage}/>
-            </ImageArea>
-          }
-          <ImageDots length={post.images.length} currentIndex={currentImageIndex} />
-          <TextArea>{post.title}</TextArea>
-          <TextArea>${post.price}</TextArea>
-          <DescriptionArea>
-            {post.description}
-          </DescriptionArea>
-        </Content>
-        <CreateComment postId={post._id}/>
-        <CommentArea>
-          {
-            post.comments.map(comment => (
-              <Comment postId={post._id} comment={comment}/>
-            ))
-          }
-        </CommentArea>
-      </Base>
-    </HomeWrapper>
+    <Base>
+      <Content {...handlers}>
+        <Header>
+          <HeaderProfile>
+            <HeaderAuthorInfo>
+              <Avatar {...stringAvatar()} />
+              <AuthorName>{isMyPost()? "Me" : "Seller"}</AuthorName>
+            </HeaderAuthorInfo>
+            <HeaderPostInfo>
+              {formatTimestamp(post.timestamp)}
+            </HeaderPostInfo>
+          </HeaderProfile>
+          <HeaderMenu>
+            <PostHeaderMenu auth={auth} _id={post._id}/>
+          </HeaderMenu>
+        </Header>
+        {
+          (post.images.length > 0) &&
+          <ImageArea>
+            <LeftButton onClick={prevImage}/>
+            <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
+            <RightButton onClick={nextImage}/>
+          </ImageArea>
+        }
+        <ImageDots length={post.images.length} currentIndex={currentImageIndex} />
+        <TextArea>{post.title}</TextArea>
+        <TextArea>${post.price}</TextArea>
+        <DescriptionArea>
+          {post.description}
+        </DescriptionArea>
+      </Content>
+      <CreateComment postId={post._id}/>
+      <CommentArea>
+        {
+          post.comments.map((comment, index) => (
+            <Comment key={index} postId={post._id} comment={comment}/>
+          ))
+        }
+      </CommentArea>
+    </Base>
   )
 }
 

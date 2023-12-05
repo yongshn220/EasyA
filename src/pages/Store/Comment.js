@@ -12,16 +12,13 @@ export default function Comment({postId, comment}) {
   const user = useRecoilValue(userAtom)
   const [openReply, setOpenReply] = useState(false)
 
-  const isMySecretComment = useMemo(() => (
-    comment.is_secret && comment.email === user.email
-  ), [comment, user])
 
   return (
     <Base>
-      <User>{comment.username}</User>
+      <User>{user.email === comment.email? "Me" : comment.username}</User>
       <Text>
         {
-          isMySecretComment &&
+          comment.is_secret &&
           <Tooltip
             title="Only author and commenter can see it."
             componentsProps={{tooltip: {sx: {fontSize: '1.2rem'}}}}
@@ -32,14 +29,13 @@ export default function Comment({postId, comment}) {
         }
         {comment.text}
       </Text>
-      <Reply onClick={() => setOpenReply(!openReply)}>Reply</Reply>
       {
-        comment.replies.map(reply => (
-          <InnerBase>
-            <User>{reply.username}</User>
+        comment.replies.map((reply, ind) => (
+          <InnerBase key={ind}>
+            <User>{user.email === reply.email? "Me" : reply.username}</User>
             <Text>
               {
-                isMySecretComment &&
+                reply.is_secret &&
                 <Tooltip
                   title="Only author and commenter can see it."
                   componentsProps={{tooltip: {sx: {fontSize: '1.2rem'}}}}
@@ -53,6 +49,7 @@ export default function Comment({postId, comment}) {
           </InnerBase>
         ))
       }
+      <Reply onClick={() => setOpenReply(!openReply)}>Reply</Reply>
       { openReply && <CreateReply postId={postId} commentId={comment._id}/> }
     </Base>
   )

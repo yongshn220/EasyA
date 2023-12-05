@@ -75,7 +75,6 @@ export function CourseTimeToTimeRange(courseTime) {
     return [startHours * 60 + startMinutes, endHours * 60 + endMinutes];
   }
   catch (e) {
-    console.log(courseTime)
     return [0,0,0,0]
   }
 }

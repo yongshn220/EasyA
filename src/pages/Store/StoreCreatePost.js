@@ -6,12 +6,13 @@ import {useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {createPost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState"; // Import the delete icon
 
 
 export default function StoreCreatePost() {
+  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
@@ -59,7 +60,7 @@ export default function StoreCreatePost() {
   };
 
   function handlePost() {
-    createPost(user, images, title, price, description).then((res) => {
+    createPost(auth, user, images, title, price, description).then((res) => {
       if (res.status_code === 200) {
         setPopupMessage({state: true, message: "Your post uploaded successfully.", severity: "info"})
         navigate('/store');

@@ -4,10 +4,11 @@ import {styled} from "@mui/material/styles";
 import {useState} from "react";
 import {addComment} from "../../api/api";
 import {useRecoilValue} from "recoil";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
 
 
 export default function CreateComment({postId}) {
+  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [commentText, setCommentText] = useState('');
   const [isSecret, setIsSecret] = useState(false);
@@ -22,7 +23,7 @@ export default function CreateComment({postId}) {
   };
 
   const HandleAddComment = () => {
-    addComment(user, postId, commentText, isSecret).then(res =>{
+    addComment(auth, user, postId, commentText, isSecret).then(res =>{
       if (res.status_code === 200) {
         console.log("suc", res)
       }
@@ -54,7 +55,6 @@ export default function CreateComment({postId}) {
       <div style={{flex: 1, display: 'flex', justifyContent:'flex-end', fontSize:'1.2rem', fontWeight:'600'}}>
         <div style={{flex:0}}>
           <Checkbox
-            defaultChecked
             checked={isSecret}
             onChange={handleCheckboxChange}
             sx={{ '& .MuiSvgIcon-root': { fontSize: '2rem' },  '&.Mui-checked': {color: COLOR.fontGray50,},}}

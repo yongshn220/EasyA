@@ -2,49 +2,65 @@ import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import * as React from "react";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {useRecoilValue} from "recoil";
 import StoreItemBox from "../Store/StoreItemBox";
 import {myStorePostIdsAtom} from "../../0.Recoil/postState";
 import ProfileSetting from "./ProfileSetting";
-import {Suspense} from "react";
+import {Suspense, useEffect} from "react";
 import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
+import LoadingCircle from "../Loading/LoadingCircle";
 
 
-export default function ProfileHome() {
+export default function ProfileHomeWrapper() {
+  return (
+    <HomeWrapper>
+      <Suspense fallback={(<LoadingCircle/>)}>
+        <ProfileHome/>
+      </Suspense>
+    </HomeWrapper>
+  )
+}
+
+function ProfileHome() {
+  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
-  const postIds = useRecoilValue(myStorePostIdsAtom(user.email))
+  const postIds = useRecoilValue(myStorePostIdsAtom(user?.email))
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!user || !auth.loggedIn) {
+      navigate('/')
+    }
+  }, [auth, user, navigate])
 
   function handlePostClick(id) {
     navigate(`/store/post/${id}`)
   }
 
   return (
-    <HomeWrapper>
-      <Base>
-        <ProfileArea>
-          <ProfileSetting/>
-          <CommunityMenu>
-            <MenuItem>Buy & Sell</MenuItem>
-          </CommunityMenu>
-        </ProfileArea>
-        <Content>
-          <Grid container>
-            {
-              postIds.map((id) => (
-                <Suspense fallback={(<div>loading</div>)}>
-                  <Grid item xs={3}>
-                    <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
-                  </Grid>
-                </Suspense>
-              ))
-            }
-          </Grid>
-        </Content>
-      </Base>
-    </HomeWrapper>
+    <Base>
+      <ProfileArea>
+        <ProfileSetting/>
+        <CommunityMenu>
+          <MenuItem>Buy & Sell</MenuItem>
+        </CommunityMenu>
+      </ProfileArea>
+      <Content>
+        <Grid container>
+          {
+            postIds.map((id) => (
+              <Suspense key={id} fallback={(<LoadingCircle/>)}>
+                <Grid item xs={3}>
+                  <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
+                </Grid>
+              </Suspense>
+            ))
+          }
+        </Grid>
+      </Content>
+    </Base>
   )
 }
 

@@ -5,11 +5,13 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Avatar from "@mui/material/Avatar";
 import {COLOR} from "../../../util/util";
 import {useSetRecoilState} from "recoil";
-import {emptyUser, userAtom} from "../../../0.Recoil/accountState";
+import {authAtom, emptyAuth, userAtom} from "../../../0.Recoil/accountState";
 import {useNavigate} from "react-router-dom";
+import {LocalStorageHelper} from "../../../util/localStorageHelper";
 
 export default function AvatarMenu({user}) {
   const navigate = useNavigate()
+  const setAuth = useSetRecoilState(authAtom)
   const setUser = useSetRecoilState(userAtom)
   function stringAvatar(name) {
     return {
@@ -17,14 +19,15 @@ export default function AvatarMenu({user}) {
         bgcolor: COLOR.mainYellow,
         cursor:'pointer',
       },
-      children: `${name.split(' ')[0][0]}`,
+      children: (name)? `${name.split(' ')[0][0]}` : '',
     };
   }
 
   function logout(popupState) {
     popupState.close()
-    setUser(emptyUser)
-    localStorage.removeItem("user")
+    setAuth(emptyAuth)
+    setUser(null)
+    LocalStorageHelper.removeAuth()
     navigate('/')
   }
 

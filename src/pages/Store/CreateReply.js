@@ -4,10 +4,11 @@ import {styled} from "@mui/material/styles";
 import {useState} from "react";
 import {addReply} from "../../api/api";
 import {useRecoilValue} from "recoil";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
 
 
 export default function CreateReply({postId, commentId}) {
+  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [replyText, setReplyText] = useState('');
   const [isSecret, setIsSecret] = useState(false);
@@ -22,7 +23,7 @@ export default function CreateReply({postId, commentId}) {
   };
 
   const HandleAddReply = () => {
-    addReply(user, postId, commentId, replyText, isSecret).then(res =>{
+    addReply(auth, user, postId, commentId, replyText, isSecret).then(res =>{
       if (res.status_code === 200) {
         console.log("suc", res)
       }

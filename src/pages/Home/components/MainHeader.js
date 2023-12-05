@@ -1,31 +1,18 @@
 import {styled} from "@mui/material/styles";
 import {ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
 import {useNavigate} from "react-router-dom";
-import {emptyUser, userAtom} from "../../../0.Recoil/accountState";
-import {useRecoilState} from "recoil";
+import {authAtom, userAtom} from "../../../0.Recoil/accountState";
+import {useRecoilState, useRecoilValue} from "recoil";
 import AvatarMenu from "./AvatarMenu";
 import PopupMessage from "../../../components/PopupMessage";
 import {popupMessageAtom} from "../../../0.Recoil/utilState";
-import {useEffect} from "react";
-import {checkTokenValidity} from "../../../api/api";
 
 export default function MainHeader() {
   const [popupMessage, setPopupMessage] = useRecoilState(popupMessageAtom)
-  const [user, setUser] = useRecoilState(userAtom);
+  const auth = useRecoilValue(authAtom)
+  const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (user.loggedIn) {
-      checkTokenValidity(user.accessToken).then((res) => {
-        if (res.status_code !== 200) {
-          console.log("Token expired.")
-          setUser(emptyUser)
-          localStorage.removeItem("user")
-          navigate('/')
-        }
-      })
-    }
-  }, [user, navigate, setUser])
 
   function HandleStoreClick() {
     navigate('/store')
@@ -56,14 +43,14 @@ export default function MainHeader() {
         </Center>
         <Side>
           {
-            (user.loggedIn === false) &&
+            (auth.loggedIn === false) &&
             <>
               <MenuItem onClick={HandleLogin}>Login</MenuItem>
               <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
             </>
           }
           {
-            user.loggedIn && <AvatarMenu user={user}/>
+            auth.loggedIn && <AvatarMenu user={user}/>
           }
         </Side>
       </Inside>

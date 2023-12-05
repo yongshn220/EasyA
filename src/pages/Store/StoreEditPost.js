@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate, useParams} from "react-router-dom";
 import {userAtom} from "../../0.Recoil/accountState";
-import {editPost} from "../../api/api";
+import {updatePost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete icon
 
@@ -15,7 +15,7 @@ import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete ico
 export default function StoreEditPost() {
   const { _id } = useParams();
   const post = useRecoilValue(storePostAtom(_id))
-  const user = useRecoilValue(userAtom)
+  const auth = useRecoilValue(userAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
   const [images, setImages] = useState(post.images);
@@ -81,7 +81,7 @@ export default function StoreEditPost() {
       price: price,
       description: description
     }
-    editPost(user, postUpdateRequest, _id).then((res) => {
+    updatePost(auth, postUpdateRequest, _id).then((res) => {
       if (res.status_code === 200) {
         setPopupMessage({state: true, message: "Your post updated successfully.", severity: "info"})
         navigate('/store');

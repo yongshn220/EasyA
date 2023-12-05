@@ -2,13 +2,10 @@ import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
 
-
 export default function StoreItemBox({onClick, id}) {
   const post = useRecoilValue(storePostAtom(id))
 
   if (!post) return <></>
-
-  console.log(post)
 
   return(
     <Base onClick={onClick}>

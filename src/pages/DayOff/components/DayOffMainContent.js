@@ -19,7 +19,6 @@ export default function DayOffMainContent() {
     const mergedTimeSet = new Set([...courseTimeSet, ...selectedTimeSet]);
     const _availableCourses = SearchAvailableCourses(mergedTimeSet)
     setAvailableCourses(_availableCourses)
-    console.log(_availableCourses)
   }
 
   return (

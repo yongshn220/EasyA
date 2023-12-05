@@ -5,8 +5,11 @@ import {TextField} from "@mui/material";
 import * as React from "react";
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
-import {useRecoilValue} from "recoil";
-import {userAtom} from "../../0.Recoil/accountState";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {updateProfile} from "../../api/api";
+import {popupMessageAtom} from "../../0.Recoil/utilState";
+import {useEffect, useState} from "react";
 
 
 export function stringAvatar(name) {
@@ -22,15 +25,32 @@ export function stringAvatar(name) {
   };
 }
 
-
-
 export default function ProfileSetting() {
-  const user = useRecoilValue(userAtom)
+  const auth = useRecoilValue(authAtom)
+  const [user, setUser] = useRecoilState(userAtom)
+  const [major, setMajor] = useState(user.major)
+  const setPopupMessage = useSetRecoilState(popupMessageAtom)
 
-  function setMajor(major) {
+  useEffect(() => {
+    if (!auth || !user) return (<></>)
+  })
 
+  function handleMajorChange(selectedMajor) {
+    if (user.major === selectedMajor) return;
+
+    const profileUpdateRequest = {major: selectedMajor}
+
+    updateProfile(auth, profileUpdateRequest).then((res) => {
+      if (res.status_code === 200) {
+        setUser(user)
+        setMajor(selectedMajor)
+        setPopupMessage({state: true, severity: "info", message: "Profile updated"})
+      }
+      else {
+        setPopupMessage({state: true, severity: "warning", message: "Fail to update profile"})
+      }
+    })
   }
-
 
   return (
     <Base>
@@ -46,11 +66,13 @@ export default function ProfileSetting() {
             disablePortal
             id="combo-box-demo"
             options={Majors}
+            value={major}
             renderInput={(params) => (
               <TextField {...params} label="Major" margin="normal"/>
             )}
-            onInputChange={(event, newInputValue) => {
-              setMajor(newInputValue);
+            onInputChange={(event, selectedMajor) => {
+              if (Majors.includes(selectedMajor))
+                handleMajorChange(selectedMajor);
             }}
             sx={{
               '& .MuiInputBase-input': { fontSize: '1.2rem' },

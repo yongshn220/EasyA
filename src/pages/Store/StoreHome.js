@@ -8,17 +8,18 @@ import Grid from "@mui/material/Grid";
 import {useNavigate} from "react-router-dom";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom} from "../../0.Recoil/accountState";
+import { ErrorBoundary } from "react-error-boundary";
+import LoadingCircle from "../Loading/LoadingCircle";
 
 
 export default function StoreHome() {
-  const user = useRecoilValue(userAtom)
+  const auth = useRecoilValue(authAtom)
   const storePostIds = useRecoilValue(storePostIdsAtom)
-  console.log(storePostIds)
   const navigate = useNavigate()
 
   function handleCreatePost() {
-    if (user.loggedIn) {
+    if (auth.loggedIn) {
       navigate('/store/create')
     }
     else {
@@ -40,11 +41,13 @@ export default function StoreHome() {
           <Grid container>
             {
               storePostIds.map((id) => (
-                <Suspense fallback={(<div>loading</div>)}>
-                  <Grid item xs={3}>
+              <ErrorBoundary key={id} fallback={<></>}>
+                <Grid item xs={3}>
+                  <Suspense fallback={(<LoadingCircle/>)}>
                     <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
-                  </Grid>
-                </Suspense>
+                  </Suspense>
+                </Grid>
+              </ErrorBoundary>
               ))
             }
           </Grid>

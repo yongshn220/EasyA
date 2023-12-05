@@ -1,35 +1,35 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextField, Button, Alert} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
 import {login} from "../../api/api";
-import {useRecoilState} from "recoil";
-import {userAtom} from "../../0.Recoil/accountState";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {LocalStorageHelper} from "../../util/localStorageHelper";
 
 
 export default function LoginContent() {
-  const [user, setUser] = useRecoilState(userAtom)
+  const [auth, setAuth] = useRecoilState(authAtom)
+  const setUser = useSetRecoilState(userAtom)
   const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false)
 
-  if (user.loggedIn) {
-    navigate('/')
-  }
+  useEffect(() => {
+    if (auth.loggedIn) {
+      navigate('/')
+    }
+  }, [navigate, auth])
 
   function handleLogin(event) {
     event.preventDefault();
     login(email, password).then((res) => {
       if (res.status_code === 200) {
-        const _user = {
-          ...res.user,
-          loggedIn: true,
-          accessToken: res.access_token
-        }
-        setUser(_user)
-        localStorage.setItem('user', JSON.stringify(_user))
+        const auth = LocalStorageHelper.setAuth(res.access_token)
+        setAuth(auth)
+        setUser(res.user)
         navigate('/')
       }
       else {

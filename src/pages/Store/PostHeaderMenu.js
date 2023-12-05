@@ -8,7 +8,7 @@ import {deletePost} from "../../api/api";
 import {useSetRecoilState} from "recoil";
 import {dayOffPopupMessageAtom} from "../DayOff/components/DayOffState";
 
-export default function PostHeaderMenu({user, _id}) {
+export default function PostHeaderMenu({auth, _id}) {
   const setPopupMessage = useSetRecoilState(dayOffPopupMessageAtom)
   const navigate = useNavigate()
 
@@ -19,7 +19,7 @@ export default function PostHeaderMenu({user, _id}) {
 
   function handleDeletePost(popupState) {
     popupState.close()
-    deletePost(user, _id).then((res) => {
+    deletePost(auth, _id).then((res) => {
       if (res.status_code === 200) {
         setPopupMessage({state:true, message: "The post deleted successfully.", severity: "info"})
         navigate('/store')

@@ -34,7 +34,6 @@ export async function postFeedback(feedback) {
   return await response.json();
 }
 
-
 export async function signup(email, password, major) {
   try {
     const response = await fetch(`${serverURI}/account/signup`, {
@@ -116,14 +115,13 @@ export async function checkTokenValidity(accessToken) {
   }
 }
 
-export async function createPost(user, images, title, price, description) {
+export async function createPost(auth, user, images, title, price, description) {
   try {
-    console.log(user)
     const response = await fetch(`${serverURI}/post/create_post`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
       body: JSON.stringify({
         email: user.email,
@@ -153,13 +151,13 @@ export async function getPostIds() {
   }
 }
 
-export async function getPostIdsByEmail(user, email) {
+export async function getPostIdsByEmail(auth, email) {
   try {
     const response = await fetch(`${serverURI}/post/get_post_ids_by_email`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
       body: JSON.stringify({email})
     })
@@ -170,12 +168,12 @@ export async function getPostIdsByEmail(user, email) {
   }
 }
 
-export async function getPost(user, _id) {
+export async function getPost(auth, _id) {
   try {
     const response = await fetch(`${serverURI}/post/get_post?_id=${_id}`, {
       method: "GET",
       headers: {
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
     })
     return response.json()
@@ -185,12 +183,12 @@ export async function getPost(user, _id) {
   }
 }
 
-export async function deletePost(user, _id) {
+export async function deletePost(auth, _id) {
   try {
     const response = await fetch(`${serverURI}/post/delete_post/${_id}`, {
       method: "DELETE",
       headers: {
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
     })
     return response.json()
@@ -200,13 +198,13 @@ export async function deletePost(user, _id) {
   }
 }
 
-export async function editPost(user, postUpdateRequest, _id) {
+export async function updatePost(auth, postUpdateRequest, _id) {
   try {
-    const response = await fetch(`${serverURI}/post/edit_post/${_id}`, {
+    const response = await fetch(`${serverURI}/post/update_post/${_id}`, {
       method: "PUT",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
       body: JSON.stringify({
         images_to_add: postUpdateRequest.images_to_add,
@@ -223,13 +221,13 @@ export async function editPost(user, postUpdateRequest, _id) {
   }
 }
 
-export async function addComment(user, postId, text, is_secret) {
+export async function addComment(auth, user, postId, text, is_secret) {
   try {
     const response = await fetch(`${serverURI}/comment/add_comment`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
       body: JSON.stringify({
         postId: postId.toString(),
@@ -249,13 +247,13 @@ export async function addComment(user, postId, text, is_secret) {
   }
 }
 
-export async function addReply(user, postId, commentId, text, is_secret) {
+export async function addReply(auth, user, postId, commentId, text, is_secret) {
   try {
     const response = await fetch(`${serverURI}/comment/add_reply`, {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': `Bearer ${user.accessToken}`
+        'Authorization': `Bearer ${auth.accessToken}`
       },
       body: JSON.stringify({
         postId: postId.toString(),
@@ -272,5 +270,25 @@ export async function addReply(user, postId, commentId, text, is_secret) {
   }
   catch (error) {
     return { status_code: 400, error: error.message };
+  }
+}
+
+
+export async function updateProfile(auth, profileUpdateRequest) {
+  try {
+    const response = await fetch(`${serverURI}/profile/update_profile`, {
+      method: "PUT",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${auth.accessToken}`
+      },
+      body: JSON.stringify({
+        major: profileUpdateRequest.major,
+      })
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
   }
 }
