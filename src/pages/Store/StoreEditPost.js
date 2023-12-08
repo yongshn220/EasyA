@@ -9,7 +9,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import {authAtom} from "../../0.Recoil/accountState";
 import {updatePost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
-import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete icon
+import {storePostAtom} from "../../0.Recoil/postState";
+import CenterLoadingCircle from "../Loading/CenterLoadingCircle"; // Import the delete icon
 
 
 export default function StoreEditPost() {
@@ -26,6 +27,7 @@ export default function StoreEditPost() {
   const [title, setTitle] = useState(post.title);
   const [price, setPrice] = useState(post.price);
   const [description, setDescription] = useState(post.description);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -76,6 +78,7 @@ export default function StoreEditPost() {
   };
 
   function handleUpdate() {
+    setIsLoading(true)
     const postUpdateRequest = {
       images_to_add: imagesToAdd,
       images_to_delete: imagesToDelete,
@@ -84,6 +87,7 @@ export default function StoreEditPost() {
       description: description
     }
     updatePost(auth, postUpdateRequest, _id).then((res) => {
+      setIsLoading(false)
       if (res.status_code === 200) {
         postRefresh()
         setPopupMessage({state: true, message: "Your post updated successfully.", severity: "info"})
@@ -92,11 +96,14 @@ export default function StoreEditPost() {
       else {
         setPopupMessage({state: true, message: "Fail to update the post.", severity: "warning"})
       }
-    });
+    }).catch((error) => {
+      setIsLoading(false)
+    })
   }
 
   return(
     <HomeWrapper>
+      <CenterLoadingCircle state={isLoading}/>
       <Base>
         <TitleArea>
           <Title>Edit your item</Title>

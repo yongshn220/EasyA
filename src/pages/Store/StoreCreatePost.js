@@ -1,15 +1,16 @@
-import HomeWrapper from "../../components/HomeWrapper";
-import {styled} from "@mui/material/styles";
-import {InputAdornment, TextField} from "@mui/material";
-import {COLOR} from "../../util/util";
 import {useState} from "react";
-import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
+import HomeWrapper from "../../components/HomeWrapper";
+import {COLOR} from "../../util/util";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {createPost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
-import {storePostIdsAtom} from "../../0.Recoil/postState"; // Import the delete icon
+import {storePostIdsAtom} from "../../0.Recoil/postState";
+import {InputAdornment, TextField} from "@mui/material";
+import {styled} from "@mui/material/styles";
+import DeleteIcon from '@mui/icons-material/Delete';
+import CenterLoadingCircle from "../Loading/CenterLoadingCircle";
 
 
 export default function StoreCreatePost() {
@@ -22,6 +23,7 @@ export default function StoreCreatePost() {
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleTitleChange = (event) => {
@@ -62,17 +64,22 @@ export default function StoreCreatePost() {
   };
 
   function handlePost() {
+    setIsLoading(true)
     createPost(auth, user, images, title, price, description).then((res) => {
+      setIsLoading(false)
       if (res.status_code === 200) {
         postIdsRefresh()
         setPopupMessage({state: true, message: "Your post uploaded successfully.", severity: "info"})
         navigate('/store');
       }
-    });
+    }).catch((error) => {
+      setIsLoading(false)
+    })
   }
 
   return(
     <HomeWrapper>
+      <CenterLoadingCircle state={isLoading}/>
       <Base>
         <TitleArea>
           <Title>Sell an Item</Title>
