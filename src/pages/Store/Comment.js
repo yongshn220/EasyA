@@ -1,21 +1,37 @@
 import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import CreateReply from "./CreateReply";
-import {useRecoilValue} from "recoil";
+import {useRecoilValue, useSetRecoilState} from "recoil";
 import {userAtom} from "../../0.Recoil/accountState";
 import LockIcon from '@mui/icons-material/Lock';
 import Tooltip from '@mui/material/Tooltip';
+import {popupMessageAtom} from "../../0.Recoil/utilState";
 
 
 export default function Comment({postId, comment}) {
   const user = useRecoilValue(userAtom)
+  const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const [openReply, setOpenReply] = useState(false)
 
+  function isMyComment() {
+    if (!user) return false
+
+    return user?.email === comment.email
+  }
+
+  function handleOpenReply() {
+    if (!user) {
+      setPopupMessage({state: true, message: "You need to Login to reply.", severity: "warning"})
+    }
+    else {
+      setOpenReply(!openReply)
+    }
+  }
 
   return (
     <Base>
-      <User>{user.email === comment.email? "Me" : comment.username}</User>
+      <User>{isMyComment()? "Me" : comment.username}</User>
       <Text>
         {
           comment.is_secret &&
@@ -32,7 +48,7 @@ export default function Comment({postId, comment}) {
       {
         comment.replies.map((reply, ind) => (
           <InnerBase key={ind}>
-            <User>{user.email === reply.email? "Me" : reply.username}</User>
+            <User>{user?.email === reply.email? "Me" : reply.username}</User>
             <Text>
               {
                 reply.is_secret &&
@@ -49,7 +65,7 @@ export default function Comment({postId, comment}) {
           </InnerBase>
         ))
       }
-      <Reply onClick={() => setOpenReply(!openReply)}>Reply</Reply>
+      <Reply onClick={handleOpenReply}>Reply</Reply>
       { openReply && <CreateReply postId={postId} commentId={comment._id}/> }
     </Base>
   )

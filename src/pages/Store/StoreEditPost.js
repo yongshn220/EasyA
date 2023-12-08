@@ -4,9 +4,9 @@ import {InputAdornment, TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate, useParams} from "react-router-dom";
-import {userAtom} from "../../0.Recoil/accountState";
+import {authAtom} from "../../0.Recoil/accountState";
 import {updatePost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete icon
@@ -15,8 +15,10 @@ import {storePostAtom} from "../../0.Recoil/postState"; // Import the delete ico
 export default function StoreEditPost() {
   const { _id } = useParams();
   const post = useRecoilValue(storePostAtom(_id))
-  const auth = useRecoilValue(userAtom)
+  const auth = useRecoilValue(authAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
+  const postRefresh = useRecoilRefresher_UNSTABLE(storePostAtom(_id))
+
   const navigate = useNavigate()
   const [images, setImages] = useState(post.images);
   const [imagesToAdd, setImagesToAdd] = useState([]);
@@ -83,8 +85,12 @@ export default function StoreEditPost() {
     }
     updatePost(auth, postUpdateRequest, _id).then((res) => {
       if (res.status_code === 200) {
+        postRefresh()
         setPopupMessage({state: true, message: "Your post updated successfully.", severity: "info"})
         navigate('/store');
+      }
+      else {
+        setPopupMessage({state: true, message: "Fail to update the post.", severity: "warning"})
       }
     });
   }

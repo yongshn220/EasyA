@@ -86,7 +86,7 @@ function StorePost() {
           <HeaderProfile>
             <HeaderAuthorInfo>
               <Avatar {...stringAvatar()} />
-              <AuthorName>{isMyPost()? "Me" : "Seller"}</AuthorName>
+              <AuthorName>{isMyPost()? "Me" : "Author"}</AuthorName>
             </HeaderAuthorInfo>
             <HeaderPostInfo>
               {formatTimestamp(post.timestamp)}

@@ -4,17 +4,19 @@ import {InputAdornment, TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useRecoilValue, useSetRecoilState} from "recoil";
+import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {createPost} from "../../api/api";
-import {popupMessageAtom} from "../../0.Recoil/utilState"; // Import the delete icon
+import {popupMessageAtom} from "../../0.Recoil/utilState";
+import {storePostIdsAtom} from "../../0.Recoil/postState"; // Import the delete icon
 
 
 export default function StoreCreatePost() {
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
+  const postIdsRefresh = useRecoilRefresher_UNSTABLE(storePostIdsAtom)
   const navigate = useNavigate()
   const [images, setImages] = useState([]);
   const [title, setTitle] = useState('');
@@ -62,6 +64,7 @@ export default function StoreCreatePost() {
   function handlePost() {
     createPost(auth, user, images, title, price, description).then((res) => {
       if (res.status_code === 200) {
+        postIdsRefresh()
         setPopupMessage({state: true, message: "Your post uploaded successfully.", severity: "info"})
         navigate('/store');
       }

@@ -3,13 +3,17 @@ import {COLOR} from "../../util/util";
 import {styled} from "@mui/material/styles";
 import {useState} from "react";
 import {addReply} from "../../api/api";
-import {useRecoilValue} from "recoil";
+import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {popupMessageAtom} from "../../0.Recoil/utilState";
+import {storePostAtom} from "../../0.Recoil/postState";
 
 
 export default function CreateReply({postId, commentId}) {
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
+  const postRefresh = useRecoilRefresher_UNSTABLE(storePostAtom(postId))
+  const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const [replyText, setReplyText] = useState('');
   const [isSecret, setIsSecret] = useState(false);
 
@@ -23,14 +27,19 @@ export default function CreateReply({postId, commentId}) {
   };
 
   const HandleAddReply = () => {
-    addReply(auth, user, postId, commentId, replyText, isSecret).then(res =>{
-      if (res.status_code === 200) {
-        console.log("suc", res)
-      }
-      else {
-        console.log("fail", res)
-      }
-    })
+    if (!user) {
+      setPopupMessage({state: true, message: "You need to Login to write comment.", severity: "warning"})
+    }
+    else {
+      addReply(auth, user, postId, commentId, replyText, isSecret).then(res =>{
+        if (res.status_code === 200) {
+          postRefresh()
+        }
+        else {
+          setPopupMessage({state: true, message: "Fail to add a reply.", severity: "warning"})
+        }
+      })
+    }
 
     // Reset fields after submission
     setReplyText('');
@@ -55,7 +64,6 @@ export default function CreateReply({postId, commentId}) {
       <div style={{flex: 1, display: 'flex', justifyContent:'flex-end', fontSize:'1.2rem', fontWeight:'600'}}>
         <div style={{flex:0}}>
           <Checkbox
-            defaultChecked
             checked={isSecret}
             onChange={handleCheckboxChange}
             sx={{ '& .MuiSvgIcon-root': { fontSize: '2rem' },  '&.Mui-checked': {color: COLOR.fontGray50,},}}
