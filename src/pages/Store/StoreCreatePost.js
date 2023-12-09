@@ -11,6 +11,8 @@ import {InputAdornment, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CenterLoadingCircle from "../Loading/CenterLoadingCircle";
+import imageCompression from 'browser-image-compression';
+import LoadingCircle from "../Loading/LoadingCircle";
 
 
 export default function StoreCreatePost() {
@@ -39,25 +41,37 @@ export default function StoreCreatePost() {
     setDescription(event.target.value);
   };
 
-  const handleImageChange = (e) => {
+  function handleImageChange(e) {
     const files = Array.from(e.target.files);
     const totalImages = images.length + files.length;
 
     if (totalImages <= 5) {
-      files.forEach(file => {
+      files.forEach((file, index) => {
+        // initial loading image
+        setImages(prevImages => [...prevImages, { url: null, isLoading: true }]);
+
         if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImages(prevImages => [...prevImages, reader.result]);
-          };
-          reader.readAsDataURL(file);
+          compressImage(file).then(compressImage => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setImages(prevImages => {
+                // Update the specific image with the URL and set loading to false
+                const newImages = [...prevImages];
+                newImages[images.length + index] = { url: reader.result, isLoading: false };
+                return newImages;
+              });
+            };
+            reader.readAsDataURL(compressImage);
+          }).catch(error => {
+            console.error("Error compressing the image: ", error);
+          })
         }
       });
     }
     else {
       console.error("Cannot upload more than 5 images");
     }
-  };
+  }
 
   const handleDeleteImage = (index) => {
     setImages(images => images.filter((_, i) => i !== index));
@@ -77,6 +91,23 @@ export default function StoreCreatePost() {
     })
   }
 
+  const compressImage = async (file) => {
+    const options = {
+      maxSizeMB: 0.8,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+
+    try {
+      return await imageCompression(file, options);
+    }
+    catch (error) {
+      console.error("Error in compressing image: ", error);
+      throw error; // rethrow the error so you can catch it in the caller function
+    }
+  };
+
+
   return(
     <HomeWrapper>
       <CenterLoadingCircle state={isLoading}/>
@@ -87,19 +118,24 @@ export default function StoreCreatePost() {
         <Content>
           <ImageArea>
             {
-              images.map((img, index) => (
-              <ImageBox key={index} style={{ backgroundImage: `url(${img})` }}>
-                <DeleteButton onClick={() => handleDeleteImage(index)}>
-                  <DeleteIcon style={{ fontSize: '2rem' }} />
-                </DeleteButton>
-              </ImageBox>
+              images.map((image, index) => (
+                image.isLoading ?
+                  <ImageBox>
+                    <LoadingCircle />
+                  </ImageBox>
+                 :
+                  <ImageBox key={index} style={{ backgroundImage: `url(${image.url})`}}>
+                    <DeleteButton onClick={() => handleDeleteImage(index)}>
+                      <DeleteIcon style={{ fontSize: '2rem' }} />
+                    </DeleteButton>
+                  </ImageBox>
               ))
             }
             <input
               type="file"
               id="file-input"
               style={{ display: 'none' }}
-              accept="image/*"
+              accept="image/*,image/heic"
               onChange={handleImageChange}
               multiple
             />

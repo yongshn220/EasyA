@@ -70,6 +70,7 @@ const Base = styled('div')({
 const Content = styled('div')({
   flex: 1,
   marginTop:'1rem',
+  borderRadius:'5px',
   backgroundColor:'white',
 })
 
