@@ -75,5 +75,7 @@ const SubTitle = styled('div')({
 const Content = styled('div')({
   display: 'flex',
   flexDirection: 'column',
+  borderRadius: '5px',
+  backgroundColor: '#ffffff',
 });
 

@@ -1,5 +1,5 @@
 import {styled} from "@mui/material/styles";
-import {ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
+import {COLOR, ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
 import {useNavigate} from "react-router-dom";
 import {authAtom, userAtom} from "../../../0.Recoil/accountState";
 import {useRecoilState, useRecoilValue} from "recoil";
@@ -36,7 +36,7 @@ export default function MainHeader() {
       <Outside/>
       <Inside>
         <SideLeft>
-          <HomeTitle onClick={HandleHomeClick}>EasyA</HomeTitle>
+          <HomeTitle onClick={HandleHomeClick}>Easy<span style={{color:COLOR.mainYellow, fontWeight:'800'}}>A</span></HomeTitle>
         </SideLeft>
         <Center>
           <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>

@@ -29,7 +29,7 @@ export default function StorePreview() {
         <Grid container>
           {
             postIds.map((id) => (
-              <Suspense key={id} fallback={(<div>loading</div>)}>
+              <Suspense key={id} fallback={(<></>)}>
                 <Grid item xs={2.4}>
                   <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
                 </Grid>

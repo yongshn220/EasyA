@@ -93,7 +93,7 @@ function StorePost() {
             </HeaderPostInfo>
           </HeaderProfile>
           <HeaderMenu>
-            <PostHeaderMenu auth={auth} _id={post._id}/>
+            {isMyPost() && <PostHeaderMenu auth={auth} _id={post._id}/>}
           </HeaderMenu>
         </Header>
         {

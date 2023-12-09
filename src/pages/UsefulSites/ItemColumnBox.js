@@ -16,7 +16,6 @@ const Base = styled('div')({
   flexDirection:'column',
   justifyContent:'center',
   height: '8rem',
-  backgroundColor:'white',
   borderBottom: `0.5px solid ${COLOR.lineGray}`,
   paddingLeft:"2rem",
   cursor:'pointer',
