@@ -35,13 +35,13 @@ export default function MainHeader() {
       <PopupMessage state={popupMessage.state} setState={(state) => setPopupMessage({...popupMessage, state: state})} message={popupMessage.message} severity={popupMessage.severity}/>
       <Outside/>
       <Inside>
-        <Side>
+        <SideLeft>
           <HomeTitle onClick={HandleHomeClick}>EasyA</HomeTitle>
-        </Side>
+        </SideLeft>
         <Center>
           <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
         </Center>
-        <Side>
+        <SideRight>
           {
             (auth.loggedIn === false) &&
             <>
@@ -52,7 +52,7 @@ export default function MainHeader() {
           {
             auth.loggedIn && <AvatarMenu user={user}/>
           }
-        </Side>
+        </SideRight>
       </Inside>
       <Outside/>
     </Base>
@@ -103,12 +103,24 @@ const Center = styled('div')({
   display:'flex',
   flex: `0 0 ${ContentWidthDesktop}`,
   justifyContent:'flex-start',
+  '@media (max-width: 1200px)': {
+    flex: 1,
+  },
 });
 
-const Side = styled('div')({
+const SideLeft = styled('div')({
   flex:1,
   display:'flex',
   justifyContent:'flex-start',
+});
+
+const SideRight = styled('div')({
+  flex:1,
+  display:'flex',
+  justifyContent:'flex-start',
+  '@media (max-width: 1200px)': {
+    justifyContent:'flex-end',
+  },
 });
 
 const Outside = styled('div')({

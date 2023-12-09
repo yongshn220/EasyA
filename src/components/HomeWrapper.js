@@ -21,6 +21,9 @@ const Content = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   flex: `0 0 ${ContentWidthDesktop}`,
+  '@media (max-width: 600px)': {
+    flex:1,
+  },
 });
 
 const Side = styled('div')({
