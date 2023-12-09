@@ -22,7 +22,7 @@ export default function MainContent() {
   const [maxCourseLoadNum, setMaxCourseLoadNum] = useRecoilState(maxCourseLoadNumAtom)
 
   useEffect(() => {
-    console.log(courseInfo.length);
+    console.log(courseInfo.length); // Intend
   }, [courseInfo])
 
   function handleLoadMore() {

@@ -5,7 +5,6 @@ import {CourseTimeToTimeRange, dayStringToDayIndices, daytimeKeyToIndex} from ".
 export function SearchAvailableCourses(filledTimeSet) {
   let availableCourses = []
   let data = JSON.parse(JSON.stringify(courseData))
-  console.log(data)
   Object.entries(data).forEach(([id, course]) => {
     let lectures = Object.values(course["LEC"])
     lectures = filterAvailableLectures(filledTimeSet, lectures)
