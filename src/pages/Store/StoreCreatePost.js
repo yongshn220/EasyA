@@ -223,7 +223,9 @@ const Content = styled('div')({
   paddingBottom:'3rem',
   paddingLeft: '2rem',
   paddingRight: '2rem',
+  marginBottom:'2rem',
   alignItems: 'center',
+  borderRadius:'5px',
   backgroundColor:'white',
 });
 
@@ -268,6 +270,7 @@ const ImageArea = styled('div')({
   border: `1px solid ${COLOR.lineGray}`,
   padding: '0.5rem',
   boxSizing: 'border-box',
+  borderRadius:'5px',
   marginBottom:'2rem',
 });
 
