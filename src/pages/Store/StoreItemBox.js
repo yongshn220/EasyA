@@ -7,10 +7,20 @@ export default function StoreItemBox({onClick, id}) {
 
   if (!post) return <></>
 
+  function truncateTitle(title, maxLength = 30) {
+    if (title.length > maxLength) {
+      return title.substring(0, maxLength) + '...'; // Truncate and add ellipsis
+    }
+    return title;
+  }
+
+  const truncatedTitle = truncateTitle(post?.title);
+
+
   return(
     <Base onClick={onClick}>
       <ImageBox style={{ backgroundImage: `url(${post.images[0]})` }}/>
-      <Title>{post?.title}</Title>
+      <Title>{truncatedTitle}</Title>
       <Price>${post?.price}</Price>
     </Base>
   )
