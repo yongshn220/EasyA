@@ -28,7 +28,7 @@ export default function StorePreview() {
       <Content>
         <Grid container>
           {
-            postIds.map((id) => (
+            postIds.slice(0, 10).map((id) => (
               <Suspense key={id} fallback={(<></>)}>
                 <Grid item xs={2.4}>
                   <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>

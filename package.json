@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
     "react-google-charts": "^4.0.1",
+    "react-linkify": "^1.0.0-alpha",
     "react-scripts": "5.0.1",
     "react-swipeable": "^7.0.1",
     "recoil": "^0.7.7",

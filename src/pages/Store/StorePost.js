@@ -16,6 +16,7 @@ import PostHeaderMenu from "./PostHeaderMenu";
 import {formatTimestamp} from "../../util/timeHelper";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
+import Linkify from 'react-linkify';
 
 
 export default function StorePostWrapper() {
@@ -108,7 +109,9 @@ function StorePost() {
         <TextArea>{post.title}</TextArea>
         <TextArea>${post.price}</TextArea>
         <DescriptionArea>
-          {post.description}
+          <Linkify>
+            {post.description}
+          </Linkify>
         </DescriptionArea>
       </Content>
       <CreateComment postId={post._id}/>
@@ -193,15 +196,17 @@ const TextArea = styled('div')({
 });
 
 const DescriptionArea = styled('div')({
-  display:'flex',
-  flexDirection:'column',
+  display: 'flex',
+  flexDirection: 'column',
   fontSize: '1.6rem',
   height: 'auto',
-  width:'100%',
+  maxWidth: '100%', // Set the maximum width
   marginLeft: '1rem',
-  textAlign:'left',
-  paddingTop:'2rem',
-  whiteSpace: 'pre-wrap',
+  textAlign: 'left',
+  paddingTop: '2rem',
+  whiteSpace: 'pre-wrap', // Preserves whitespace and line-breaks
+  overflowWrap: 'break-word', // Ensures long words are broken and wrapped to the next line
+  wordBreak: 'break-all', // Breaks words to prevent overflow
 });
 
 const CommentArea = styled('div')({
