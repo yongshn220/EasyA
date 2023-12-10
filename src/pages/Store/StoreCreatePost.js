@@ -79,7 +79,8 @@ export default function StoreCreatePost() {
 
   function handlePost() {
     setIsLoading(true)
-    createPost(auth, user, images, title, price, description).then((res) => {
+    const imageUrls = images.map((image) => image.url)
+    createPost(auth, user, imageUrls, title, price, description).then((res) => {
       setIsLoading(false)
       if (res.status_code === 200) {
         postIdsRefresh()
