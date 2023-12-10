@@ -201,6 +201,7 @@ const DescriptionArea = styled('div')({
   marginLeft: '1rem',
   textAlign:'left',
   paddingTop:'2rem',
+  whiteSpace: 'pre-wrap',
 });
 
 const CommentArea = styled('div')({
