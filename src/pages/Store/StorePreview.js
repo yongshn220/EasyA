@@ -30,7 +30,7 @@ export default function StorePreview() {
           {
             postIds.slice(0, 10).map((id) => (
               <Suspense key={id} fallback={(<></>)}>
-                <Grid item xs={2.4}>
+                <Grid item xs={3}>
                   <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
                 </Grid>
               </Suspense>

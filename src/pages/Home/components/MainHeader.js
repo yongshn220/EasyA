@@ -94,7 +94,7 @@ const HomeTitle = styled('div')({
   display:'flex',
   justifyContent:'center',
   alignItems:'center',
-  fontSize: '2rem',
+  fontSize: '2.4rem',
   fontWeight: '700',
   marginLeft:'2rem',
   color: 'black',
@@ -103,7 +103,7 @@ const HomeTitle = styled('div')({
 
 const MenuItem = styled('div')({
   display:'flex',
-  fontSize: '1.6rem',
+  fontSize: '1.8rem',
   fontWeight: '700',
   marginLeft:'2rem',
   alignItems:'center',

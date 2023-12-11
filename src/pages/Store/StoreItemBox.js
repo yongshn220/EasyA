@@ -31,6 +31,7 @@ const Base = styled('div')({
   flexDirection: 'column',
   flex: "0 0 15rem",
   padding:'0.5rem',
+  marginBottom: '2rem',
   cursor:'pointer',
 });
 

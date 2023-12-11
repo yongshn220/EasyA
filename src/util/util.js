@@ -13,8 +13,8 @@ export const COLOR = {
   mainLightYellow10: "#fff3d1",
 }
 
-export const InsideWidthDesktop = '1200px'
-export const ContentWidthDesktop = '800px'
+export const InsideWidthDesktop = '1300px'
+export const ContentWidthDesktop = '1000px'
 
 export const whiteYellowInputFieldStyle = {
   '& .MuiOutlinedInput-root': {
