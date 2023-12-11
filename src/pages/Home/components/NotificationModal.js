@@ -45,14 +45,14 @@ const NotificationList = styled('ul')({
   maxHeight: '300px', // Fixed height with scroll for long lists
   overflowY: 'auto',
 });
-
-const NotificationFooter = styled('div')({
-  padding: '10px',
-  borderTop: '1px solid #ccc',
-  textAlign: 'center',
-  backgroundColor: '#f5f5f5',
-  cursor: 'pointer',
-  '&:hover': {
-    textDecoration: 'underline',
-  },
-});
+//
+// const NotificationFooter = styled('div')({
+//   padding: '10px',
+//   borderTop: '1px solid #ccc',
+//   textAlign: 'center',
+//   backgroundColor: '#f5f5f5',
+//   cursor: 'pointer',
+//   '&:hover': {
+//     textDecoration: 'underline',
+//   },
+// });
