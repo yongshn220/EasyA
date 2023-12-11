@@ -6,13 +6,17 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import AvatarMenu from "./AvatarMenu";
 import PopupMessage from "../../../components/PopupMessage";
 import {popupMessageAtom} from "../../../0.Recoil/utilState";
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import {useState} from "react";
+import NotificationModal from "./NotificationModal";
+
 
 export default function MainHeader() {
   const [popupMessage, setPopupMessage] = useRecoilState(popupMessageAtom)
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
-
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   function HandleStoreClick() {
     navigate('/store')
@@ -29,6 +33,11 @@ export default function MainHeader() {
   function HandleSignUp() {
     navigate('/signup')
   }
+
+  function handleClickNotification() {
+    setIsNotificationOpen(!isNotificationOpen); // Toggle modal visibility
+  }
+
 
   return (
     <Base>
@@ -50,8 +59,13 @@ export default function MainHeader() {
             </>
           }
           {
-            auth.loggedIn && <AvatarMenu user={user}/>
+            auth.loggedIn &&
+            <div style={{position:'relative', display:'flex', alignItems:'center'}}>
+              <NotificationsNoneIcon onClick={handleClickNotification} style={{fontSize:'2.5rem', marginRight:'2rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
+              <AvatarMenu user={user}/>
+            </div>
           }
+          <NotificationModal state={isNotificationOpen}/>
         </SideRight>
       </Inside>
       <Outside/>
@@ -60,6 +74,12 @@ export default function MainHeader() {
 }
 
 const Base = styled('div')({
+  position: 'fixed', // Add this line to make the header fixed
+  top: 0, // Position the header at the top of the viewport
+  left: 0, // Align the header to the left side of the viewport
+  right: 0, // Align the header to the right side of the viewport
+  zIndex: 1000, // Ensure the header is above other content
+  height:'7rem',
   display:'flex',
   flex: '0 0 7rem',
   borderBottom: '1px solid rgba(0,0,0,0.1)',
@@ -115,8 +135,9 @@ const SideLeft = styled('div')({
 });
 
 const SideRight = styled('div')({
-  flex:1,
+  position:'relative',
   display:'flex',
+  flex:1,
   justifyContent:'flex-start',
   '@media (max-width: 1200px)': {
     justifyContent:'flex-end',

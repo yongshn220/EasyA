@@ -44,5 +44,6 @@ const OutSide = styled('div')({
 const Body = styled('div')({
   display: 'flex',
   flex: 1,
+  marginTop:'7rem',
   backgroundColor:'#f3f3f3'
 });

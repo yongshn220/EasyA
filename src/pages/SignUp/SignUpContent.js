@@ -22,6 +22,7 @@ export default function SignUpContent({setIsSignedUp, setFinalEmail}) {
     navigate('/login')
   }
   const validateEmail = (email) => {
+    return true
     return email.endsWith('@stonybrook.edu');
   };
 

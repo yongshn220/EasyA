@@ -292,3 +292,28 @@ export async function updateProfile(auth, profileUpdateRequest) {
     return { status_code: 400, error: error.message}
   }
 }
+
+
+export async function createNotification(auth, type, fromUserId, toUserId, postId, commentId) {
+  try {
+    const response = await fetch(`${serverURI}/notification/create_notification`, {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${auth.accessToken}`
+      },
+      body: JSON.stringify({
+        type: type,
+        fromUserId: fromUserId,
+        toUserId: toUserId,
+        postId: postId,
+        commentId: commentId,
+        isRead: false,
+      })
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message }
+  }
+}
