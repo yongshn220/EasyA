@@ -195,7 +195,7 @@ const TextArea = styled('div')({
   justifyContent:'center',
 });
 
-const DescriptionArea = styled('div')({
+const DescriptionArea = styled('p')({
   display: 'flex',
   flexDirection: 'column',
   fontSize: '1.6rem',
