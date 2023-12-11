@@ -10,7 +10,6 @@ export default function NotificationModal({state}) {
       </NotificationHeader>
       <NotificationList>
         <NotificationItem/>
-        <NotificationItem/>
       </NotificationList>
       {/*<NotificationFooter>*/}
       {/*  SEE ALL*/}

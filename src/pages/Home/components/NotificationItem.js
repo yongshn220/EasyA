@@ -9,11 +9,11 @@ export default function NotificationItem() {
         <Avatar sx={{width:'2rem', height:'2rem', marginRight:'1rem'}}/>
         <div style={{display:'flex', flexDirection:'column'}}>
           <div style={{display:'flex', justifyContent:'space-between', marginBottom:'0.5rem'}}>
-            <div style={{fontWeight:'600'}}>username</div>
-            <div>6d ago</div>
+            <div style={{fontWeight:'600'}}>Developer</div>
+            <div>just now</div>
           </div>
           <div style={{display:'flex', justifyContent:'flex-start', textAlign:'left'}}>
-            <div>posted a comment on your post: "Cross body bag"</div>
+            <div>Notification feature will be added soon. Thank you!</div>
           </div>
         </div>
       </div>
