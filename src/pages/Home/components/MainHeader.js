@@ -48,24 +48,28 @@ export default function MainHeader() {
           <HomeTitle onClick={HandleHomeClick}>Easy<span style={{color:COLOR.mainYellow, fontWeight:'800'}}>A</span></HomeTitle>
         </SideLeft>
         <Center>
-          <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
+          <div style={{display:'flex', flex: 1}}>
+            <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
+          </div>
+          <div style={{display:'flex'}}>
+            {
+              (auth.loggedIn === false) &&
+              <>
+                <MenuItem style={{marginRight:'2rem'}} onClick={HandleLogin}>Login</MenuItem>
+                <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
+              </>
+            }
+            {
+              auth.loggedIn &&
+              <div style={{position:'relative', display:'flex', alignItems:'center'}}>
+                <NotificationsNoneIcon onClick={handleClickNotification} style={{fontSize:'2.5rem', marginRight:'2rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
+                <AvatarMenu user={user}/>
+              </div>
+            }
+          </div>
+          <NotificationModal state={isNotificationOpen}/>
         </Center>
         <SideRight>
-          {
-            (auth.loggedIn === false) &&
-            <>
-              <MenuItem onClick={HandleLogin}>Login</MenuItem>
-              <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
-            </>
-          }
-          {
-            auth.loggedIn &&
-            <div style={{position:'relative', display:'flex', alignItems:'center'}}>
-              <NotificationsNoneIcon onClick={handleClickNotification} style={{fontSize:'2.5rem', marginRight:'2rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
-              <AvatarMenu user={user}/>
-            </div>
-          }
-          <NotificationModal state={isNotificationOpen}/>
         </SideRight>
       </Inside>
       <Outside/>
@@ -105,7 +109,6 @@ const MenuItem = styled('div')({
   display:'flex',
   fontSize: '1.8rem',
   fontWeight: '700',
-  marginLeft:'2rem',
   alignItems:'center',
   color: 'black',
   cursor:'pointer',
@@ -123,7 +126,11 @@ const Center = styled('div')({
   display:'flex',
   flex: `0 0 ${ContentWidthDesktop}`,
   justifyContent:'flex-start',
+  paddingLeft:'2rem',
+  paddingRight:'2rem',
+  boxSizing: 'border-box',
   '@media (max-width: 1200px)': {
+    justifyContent:'space-between',
     flex: 1,
   },
 });
@@ -132,6 +139,10 @@ const SideLeft = styled('div')({
   flex:1,
   display:'flex',
   justifyContent:'flex-start',
+  '@media (max-width: 1200px)': {
+    flex: 0.2,
+    justifyContent:'flex-start',
+  },
 });
 
 const SideRight = styled('div')({
@@ -140,7 +151,7 @@ const SideRight = styled('div')({
   flex:1,
   justifyContent:'flex-start',
   '@media (max-width: 1200px)': {
-    justifyContent:'flex-end',
+    flex: 0,
   },
 });
 

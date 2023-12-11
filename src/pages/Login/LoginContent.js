@@ -95,7 +95,7 @@ const Content = styled('div')({
   display:'flex',
   flexDirection:'column',
   alignItems:'center',
-  width:'80%',
+  width:'50%',
   textAlign: 'center',
   marginTop:'5rem',
   padding:'3rem',

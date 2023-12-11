@@ -28,7 +28,7 @@ export default function StorePreview() {
       <Content>
         <Grid container>
           {
-            postIds.slice(0, 10).map((id) => (
+            postIds.slice(0, 8).map((id) => (
               <Suspense key={id} fallback={(<></>)}>
                 <Grid item xs={3}>
                   <StoreItemBox onClick={() => handlePostClick(id)} id={id}/>
@@ -75,6 +75,7 @@ const SubTitle = styled('div')({
 const Content = styled('div')({
   display: 'flex',
   padding:'1rem',
+  marginBottom:'2rem',
   boxSizing: 'border-box',
   borderRadius:'5px',
   backgroundColor:'white',
