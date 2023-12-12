@@ -2,7 +2,7 @@ import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
 import {InputAdornment, TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate, useParams} from "react-router-dom";
@@ -10,7 +10,10 @@ import {authAtom} from "../../0.Recoil/accountState";
 import {updatePost} from "../../api/api";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostAtom} from "../../0.Recoil/postState";
-import CenterLoadingCircle from "../Loading/CenterLoadingCircle"; // Import the delete icon
+import CenterLoadingCircle from "../Loading/CenterLoadingCircle";
+import {compressAndSetImage, ResolutionType} from "../../util/imageCompressHelper";
+import LoadingCircle from "../Loading/LoadingCircle";
+import {v4 as uuid} from "uuid"; // Import the delete icon
 
 
 export default function StoreEditPost() {
@@ -42,35 +45,61 @@ export default function StoreEditPost() {
     setDescription(event.target.value);
   };
 
-  const handleImageChange = (e) => {
+  function handleImageChange(e) {
     const files = Array.from(e.target.files);
     const totalImages = images.length + files.length;
 
     if (totalImages <= 5) {
-      files.forEach(file => {
-        if (file) {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setImages(prevImages => [...prevImages, reader.result]);
-            setImagesToAdd(prevImages => [...prevImages, reader.result])
-          };
-          reader.readAsDataURL(file);
-        }
+      files.forEach((file, index) => {
+        const imageId = uuid();
+        // initial loading image
+        setImages(prevImages => [...prevImages, {id: imageId, lowRes: null, highRes: null, isLoading: true }]);
+        setImagesToAdd(prevImages => [...prevImages, {id: imageId, lowRes: null, highRes: null, isLoading: true }]);
+
+        compressAndSetImage(file, imageId, updateImageState)
       });
     }
     else {
       console.error("Cannot upload more than 5 images");
     }
-  };
+  }
+
+  const updateImageState = useCallback((imageId, imageUrl, type) => {
+    setImages(prevImages => {
+      return prevImages.map(image => {
+        if (image.id === imageId) {
+          return type === ResolutionType.LOW
+            ? { ...image, lowRes: imageUrl, isLoading: true }
+            : { ...image, highRes: imageUrl, isLoading: false };
+        }
+        return image;
+      });
+    });
+
+    setImagesToAdd(prevImages => {
+      return prevImages.map(image => {
+        if (image.id === imageId) {
+          return type === ResolutionType.LOW
+            ? { ...image, lowRes: imageUrl, isLoading: true }
+            : { ...image, highRes: imageUrl, isLoading: false };
+        }
+        return image;
+      });
+    });
+  }, []);
 
   const handleDeleteImage = (index) => {
     const imageToDelete = images[index];
 
-    // If the image is a newly added image, not include it in the ImagesToDelete.
-    if (imagesToAdd.includes(imageToDelete)) {
-      setImagesToAdd(imagesToAdd => imagesToAdd.filter(img => img !== imageToDelete));
-    }
-    else {
+    const imageIdentifier = imageToDelete.lowRes || imageToDelete.highRes;
+
+    // Update imagesToAdd
+    setImagesToAdd(imagesToAdd => imagesToAdd.filter(img =>
+      (img.lowRes || img.highRes) !== imageIdentifier
+    ));
+
+    // Only add to imagesToDelete if it's not a newly added image
+    if (!imagesToAdd.some(img => (img.lowRes || img.highRes) === imageIdentifier)) {
       setImagesToDelete(prevImagesToDelete => [...prevImagesToDelete, imageToDelete]);
     }
 
@@ -80,8 +109,8 @@ export default function StoreEditPost() {
   function handleUpdate() {
     setIsLoading(true)
     const postUpdateRequest = {
-      images_to_add: imagesToAdd,
-      images_to_delete: imagesToDelete,
+      images_to_add: imagesToAdd.map(image => ({lowRes: image.lowRes, highRes: image.highRes})),
+      images_to_delete: imagesToDelete.map(images => ({lowRes: images.lowRes, highRes: images.highRes})),
       title: title,
       price: price,
       description: description
@@ -111,12 +140,17 @@ export default function StoreEditPost() {
         <Content>
           <ImageArea>
             {
-              images.map((img, index) => (
-                <ImageBox key={index} style={{ backgroundImage: `url(${img})` }}>
-                  <DeleteButton onClick={() => handleDeleteImage(index)}>
-                    <DeleteIcon style={{ fontSize: '2rem' }} />
-                  </DeleteButton>
-                </ImageBox>
+              images.map((image, index) => (
+                image.isLoading ?
+                  <ImageBox>
+                    <LoadingCircle />
+                  </ImageBox>
+                  :
+                  <ImageBox key={index} style={{ backgroundImage: `url(${image.highRes})`}}>
+                    <DeleteButton onClick={() => handleDeleteImage(index)}>
+                      <DeleteIcon style={{ fontSize: '2rem' }} />
+                    </DeleteButton>
+                  </ImageBox>
               ))
             }
             <input
@@ -270,7 +304,7 @@ const ImageBox = styled('div')({
   margin:'1px',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  backgroundSize: 'contain',
+  backgroundSize: 'cover',
 })
 
 const UploadButton = styled('div')({

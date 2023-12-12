@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate} from "react-router-dom";
 import HomeWrapper from "../../components/HomeWrapper";
@@ -11,9 +11,9 @@ import {InputAdornment, TextField} from "@mui/material";
 import {styled} from "@mui/material/styles";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CenterLoadingCircle from "../Loading/CenterLoadingCircle";
-import imageCompression from 'browser-image-compression';
 import LoadingCircle from "../Loading/LoadingCircle";
-
+import {compressAndSetImage, ResolutionType} from "../../util/imageCompressHelper";
+import { v4 as uuid } from 'uuid';
 
 export default function StoreCreatePost() {
   const auth = useRecoilValue(authAtom)
@@ -47,25 +47,11 @@ export default function StoreCreatePost() {
 
     if (totalImages <= 5) {
       files.forEach((file, index) => {
+        const imageId = uuid();
         // initial loading image
-        setImages(prevImages => [...prevImages, { url: null, isLoading: true }]);
+        setImages(prevImages => [...prevImages, {id: imageId, lowRes: null, highRes: null, isLoading: true }]);
 
-        if (file) {
-          compressImage(file).then(compressImage => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              setImages(prevImages => {
-                // Update the specific image with the URL and set loading to false
-                const newImages = [...prevImages];
-                newImages[images.length + index] = { url: reader.result, isLoading: false };
-                return newImages;
-              });
-            };
-            reader.readAsDataURL(compressImage);
-          }).catch(error => {
-            console.error("Error compressing the image: ", error);
-          })
-        }
+        compressAndSetImage(file, imageId, updateImageState)
       });
     }
     else {
@@ -73,14 +59,31 @@ export default function StoreCreatePost() {
     }
   }
 
+  const updateImageState = useCallback((imageId, imageUrl, type) => {
+    setImages(prevImages => {
+      return prevImages.map(image => {
+        if (image.id === imageId) {
+          return type === ResolutionType.LOW
+            ? { ...image, lowRes: imageUrl, isLoading: true }
+            : { ...image, highRes: imageUrl, isLoading: false };
+        }
+        return image;
+      });
+    });
+  }, []);
+
+
   const handleDeleteImage = (index) => {
     setImages(images => images.filter((_, i) => i !== index));
   };
 
   function handlePost() {
     setIsLoading(true)
-    const imageUrls = images.map((image) => image.url)
-    createPost(auth, user, imageUrls, title, price, description).then((res) => {
+    const imageObjs = images.map((image) => ({
+      lowRes: image.lowRes,
+      highRes: image.highRes
+    }))
+    createPost(auth, user, imageObjs, title, price, description).then((res) => {
       setIsLoading(false)
       if (res.status_code === 200) {
         postIdsRefresh()
@@ -91,22 +94,6 @@ export default function StoreCreatePost() {
       setIsLoading(false)
     })
   }
-
-  const compressImage = async (file) => {
-    const options = {
-      maxSizeMB: 0.8,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true,
-    };
-
-    try {
-      return await imageCompression(file, options);
-    }
-    catch (error) {
-      console.error("Error in compressing image: ", error);
-      throw error; // rethrow the error so you can catch it in the caller function
-    }
-  };
 
 
   return(
@@ -125,7 +112,7 @@ export default function StoreCreatePost() {
                     <LoadingCircle />
                   </ImageBox>
                  :
-                  <ImageBox key={index} style={{ backgroundImage: `url(${image.url})`}}>
+                  <ImageBox key={index} style={{ backgroundImage: `url(${image.highRes})`}}>
                     <DeleteButton onClick={() => handleDeleteImage(index)}>
                       <DeleteIcon style={{ fontSize: '2rem' }} />
                     </DeleteButton>
@@ -286,7 +273,7 @@ const ImageBox = styled('div')({
   margin:'1px',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  backgroundSize: 'contain',
+  backgroundSize: 'cover',
 })
 
 const UploadButton = styled('div')({

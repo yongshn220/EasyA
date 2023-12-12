@@ -6,7 +6,7 @@ import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
 import CreateComment from "./CreateComment";
 import { useSwipeable } from 'react-swipeable';
-import {useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Avatar from "@mui/material/Avatar";
@@ -46,6 +46,23 @@ function StorePost() {
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [highResImages, setHighResImages] = useState([]);
+
+
+  useEffect(() => {
+    if (post.images.length <= 0) return;
+    const loadedHighResImages = post.images.map(image => {
+      const img = new window.Image()
+      img.src = image.highRes;
+      return img;
+    })
+    setHighResImages(loadedHighResImages)
+  }, [post.images])
+
+  const currentImageSrc = useMemo(() => {
+    if (post.images.length <= 0) return null
+    return highResImages[currentImageIndex]?.src || post.images[currentImageIndex].lowRes;
+  }, [currentImageIndex, highResImages, post.images]);
 
   const handlers = useSwipeable({
     onSwipedLeft: () => nextImage(),
@@ -101,7 +118,7 @@ function StorePost() {
           (post.images.length > 0) &&
           <ImageArea>
             <LeftButton onClick={prevImage}/>
-            <ImageBox style={{ backgroundImage: `url(${post.images[currentImageIndex]})` }}/>
+            <ImageBox style={{ backgroundImage: `url(${currentImageSrc})` }}/>
             <RightButton onClick={nextImage}/>
           </ImageArea>
         }
@@ -200,6 +217,7 @@ const DescriptionArea = styled('p')({
   flexDirection: 'column',
   fontSize: '1.6rem',
   height: 'auto',
+  width:'100%',
   maxWidth: '100%', // Set the maximum width
   marginLeft: '1rem',
   textAlign: 'left',
@@ -229,7 +247,7 @@ const ImageArea = styled('div')({
 
 const ImageBox = styled('div')({
   width: '100%',
-  aspectRatio: '1/1',
+  aspectRatio: '1/0.5',
   marginBottom: '1rem',
   borderRadius:'5px',
   backgroundColor:'#2d2d2d',

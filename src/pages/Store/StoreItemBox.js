@@ -1,25 +1,41 @@
 import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
+import {useEffect, useState} from "react";
+
+function truncateTitle(title, maxLength = 30) {
+  if (title.length > maxLength) {
+    return title.substring(0, maxLength) + '...'; //
+  }
+  return title;
+}
 
 export default function StoreItemBox({onClick, id}) {
   const post = useRecoilValue(storePostAtom(id))
+  const [imageSrc, setImageSrc] = useState(post.images.length > 0? post.images[0].lowRes : null);
+
+  useEffect(() => {
+    if (post.images.length <= 0) return
+
+    const highResImage = new window.Image()
+    highResImage.src = post.images[0].highRes;
+    highResImage.onload = () => {
+      setImageSrc(post.images[0].highRes)
+    };
+  }, [post.images]);
 
   if (!post) return <></>
 
-  function truncateTitle(title, maxLength = 30) {
-    if (title.length > maxLength) {
-      return title.substring(0, maxLength) + '...'; // Truncate and add ellipsis
-    }
-    return title;
-  }
-
   const truncatedTitle = truncateTitle(post?.title);
-
 
   return(
     <Base onClick={onClick}>
-      <ImageBox style={{ backgroundImage: `url(${post.images[0]})` }}/>
+      <ImageBox>
+        {
+          imageSrc &&
+          <Image src={imageSrc} alt="Description" loading="lazy" decoding="async"/>
+        }
+      </ImageBox>
       <Title>{truncatedTitle}</Title>
       <Price>${post?.price}</Price>
     </Base>
@@ -36,15 +52,18 @@ const Base = styled('div')({
 });
 
 const ImageBox = styled('div')({
-  width:'100%',
+  width: '100%',
   aspectRatio: '1/1',
-  marginBottom:'0.5rem',
-  borderRadius:'5px',
-  backgroundColor:'#5e5e5e',
-  backgroundPosition: 'center', // Center the image
-  backgroundRepeat: 'no-repeat', // Do not repeat the image
-  backgroundSize: 'auto 100%', // Adjusts the size to maintain aspect ratio
+  marginBottom: '0.5rem',
+  borderRadius: '5px',
+  overflow: 'hidden', // To maintain the border-radius
 });
+
+const Image = styled('img')({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+})
 
 const Title = styled('div')({
   fontSize:'1.6rem',

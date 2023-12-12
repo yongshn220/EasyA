@@ -1,6 +1,6 @@
 
-const serverURI = process.env.REACT_APP_API_SERVER
-// const serverURI = "http://0.0.0.0:8000"
+// const serverURI = process.env.REACT_APP_API_SERVER
+const serverURI = "http://0.0.0.0:8000"
 
 export async function getSummary(year) {
   const response = await fetch(`${serverURI}/summary?year=${year}`, {
