@@ -31,10 +31,10 @@ export default function StoreItemBox({onClick, id}) {
   return(
     <Base onClick={onClick}>
       <ImageBox>
-        {/*{*/}
-        {/*  imageSrc &&*/}
-        {/*  <Image src={imageSrc} alt="Description" loading="lazy" decoding="async"/>*/}
-        {/*}*/}
+        {
+          imageSrc &&
+          <Image /*src={imageSrc}*/ alt="Description" loading="lazy" decoding="async"/>
+        }
       </ImageBox>
       <Title>{truncatedTitle}</Title>
       <Price>${post?.price}</Price>
