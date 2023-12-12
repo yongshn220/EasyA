@@ -23,6 +23,7 @@ export default function StorePreview() {
     <Base>
       <TitleArea onClick={HandleStoreClick}>
         <Title>Buy & Sell</Title>
+        <Title>(Temporarily out of Service due to maintenance.)</Title>
         <SubTitle>Try buying and selling items in the campus.</SubTitle>
       </TitleArea>
       <Content>
