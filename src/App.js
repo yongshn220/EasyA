@@ -30,9 +30,9 @@ function App() {
                 <Route path="/verify" element={<VerificationRequestPage/>}/>
                 <Route path="/profile" element={<ProfileHome/>}/>
                 <Route path="/store" element={<StoreHome/>}/>
-                <Route path="/store/post/:_id" element={<StorePost/>}/>
+                <Route path="/store/post/:id" element={<StorePost/>}/>
                 <Route path="/store/create" element={<StoreCreatePost/>}/>
-                <Route path="/store/edit/:_id" element={<StoreEditPost/>}/>
+                <Route path="/store/edit/:id" element={<StoreEditPost/>}/>
                 <Route path="/easya" element={<EasyAHomeWrapper/>}/>
                 <Route path="/dayoffmaker" element={<DayOffMakerHomeWrapper/>}/>
               </Routes>

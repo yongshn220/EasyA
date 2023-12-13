@@ -1,7 +1,6 @@
 import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
-import {useEffect, useState} from "react";
 
 function truncateTitle(title, maxLength = 30) {
   if (title.length > maxLength) {
@@ -10,19 +9,9 @@ function truncateTitle(title, maxLength = 30) {
   return title;
 }
 
+
 export default function StoreItemBox({onClick, id}) {
   const post = useRecoilValue(storePostAtom(id))
-  const [imageSrc, setImageSrc] = useState(post.images.length > 0? post.images[0].lowRes : null);
-
-  useEffect(() => {
-    if (post.images.length <= 0) return
-
-    const highResImage = new window.Image()
-    highResImage.src = post.images[0].highRes;
-    highResImage.onload = () => {
-      setImageSrc(post.images[0].highRes)
-    };
-  }, [post.images]);
 
   if (!post) return <></>
 
@@ -31,16 +20,14 @@ export default function StoreItemBox({onClick, id}) {
   return(
     <Base onClick={onClick}>
       <ImageBox>
-        {
-          imageSrc &&
-          <Image src={imageSrc} alt="Description" loading="lazy" decoding="async"/>
-        }
+        <Image src={post?.images[0]?.lowRes } alt="Description" loading="lazy" decoding="async" />
       </ImageBox>
       <Title>{truncatedTitle}</Title>
       <Price>${post?.price}</Price>
     </Base>
   )
 }
+
 
 const Base = styled('div')({
   display: 'flex',

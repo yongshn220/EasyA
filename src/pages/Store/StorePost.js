@@ -41,8 +41,8 @@ export function stringAvatar() {
 }
 
 function StorePost() {
-  const { _id } = useParams();
-  const post = useRecoilValue(storePostAtom(_id))
+  const { id } = useParams();
+  const post = useRecoilValue(storePostAtom(id))
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -50,6 +50,7 @@ function StorePost() {
 
 
   useEffect(() => {
+    console.log(post)
     if (post.images.length <= 0) return;
     const loadedHighResImages = post.images.map(image => {
       const img = new window.Image()
@@ -111,7 +112,7 @@ function StorePost() {
             </HeaderPostInfo>
           </HeaderProfile>
           <HeaderMenu>
-            {isMyPost() && <PostHeaderMenu auth={auth} _id={post._id}/>}
+            {isMyPost() && <PostHeaderMenu auth={auth} id={post.id}/>}
           </HeaderMenu>
         </Header>
         {

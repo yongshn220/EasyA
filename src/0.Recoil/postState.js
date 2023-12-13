@@ -36,9 +36,9 @@ export const storePostAtom = atomFamily({
   key: 'storePostAtom',
   default: selectorFamily({
     key: 'postAtom/Default',
-    get: (_id) => async ({get}) => {
+    get: (id) => async ({get}) => {
       const auth = get(authAtom)
-      const res = await getPost(auth, _id)
+      const res = await getPost(auth, id)
       if (res.status_code === 200) {
         return res.post
       }

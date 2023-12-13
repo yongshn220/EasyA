@@ -9,19 +9,19 @@ import {useRecoilRefresher_UNSTABLE, useSetRecoilState} from "recoil";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 
-export default function PostHeaderMenu({auth, _id}) {
+export default function PostHeaderMenu({auth, id}) {
   const postIdsRefresh = useRecoilRefresher_UNSTABLE(storePostIdsAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
   const navigate = useNavigate()
 
   function handleEditPost(popupState) {
     popupState.close()
-    navigate(`/store/edit/${_id}`)
+    navigate(`/store/edit/${id}`)
   }
 
   function handleDeletePost(popupState) {
     popupState.close()
-    deletePost(auth, _id).then((res) => {
+    deletePost(auth, id).then((res) => {
       if (res.status_code === 200) {
         postIdsRefresh()
         setPopupMessage({state:true, message: "The post deleted successfully.", severity: "info"})

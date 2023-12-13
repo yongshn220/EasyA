@@ -1,6 +1,6 @@
 
-const serverURI = process.env.REACT_APP_API_SERVER
-// const serverURI = "http://0.0.0.0:8000"
+// const serverURI = process.env.REACT_APP_API_SERVER
+const serverURI = "http://0.0.0.0:8000"
 
 export async function getSummary(year) {
   const response = await fetch(`${serverURI}/summary?year=${year}`, {
@@ -144,6 +144,7 @@ export async function getPostIds() {
     const response = await fetch(`${serverURI}/post/get_post_ids`, {
       method: "GET",
     })
+    console.log(response)
     return response.json()
   }
   catch (error) {
@@ -168,9 +169,9 @@ export async function getPostIdsByEmail(auth, email) {
   }
 }
 
-export async function getPost(auth, _id) {
+export async function getPost(auth, id) {
   try {
-    const response = await fetch(`${serverURI}/post/get_post?_id=${_id}`, {
+    const response = await fetch(`${serverURI}/post/get_post?id=${id}`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${auth.accessToken}`
