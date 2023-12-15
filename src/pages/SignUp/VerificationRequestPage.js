@@ -72,7 +72,7 @@ export default function VerificationRequestPage() {
 
 const Base = styled('div')({
   display:'flex',
-  flexDirection:'column',
+  justifyContent:'center',
   width: '100%',
 });
 

@@ -50,7 +50,6 @@ function StorePost() {
 
 
   useEffect(() => {
-    console.log(post)
     if (post.images.length <= 0) return;
     const loadedHighResImages = post.images.map(image => {
       const img = new window.Image()
@@ -132,11 +131,11 @@ function StorePost() {
           </Linkify>
         </DescriptionArea>
       </Content>
-      <CreateComment postId={post._id}/>
+      <CreateComment postId={post.id}/>
       <CommentArea>
         {
           post.comments.map((comment, index) => (
-            <Comment key={index} postId={post._id} comment={comment}/>
+            <Comment key={index} postId={post.id} comment={comment}/>
           ))
         }
       </CommentArea>

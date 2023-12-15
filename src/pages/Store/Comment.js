@@ -66,7 +66,7 @@ export default function Comment({postId, comment}) {
         ))
       }
       <Reply onClick={handleOpenReply}>Reply</Reply>
-      { openReply && <CreateReply postId={postId} commentId={comment._id}/> }
+      { openReply && <CreateReply postId={postId} commentId={comment.id}/> }
     </Base>
   )
 }

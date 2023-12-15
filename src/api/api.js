@@ -144,7 +144,6 @@ export async function getPostIds() {
     const response = await fetch(`${serverURI}/post/get_post_ids`, {
       method: "GET",
     })
-    console.log(response)
     return response.json()
   }
   catch (error) {
@@ -184,9 +183,9 @@ export async function getPost(auth, id) {
   }
 }
 
-export async function deletePost(auth, _id) {
+export async function deletePost(auth, id) {
   try {
-    const response = await fetch(`${serverURI}/post/delete_post/${_id}`, {
+    const response = await fetch(`${serverURI}/post/delete_post/${id}`, {
       method: "DELETE",
       headers: {
         'Authorization': `Bearer ${auth.accessToken}`
@@ -199,9 +198,9 @@ export async function deletePost(auth, _id) {
   }
 }
 
-export async function updatePost(auth, postUpdateRequest, _id) {
+export async function updatePost(auth, postUpdateRequest, id) {
   try {
-    const response = await fetch(`${serverURI}/post/update_post/${_id}`, {
+    const response = await fetch(`${serverURI}/post/update_post/${id}`, {
       method: "PUT",
       headers: {
         'Content-Type': "application/json",
@@ -294,27 +293,33 @@ export async function updateProfile(auth, profileUpdateRequest) {
   }
 }
 
-
-export async function createNotification(auth, type, fromUserId, toUserId, postId, commentId) {
+export async function getNotificationIds(auth) {
+  console.log(auth)
   try {
-    const response = await fetch(`${serverURI}/notification/create_notification`, {
-      method: "POST",
+    const response = await fetch(`${serverURI}/notification/get_notification_ids`, {
+      method: "GET",
       headers: {
-        'Content-Type': "application/json",
         'Authorization': `Bearer ${auth.accessToken}`
       },
-      body: JSON.stringify({
-        type: type,
-        fromUserId: fromUserId,
-        toUserId: toUserId,
-        postId: postId,
-        commentId: commentId,
-        isRead: false,
-      })
     })
     return response.json()
   }
   catch (error) {
-    return { status_code: 400, error: error.message }
+    return { status_code: 400, error: error.message}
+  }
+}
+
+export async function getNotification(auth, id) {
+  try {
+    const response = await fetch(`${serverURI}/notification/get_notification?id=${id}`, {
+      method: "GET",
+      headers: {
+        'Authorization': `Bearer ${auth.accessToken}`
+      },
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
   }
 }

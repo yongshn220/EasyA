@@ -17,11 +17,11 @@ import {v4 as uuid} from "uuid"; // Import the delete icon
 
 
 export default function StoreEditPost() {
-  const { _id } = useParams();
-  const post = useRecoilValue(storePostAtom(_id))
+  const { id } = useParams();
+  const post = useRecoilValue(storePostAtom(id))
   const auth = useRecoilValue(authAtom)
   const setPopupMessage = useSetRecoilState(popupMessageAtom)
-  const postRefresh = useRecoilRefresher_UNSTABLE(storePostAtom(_id))
+  const postRefresh = useRecoilRefresher_UNSTABLE(storePostAtom(id))
 
   const navigate = useNavigate()
   const [images, setImages] = useState(post.images);
@@ -115,7 +115,7 @@ export default function StoreEditPost() {
       price: price,
       description: description
     }
-    updatePost(auth, postUpdateRequest, _id).then((res) => {
+    updatePost(auth, postUpdateRequest, id).then((res) => {
       setIsLoading(false)
       if (res.status_code === 200) {
         postRefresh()

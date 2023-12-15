@@ -57,7 +57,7 @@ export default function CreateReply({postId, commentId}) {
         autoComplete="off"
         value={replyText}
         onChange={handleInputChange}
-        inputProps={{maxLength: 100,}}
+        inputProps={{maxLength: 100}}
         style={{fontSize:'1.6rem', height:'5rem', paddingLeft:'1rem', marginBottom:'1rem', backgroundColor:'white', borderRadius: '5px',
           border: `0.5px solid ${COLOR.lineGray}`,}}
       />
@@ -74,7 +74,7 @@ export default function CreateReply({postId, commentId}) {
             Secret Reply
           </div>
           <div style={{display: 'inline-block', fontSize:'1rem', fontWeight:'600', color:COLOR.fontGray50}}>
-            Only seller can see it
+            Only seller and commenter can see it
           </div>
         </div>
       </div>

@@ -1,28 +1,66 @@
 import NotificationItem from "./NotificationItem";
 import {styled} from "@mui/material/styles";
+import {notificationIdsAtom} from "../../../0.Recoil/notificationState";
+import {useRecoilValue} from "recoil";
+import {Suspense, useEffect, useRef} from "react";
+import {userAtom} from "../../../0.Recoil/accountState";
+import {ErrorBoundary} from "react-error-boundary";
+import LoadingCircle from "../../Loading/LoadingCircle";
+
+export default function NotificationModalWrapper({state, setState}) {
+  const user = useRecoilValue(userAtom)
+  const ref = useRef(null);
 
 
-export default function NotificationModal({state}) {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setState(false)
+      }
+    }
+    if (state) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [state, setState]);
+
+  if (!user) return <></>
+
   return (
-    <Base isOpen={state}>
+    <Base isOpen={state} ref={ref}>
       <NotificationHeader>
         Notifications
       </NotificationHeader>
-      <NotificationList>
-        <NotificationItem/>
-      </NotificationList>
-      {/*<NotificationFooter>*/}
-      {/*  SEE ALL*/}
-      {/*</NotificationFooter>*/}
+      <ErrorBoundary fallback={<div>Currently not available.</div>}>
+        <Suspense fallback={<LoadingCircle/>}>
+          {state && <NotificationModal/>}
+        </Suspense>
+      </ErrorBoundary>
+      <NotificationFooter/>
     </Base>
   )
 }
 
+function NotificationModal() {
+  const notification_ids = useRecoilValue(notificationIdsAtom)
+
+  return (
+    <NotificationList>
+      {
+        notification_ids.map((id) => (
+          <NotificationItem id={id}/>
+        ))
+      }
+    </NotificationList>
+  )
+}
 
 const Base = styled('div')(({ isOpen }) => ({
   position:'absolute',
   display: isOpen ? 'block' : 'none',
-  width: '350px',
+  width: '380px',
   top: '5.6rem',
   right:'0px',
   backgroundColor: 'white',
@@ -44,15 +82,17 @@ const NotificationList = styled('ul')({
   padding: 0,
   maxHeight: '300px', // Fixed height with scroll for long lists
   overflowY: 'auto',
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
 });
-//
-// const NotificationFooter = styled('div')({
-//   padding: '10px',
-//   borderTop: '1px solid #ccc',
-//   textAlign: 'center',
-//   backgroundColor: '#f5f5f5',
-//   cursor: 'pointer',
-//   '&:hover': {
-//     textDecoration: 'underline',
-//   },
-// });
+
+const NotificationFooter = styled('div')({
+  padding: '10px',
+  borderTop: '0.5px solid #ccc',
+  textAlign: 'center',
+  cursor: 'pointer',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+});

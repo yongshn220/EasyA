@@ -18,24 +18,13 @@ export default function MainHeader() {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
-  function HandleStoreClick() {
-    navigate('/store')
-  }
-
-  function HandleHomeClick() {
-    navigate('/')
-  }
-
-  function HandleLogin() {
-    navigate('/login')
-  }
-
-  function HandleSignUp() {
-    navigate('/signup')
-  }
+  function HandleStoreClick() { navigate('/store') }
+  function HandleHomeClick() { navigate('/') }
+  function HandleLogin() { navigate('/login') }
+  function HandleSignUp() { navigate('/signup') }
 
   function handleClickNotification() {
-    setIsNotificationOpen(!isNotificationOpen); // Toggle modal visibility
+    setIsNotificationOpen(!isNotificationOpen);
   }
 
 
@@ -45,7 +34,7 @@ export default function MainHeader() {
       <Outside/>
       <Inside>
         <SideLeft>
-          <HomeTitle onClick={HandleHomeClick}>Easy<span style={{color:COLOR.mainYellow, fontWeight:'800'}}>A</span></HomeTitle>
+          <HomeTitle onClick={HandleHomeClick}>Eazy<span style={{color:COLOR.mainYellow, fontWeight:'800'}}>A</span></HomeTitle>
         </SideLeft>
         <Center>
           <div style={{display:'flex', flex: 1}}>
@@ -67,7 +56,7 @@ export default function MainHeader() {
               </div>
             }
           </div>
-          <NotificationModal state={isNotificationOpen}/>
+          <NotificationModal state={isNotificationOpen} setState={setIsNotificationOpen}/>
         </Center>
         <SideRight>
         </SideRight>
