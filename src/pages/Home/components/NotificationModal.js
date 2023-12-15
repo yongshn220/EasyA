@@ -60,9 +60,9 @@ function NotificationModal() {
 const Base = styled('div')(({ isOpen }) => ({
   position:'absolute',
   display: isOpen ? 'block' : 'none',
-  width: '380px',
-  top: '5.6rem',
-  right:'0px',
+  width: '38rem',
+  top: '7.5rem',
+  right:'0.5rem',
   backgroundColor: 'white',
   borderRadius: '8px',
   boxShadow: '0 4px 8px rgba(0, 0, 0, 0.05)',

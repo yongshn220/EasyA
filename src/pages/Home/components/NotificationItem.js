@@ -70,4 +70,5 @@ const ContentInner = styled('div')({
   justifyContent:'flex-start',
   textAlign:'left',
   marginLeft:'3rem',
+  fontSize:'1.2rem',
 })
