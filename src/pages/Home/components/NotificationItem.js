@@ -4,6 +4,7 @@ import {notificationAtom} from "../../../0.Recoil/notificationState";
 import {storePostAtom} from "../../../0.Recoil/postState";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {COLOR} from '../../../util/util'
+import TimeHelper from '../../../util/timeHelper'
 
 export default function NotificationItem({id}) {
   const notification = useRecoilValue(notificationAtom(id))
@@ -21,7 +22,7 @@ export default function NotificationItem({id}) {
           <MailOutlineIcon sx={{flex:1, fontSize:'2.0rem', marginRight:'1rem'}}/>
         </IconArea>
           <div style={{flex: 1, fontWeight:'600', textAlign:'left'}}>Buy&Sell: {post?.title}</div>
-          <div style={{fontSize:'1.2rem'}}>just now</div>
+          <div style={{fontSize:'1.2rem'}}>{TimeHelper.getTopElapsedStringUntilNow(notification.timestamp)} ago</div>
         </ContentHeader>
         <ContentInner>
           <div style={{color:COLOR.fontGray50}}>{`Someone added a ${fromType} on your ${toType}.`}</div>

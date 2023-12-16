@@ -13,7 +13,7 @@ import Avatar from "@mui/material/Avatar";
 import {COLOR} from "../../util/util";
 import * as React from "react";
 import PostHeaderMenu from "./PostHeaderMenu";
-import {formatTimestamp} from "../../util/timeHelper";
+import TimeHelper from "../../util/timeHelper";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
 import Linkify from 'react-linkify';
@@ -107,7 +107,7 @@ function StorePost() {
               <AuthorName>{isMyPost()? "Me" : "Author"}</AuthorName>
             </HeaderAuthorInfo>
             <HeaderPostInfo>
-              {formatTimestamp(post.timestamp)}
+              {TimeHelper.formatTimestamp(post.timestamp)}
             </HeaderPostInfo>
           </HeaderProfile>
           <HeaderMenu>

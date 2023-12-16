@@ -1,32 +1,18 @@
 import {styled} from "@mui/material/styles";
 import {COLOR, ContentWidthDesktop, InsideWidthDesktop} from "../../../util/util";
 import {useNavigate} from "react-router-dom";
-import {authAtom, userAtom} from "../../../0.Recoil/accountState";
-import {useRecoilState, useRecoilValue} from "recoil";
-import AvatarMenu from "./AvatarMenu";
+import {useRecoilState} from "recoil";
 import PopupMessage from "../../../components/PopupMessage";
 import {popupMessageAtom} from "../../../0.Recoil/utilState";
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import {useState} from "react";
-import NotificationModal from "./NotificationModal";
+import MainHeaderOptions from "./MainHeaderOptions";
 
 
 export default function MainHeader() {
   const [popupMessage, setPopupMessage] = useRecoilState(popupMessageAtom)
-  const auth = useRecoilValue(authAtom)
-  const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   function HandleStoreClick() { navigate('/store') }
   function HandleHomeClick() { navigate('/') }
-  function HandleLogin() { navigate('/login') }
-  function HandleSignUp() { navigate('/signup') }
-
-  function handleClickNotification() {
-    setIsNotificationOpen(!isNotificationOpen);
-  }
-
 
   return (
     <Base>
@@ -41,22 +27,8 @@ export default function MainHeader() {
             <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
           </div>
           <div style={{display:'flex'}}>
-            {
-              (auth.loggedIn === false) &&
-              <>
-                <MenuItem style={{marginRight:'2rem'}} onClick={HandleLogin}>Login</MenuItem>
-                <MenuItem onClick={HandleSignUp}>Sign up</MenuItem>
-              </>
-            }
-            {
-              auth.loggedIn &&
-              <div style={{position:'relative', display:'flex', alignItems:'center'}}>
-                <NotificationsNoneIcon onClick={handleClickNotification} style={{fontSize:'2.5rem', marginRight:'2rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
-                <AvatarMenu user={user}/>
-              </div>
-            }
+            <MainHeaderOptions/>
           </div>
-          <NotificationModal state={isNotificationOpen} setState={setIsNotificationOpen}/>
         </Center>
         <SideRight>
         </SideRight>
