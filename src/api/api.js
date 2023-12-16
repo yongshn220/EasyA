@@ -1,6 +1,6 @@
 
-// const serverURI = process.env.REACT_APP_API_SERVER
-const serverURI = "http://0.0.0.0:8000"
+const serverURI = process.env.REACT_APP_API_SERVER
+// const serverURI = "http://0.0.0.0:8000"
 
 export async function getSummary(year) {
   const response = await fetch(`${serverURI}/summary?year=${year}`, {
@@ -154,7 +154,6 @@ export async function createPost(auth, user, images, title, price, description) 
 
 export async function getPostIds(pageNumber, signal) {
   try {
-    console.log("getPostIds")
     const response = await fetch(`${serverURI}/post/get_post_ids?page=${pageNumber}`, {
       method: "GET",
     })
@@ -308,7 +307,6 @@ export async function updateProfile(auth, profileUpdateRequest) {
 }
 
 export async function getNotificationIds(auth) {
-  console.log(auth)
   try {
     const response = await fetch(`${serverURI}/notification/get_notification_ids`, {
       method: "GET",
