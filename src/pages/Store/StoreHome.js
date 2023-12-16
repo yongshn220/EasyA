@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback, useRef, useState} from "react";
 import {Suspense} from "react";
 import {styled} from "@mui/material/styles";
 import HomeWrapper from "../../components/HomeWrapper";
@@ -11,12 +11,30 @@ import {useRecoilValue} from "recoil";
 import {authAtom} from "../../0.Recoil/accountState";
 import { ErrorBoundary } from "react-error-boundary";
 import LoadingCircle from "../Loading/LoadingCircle";
+import usePostIdsLoad from "./usePostIdsLoad";
 
 
 export default function StoreHome() {
   const auth = useRecoilValue(authAtom)
   const storePostIds = useRecoilValue(storePostIdsAtom)
   const navigate = useNavigate()
+  const [pageNumber, setPageNumber] = useState(1)
+  const { loading, error, hasMore } = usePostIdsLoad(pageNumber)
+
+  const observer = useRef()
+  const endMarkRef = useCallback((node) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPageNumber((prevPageNumber) => prevPageNumber + 1);
+      }
+    })
+
+    if (node) observer.current.observe(node);
+
+  }, [loading, hasMore])
 
   function handleCreatePost() {
     if (auth.loggedIn) {
@@ -51,6 +69,8 @@ export default function StoreHome() {
               ))
             }
           </Grid>
+          <div ref={endMarkRef}/>
+          {error && <div>Fail to load posts.</div>}
         </Content>
       </Base>
     </HomeWrapper>

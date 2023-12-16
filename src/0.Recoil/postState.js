@@ -8,7 +8,7 @@ export const storePostIdsAtom = atom({
   default: selector({
     key: 'postIdsAtom/Default',
     get: async () => {
-      const res = await getPostIds()
+      const res = await getPostIds(1)
       if (res.status_code === 200) {
         return res.post_ids
       }
@@ -20,7 +20,7 @@ export const storePostIdsAtom = atom({
 export const myStorePostIdsAtom = atomFamily({
   key: 'myStorePostIdsAtom',
   default: selectorFamily({
-    key: '/Default',
+    key: 'myStorePostIdsAtom/Default',
     get: (email) => async ({get}) => {
       const auth = get(authAtom)
       const res = await getPostIdsByEmail(auth, email)
