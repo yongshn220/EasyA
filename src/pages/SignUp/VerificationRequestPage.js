@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import {verifyEmail} from "../../api/api";
+import {verifyEmail} from "../../api/accountAPI";
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
 import {Button} from "@mui/material";

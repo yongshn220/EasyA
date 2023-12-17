@@ -5,7 +5,7 @@ import {Suspense, useEffect, useRef, useState} from "react";
 import {authAtom, userAtom} from "../../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
 import LoadingCircle from "../../Loading/LoadingCircle";
-import {getNotifications} from "../../../api/api";
+import {getNotifications} from "../../../api/notificationAPI";
 
 export default function NotificationModalWrapper({state, setState}) {
   const user = useRecoilValue(userAtom)

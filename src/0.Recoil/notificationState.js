@@ -1,5 +1,5 @@
 import {atom, selector} from "recoil";
-import {getNotifications} from "../api/api";
+import {getNotifications} from "../api/notificationAPI";
 import {authAtom} from "./accountState";
 
 export const notificationsAtom = atom({

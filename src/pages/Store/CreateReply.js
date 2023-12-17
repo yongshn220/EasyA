@@ -2,7 +2,7 @@ import {Checkbox, Input} from "@mui/material";
 import {COLOR} from "../../util/util";
 import {styled} from "@mui/material/styles";
 import {useState} from "react";
-import {addReply} from "../../api/api";
+import {addReply} from "../../api/commentAPI";
 import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {popupMessageAtom} from "../../0.Recoil/utilState";

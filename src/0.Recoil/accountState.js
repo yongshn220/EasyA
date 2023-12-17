@@ -1,6 +1,6 @@
 import {atom, selector} from "recoil";
 import {LocalStorageHelper} from "../util/localStorageHelper";
-import {checkTokenValidity} from "../api/api";
+import {checkTokenValidity} from "../api/accountAPI";
 
 export const emptyAuth = {loggedIn: false, accessToken: ""}
 

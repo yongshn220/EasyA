@@ -1,5 +1,5 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
-import {getCourseInfo, getProfessorSummary, getSummary} from "../api/api";
+import {getCourseInfo, getProfessorSummary, getSummary} from "../api/courseAPI";
 
 
 /* -------------------------

@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {useRecoilRefresher_UNSTABLE, useRecoilValue, useSetRecoilState} from "recoil";
 import {useNavigate, useParams} from "react-router-dom";
 import {authAtom} from "../../0.Recoil/accountState";
-import {updatePost} from "../../api/api";
+import {updatePost} from "../../api/postAPI";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostAtom} from "../../0.Recoil/postState";
 import CenterLoadingCircle from "../Loading/CenterLoadingCircle";

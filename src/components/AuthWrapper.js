@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {checkTokenValidity} from "../api/api";
+import {checkTokenValidity} from "../api/accountAPI";
 import {authAtom, emptyAuth, userAtom} from "../0.Recoil/accountState";
 import {LocalStorageHelper} from "../util/localStorageHelper";
 import {useRecoilState, useSetRecoilState} from "recoil";

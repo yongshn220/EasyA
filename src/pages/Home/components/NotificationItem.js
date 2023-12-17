@@ -5,7 +5,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {COLOR} from '../../../util/util'
 import TimeHelper from '../../../util/timeHelper'
 import {useEffect} from "react";
-import {markNotification} from "../../../api/api";
+import {markNotification} from "../../../api/notificationAPI";
 import {authAtom} from "../../../0.Recoil/accountState";
 import {useNavigate} from "react-router-dom";
 

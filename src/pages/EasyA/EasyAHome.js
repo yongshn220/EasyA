@@ -17,7 +17,7 @@ import MainContent from "./components/MainContent"
 import {TextField} from "@mui/material";
 import {COLOR} from "../../util/util";
 import Button from "@mui/material/Button";
-import {postFeedback} from "../../api/api";
+import {postFeedback} from "../../api/courseAPI";
 import MainContentMobile from "./components/MainContentMobile";
 import UpdateInfo from "./components/UpdateInfo";
 import LoadingBox from "../../components/LoadingBox";

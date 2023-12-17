@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Autocomplete from "@mui/material/Autocomplete";
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
-import {signup} from "../../api/api";
+import {signup} from "../../api/accountAPI";
 import {Majors} from "../../0.Recoil/easyAState";
 
 

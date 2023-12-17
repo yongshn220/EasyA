@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 import HomeWrapper from "../../components/HomeWrapper";
 import {COLOR} from "../../util/util";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
-import {createPost} from "../../api/api";
+import {createPost} from "../../api/postAPI";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {InputAdornment, TextField} from "@mui/material";

@@ -3,7 +3,7 @@ import {TextField, Button, Alert} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
 import {COLOR} from "../../util/util";
-import {login} from "../../api/api";
+import {login} from "../../api/accountAPI";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
 import {LocalStorageHelper} from "../../util/localStorageHelper";

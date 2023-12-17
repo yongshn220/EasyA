@@ -7,7 +7,7 @@ import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import NotificationModal from "./NotificationModal";
 import {useEffect, useState} from "react";
-import {getNotificationStatus} from "../../../api/api";
+import {getNotificationStatus} from "../../../api/notificationAPI";
 
 
 export default function MainHeaderOptions() {

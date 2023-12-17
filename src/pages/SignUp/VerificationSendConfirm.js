@@ -2,7 +2,7 @@ import {styled} from "@mui/material/styles";
 import {Button} from "@mui/material";
 import {COLOR} from "../../util/util";
 import React from "react";
-import {resendVerificationEmail} from "../../api/api";
+import {resendVerificationEmail} from "../../api/accountAPI";
 import {useNavigate} from "react-router-dom";
 
 

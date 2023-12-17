@@ -1,5 +1,5 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
-import {getPost, getPostIds, getPostIdsByEmail} from "../api/api";
+import {getPost, getPostIds, getPostIdsByEmail} from "../api/postAPI";
 import {authAtom} from "./accountState";
 
 

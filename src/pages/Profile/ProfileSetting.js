@@ -7,7 +7,7 @@ import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
 import {authAtom, userAtom} from "../../0.Recoil/accountState";
-import {updateProfile} from "../../api/api";
+import {updateProfile} from "../../api/profileAPI";
 import {popupMessageAtom} from "../../0.Recoil/utilState";
 import {useEffect, useState} from "react";
 

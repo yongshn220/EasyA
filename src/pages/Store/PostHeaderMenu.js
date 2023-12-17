@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import PopupState, {bindMenu, bindTrigger} from 'material-ui-popup-state';
 import {useNavigate} from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
-import {deletePost} from "../../api/api";
+import {deletePost} from "../../api/postAPI";
 import {useRecoilRefresher_UNSTABLE, useSetRecoilState} from "recoil";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {popupMessageAtom} from "../../0.Recoil/utilState";

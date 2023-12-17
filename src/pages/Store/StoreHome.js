@@ -33,7 +33,6 @@ export default function StoreHome() {
     })
 
     if (node) observer.current.observe(node);
-
   }, [loading, hasMore])
 
   function handleCreatePost() {
@@ -56,7 +55,7 @@ export default function StoreHome() {
           Sell an Item
         </Button>
         <Content>
-          <Grid container>
+          <Grid container spacing={1}>
             {
               storePostIds.map((id) => (
               <ErrorBoundary key={id} fallback={<></>}>

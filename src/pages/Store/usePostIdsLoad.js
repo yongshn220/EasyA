@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getPostIds} from "../../api/api";
+import {getPostIds} from "../../api/postAPI";
 import {storePostIdsAtom} from "../../0.Recoil/postState";
 import {useSetRecoilState} from "recoil";
 
