@@ -1,7 +1,7 @@
 import NotificationItem from "./NotificationItem";
 import {styled} from "@mui/material/styles";
 import {useRecoilValue} from "recoil";
-import {useEffect, useRef, useState} from "react";
+import {Suspense, useEffect, useRef, useState} from "react";
 import {authAtom, userAtom} from "../../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
 import LoadingCircle from "../../Loading/LoadingCircle";
@@ -71,11 +71,13 @@ function NotificationModal({state}) {
 
   return (
     <NotificationList>
-      {
-        notifications.map((notification) => (
-          <NotificationItem key={notification.id} notification={notification}/>
-        ))
-      }
+      <Suspense fallback={<LoadingCircle/>}>
+        {
+          notifications.map((notification) => (
+            <NotificationItem key={notification.id} notification={notification}/>
+          ))
+        }
+      </Suspense>
       {isLoading && <LoadingCircle/>}
     </NotificationList>
   )
