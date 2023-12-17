@@ -50,7 +50,7 @@ export default function MainHeaderOptions() {
                 <AlertText>{unreadCount}</AlertText>
               </Alert>
             }
-            <NotificationsNoneIcon id="notification-icon" onClick={handleClickNotification} style={{fontSize:'3rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
+            <NotificationOptionIcon id="notification-icon" onClick={handleClickNotification}/>
           </NotificationOption>
           <AvatarOption>
             <AvatarMenu user={user}/>
@@ -89,7 +89,7 @@ const Alert = styled('div')({
   top:'-0.3rem',
   backgroundColor:'red',
   borderRadius:'50%',
-  border: '1px solid white'
+  border: '1px solid white',
 })
 
 const AlertText = styled('div')({
@@ -100,4 +100,13 @@ const AlertText = styled('div')({
 
 const AvatarOption = styled('div')({
   flex:1
+})
+
+const NotificationOptionIcon = styled(NotificationsNoneIcon)({
+  fontSize:'2.5rem',
+  color:COLOR.fontGray50,
+  cursor:'pointer',
+  '&:hover': {
+    color: COLOR.mainYellow,
+  },
 })
