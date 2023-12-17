@@ -7,12 +7,14 @@ import TimeHelper from '../../../util/timeHelper'
 import {useEffect} from "react";
 import {markNotification} from "../../../api/api";
 import {authAtom} from "../../../0.Recoil/accountState";
+import {useNavigate} from "react-router-dom";
 
 export default function NotificationItem({notification}) {
   const auth = useRecoilValue(authAtom)
   const post = useRecoilValue(storePostAtom(notification?.postId))
   const fromType = notification.type
   const toType = notification.type === "reply"? "comment" : "post"
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (!notification || notification.isRead) return
@@ -25,8 +27,12 @@ export default function NotificationItem({notification}) {
 
   if (!notification) return <></>
 
+  function handleClickNotification() {
+    navigate(`/store/post/${notification.postId}`)
+  }
+
   return (
-    <Base>
+    <Base onClick={handleClickNotification}>
       <Content>
         <ContentHeader>
         <IconArea>
@@ -51,6 +57,7 @@ const Base = styled('li')({
   padding: '2rem',
   borderBottom: '1px solid #eee',
   fontSize: '14px',
+  cursor: 'pointer',
   '&:hover': {
     backgroundColor: '#f9f9f9',
   },
