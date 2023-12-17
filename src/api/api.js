@@ -1,6 +1,6 @@
 
-const serverURI = process.env.REACT_APP_API_SERVER
-// const serverURI = "http://0.0.0.0:8000"
+// const serverURI = process.env.REACT_APP_API_SERVER
+const serverURI = "http://0.0.0.0:8000"
 
 export async function getSummary(year) {
   const response = await fetch(`${serverURI}/summary?year=${year}`, {
@@ -139,20 +139,7 @@ export async function createPost(auth, user, images, title, price, description) 
   }
 }
 
-// export async function getPostIds() {
-//   try {
-//     const response = await fetch(`${serverURI}/post/get_post_ids`, {
-//       method: "GET",
-//     })
-//     return response.json()
-//   }
-//   catch (error) {
-//     return { status_code: 400, error: error.message}
-//   }
-// }
-
-
-export async function getPostIds(pageNumber, signal) {
+export async function getPostIds(pageNumber) {
   try {
     const response = await fetch(`${serverURI}/post/get_post_ids?page=${pageNumber}`, {
       method: "GET",
@@ -306,9 +293,9 @@ export async function updateProfile(auth, profileUpdateRequest) {
   }
 }
 
-export async function getNotificationIds(auth) {
+export async function getNotifications(auth) {
   try {
-    const response = await fetch(`${serverURI}/notification/get_notification_ids`, {
+    const response = await fetch(`${serverURI}/notification/get_notifications`, {
       method: "GET",
       headers: {
         'Authorization': `Bearer ${auth.accessToken}`
@@ -321,10 +308,26 @@ export async function getNotificationIds(auth) {
   }
 }
 
-export async function getNotification(auth, id) {
+export async function getNotificationStatus(auth) {
   try {
-    const response = await fetch(`${serverURI}/notification/get_notification?id=${id}`, {
+    const response = await fetch(`${serverURI}/notification/get_notification_status`, {
       method: "GET",
+      headers: {
+        'Authorization': `Bearer ${auth.accessToken}`
+      },
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
+
+export async function markNotification(auth, id) {
+  try {
+    console.log("in", id)
+    const response = await fetch(`${serverURI}/notification/mark_notification/${id}`, {
+      method: "PATCH",
       headers: {
         'Authorization': `Bearer ${auth.accessToken}`
       },

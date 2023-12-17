@@ -1,33 +1,19 @@
-import {atom, atomFamily, selector, selectorFamily} from "recoil";
-import {getNotification, getNotificationIds} from "../api/api";
+import {atom, selector} from "recoil";
+import {getNotifications} from "../api/api";
 import {authAtom} from "./accountState";
 
-export const notificationIdsAtom = atom({
-  key: 'notificationIdsAtom',
+export const notificationsAtom = atom({
+  key: 'notificationsAtom',
   default: selector({
-    key: 'notificationIdsAtom/Default',
+    key: 'notificationsAtom/Default',
     get: async ({get}) => {
       const auth = get(authAtom)
-      const res = await getNotificationIds(auth)
+      const res = await getNotifications(auth)
       if (res.status_code === 200) {
-        return res.notification_ids
+        console.log(res)
+        return res.notifications
       }
       else return []
     }
   })
 })
-
-export const notificationAtom = atomFamily({
-  key: 'notificationAtom',
-  default: selectorFamily({
-    key: 'notificationAtom/Default',
-    get: (id) => async ({get}) => {
-      const auth = get(authAtom)
-      const res = await getNotification(auth, id)
-      if (res.status_code === 200) {
-        return res.notification
-      }
-      else return null
-    },
-  })
-});

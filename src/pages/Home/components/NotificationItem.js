@@ -1,16 +1,27 @@
 import {styled} from "@mui/material/styles";
 import {useRecoilValue} from "recoil";
-import {notificationAtom} from "../../../0.Recoil/notificationState";
 import {storePostAtom} from "../../../0.Recoil/postState";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import {COLOR} from '../../../util/util'
 import TimeHelper from '../../../util/timeHelper'
+import {useEffect} from "react";
+import {markNotification} from "../../../api/api";
+import {authAtom} from "../../../0.Recoil/accountState";
 
-export default function NotificationItem({id}) {
-  const notification = useRecoilValue(notificationAtom(id))
+export default function NotificationItem({notification}) {
+  const auth = useRecoilValue(authAtom)
   const post = useRecoilValue(storePostAtom(notification?.postId))
   const fromType = notification.type
   const toType = notification.type === "reply"? "comment" : "post"
+
+  useEffect(() => {
+    if (!notification || notification.isRead) return
+
+    markNotification(auth, notification.id).then().catch((e) => {
+      console.log("Fail to mark notification read. ", e)
+    })
+  }, [auth, notification])
+
 
   if (!notification) return <></>
 
@@ -19,10 +30,10 @@ export default function NotificationItem({id}) {
       <Content>
         <ContentHeader>
         <IconArea>
-          <MailOutlineIcon sx={{flex:1, fontSize:'2.0rem', marginRight:'1rem'}}/>
+          <MailIcon style={{color: notification?.isRead? "black" : COLOR.mainYellow}}/>
         </IconArea>
           <div style={{flex: 1, fontWeight:'600', textAlign:'left'}}>Buy&Sell: {post?.title}</div>
-          <div style={{fontSize:'1.2rem'}}>{TimeHelper.getTopElapsedStringUntilNow(notification.timestamp)} ago</div>
+          <div style={{fontSize:'1.2rem'}}>{TimeHelper.getTopElapsedStringUntilNow(notification?.timestamp)} ago</div>
         </ContentHeader>
         <ContentInner>
           <div style={{color:COLOR.fontGray50}}>{`Someone added a ${fromType} on your ${toType}.`}</div>
@@ -72,4 +83,10 @@ const ContentInner = styled('div')({
   textAlign:'left',
   marginLeft:'3rem',
   fontSize:'1.2rem',
+})
+
+const MailIcon = styled(MailOutlineIcon)({
+  flex:1,
+  fontSize:'2.0rem',
+  marginRight:'1rem',
 })

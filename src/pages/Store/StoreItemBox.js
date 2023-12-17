@@ -12,7 +12,6 @@ function truncateTitle(title, maxLength = 30) {
 
 export default function StoreItemBox({onClick, id}) {
   const post = useRecoilValue(storePostAtom(id))
-
   if (!post) return <></>
 
   const truncatedTitle = truncateTitle(post?.title);

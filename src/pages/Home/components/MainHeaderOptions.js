@@ -6,24 +6,31 @@ import {useRecoilValue} from "recoil";
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import NotificationModal from "./NotificationModal";
-import {useState} from "react";
-import {notificationIdsAtom} from "../../../0.Recoil/notificationState";
+import {useEffect, useState} from "react";
+import {getNotificationStatus} from "../../../api/api";
 
 
 export default function MainHeaderOptions() {
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
-  const notification_ids = useRecoilValue(notificationIdsAtom)
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0)
   const navigate = useNavigate()
 
   function HandleLogin() { navigate('/login') }
   function HandleSignUp() { navigate('/signup') }
 
-  function handleClickNotification() {
+  function handleClickNotification(e) {
+    e.stopPropagation();
     setIsNotificationOpen(!isNotificationOpen);
   }
 
+  useEffect(() => {
+    getNotificationStatus(auth).then((res) => {
+      if (res.status_code === 200)
+        setUnreadCount(res.unread_count)
+    })
+  }, [auth, isNotificationOpen])
 
   return(
     <div>
@@ -38,12 +45,12 @@ export default function MainHeaderOptions() {
         <UserOptionArea>
           <NotificationOption>
             {
-              notification_ids.length > 0 &&
+              unreadCount > 0 &&
               <Alert>
-                <AlertText>{notification_ids.length}</AlertText>
+                <AlertText>{unreadCount}</AlertText>
               </Alert>
             }
-            <NotificationsNoneIcon onClick={handleClickNotification} style={{fontSize:'3rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
+            <NotificationsNoneIcon id="notification-icon" onClick={handleClickNotification} style={{fontSize:'3rem', color:COLOR.fontGray50, cursor:'pointer'}}/>
           </NotificationOption>
           <AvatarOption>
             <AvatarMenu user={user}/>
@@ -81,7 +88,8 @@ const Alert = styled('div')({
   right:'-0.3rem',
   top:'-0.3rem',
   backgroundColor:'red',
-  borderRadius:'50%'
+  borderRadius:'50%',
+  border: '1px solid white'
 })
 
 const AlertText = styled('div')({

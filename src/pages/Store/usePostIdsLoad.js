@@ -14,8 +14,7 @@ export default function usePostIdsLoad(pageNumber) {
     setLoading(true)
     setError(false)
 
-    const abortSignal = new AbortController();
-    getPostIds(pageNumber, abortSignal).then((response) => {
+    getPostIds(pageNumber).then((response) => {
       if (response.status_code === 200) {
         const postIds = response.post_ids
         setHasMore(postIds.length > 0)

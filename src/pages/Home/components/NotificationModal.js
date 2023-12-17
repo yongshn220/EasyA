@@ -1,11 +1,11 @@
 import NotificationItem from "./NotificationItem";
 import {styled} from "@mui/material/styles";
-import {notificationIdsAtom} from "../../../0.Recoil/notificationState";
 import {useRecoilValue} from "recoil";
-import {Suspense, useEffect, useRef} from "react";
-import {userAtom} from "../../../0.Recoil/accountState";
+import {useEffect, useRef, useState} from "react";
+import {authAtom, userAtom} from "../../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
 import LoadingCircle from "../../Loading/LoadingCircle";
+import {getNotifications} from "../../../api/api";
 
 export default function NotificationModalWrapper({state, setState}) {
   const user = useRecoilValue(userAtom)
@@ -13,16 +13,18 @@ export default function NotificationModalWrapper({state, setState}) {
 
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) {
+    const handleClickOutside = (e) => {
+      if (e.target.closest("#notification-icon")) return
+
+      if (ref.current && !ref.current.contains(e.target)) {
         setState(false)
       }
     }
     if (state) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("mouseup", handleClickOutside);
     }
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mouseup", handleClickOutside);
     };
   }, [state, setState]);
 
@@ -34,25 +36,47 @@ export default function NotificationModalWrapper({state, setState}) {
         Notifications
       </NotificationHeader>
       <ErrorBoundary fallback={<div>Currently not available.</div>}>
-        <Suspense fallback={<LoadingCircle/>}>
-          {state && <NotificationModal/>}
-        </Suspense>
+        {state && <NotificationModal state={state}/>}
       </ErrorBoundary>
       <NotificationFooter/>
     </Base>
   )
 }
 
-function NotificationModal() {
-  const notification_ids = useRecoilValue(notificationIdsAtom)
+function NotificationModal({state}) {
+  const auth = useRecoilValue(authAtom)
+  const [notifications, setNotifications] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    if (!state) return setNotifications([])
+
+    setIsLoading(true)
+    let isMounted = true;
+
+    getNotifications(auth).then((res) => {
+      if (isMounted && res.status_code === 200) {
+        setNotifications(res.notifications)
+        setIsLoading(false)
+      }
+      else return []
+    })
+
+    return () => {
+      isMounted = false
+      setIsLoading(false)
+    }
+  }, [auth, state])
+
 
   return (
     <NotificationList>
       {
-        notification_ids.map((id) => (
-          <NotificationItem id={id}/>
+        notifications.map((notification) => (
+          <NotificationItem key={notification.id} notification={notification}/>
         ))
       }
+      {isLoading && <LoadingCircle/>}
     </NotificationList>
   )
 }
