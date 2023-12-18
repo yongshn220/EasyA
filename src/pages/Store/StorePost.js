@@ -1,22 +1,20 @@
 import HomeWrapper from "../../components/HomeWrapper";
 import {styled} from "@mui/material/styles";
-import Comment from "./Comment";
 import {useParams} from "react-router-dom";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
-import CreateComment from "./CreateComment";
 import { useSwipeable } from 'react-swipeable';
 import {useEffect, useMemo, useState} from "react";
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import Avatar from "@mui/material/Avatar";
-import {COLOR} from "../../util/util";
 import * as React from "react";
-import PostHeaderMenu from "./PostHeaderMenu";
-import TimeHelper from "../../util/timeHelper";
-import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {userAtom} from "../../0.Recoil/accountState";
 import {ErrorBoundary} from "react-error-boundary";
 import Linkify from 'react-linkify';
+import StorePostHeader from "./StorePostHeader";
+import StorePostComments from "./StorePostComments";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import StorePostLike from "./StorePostLike";
 
 
 export default function StorePostWrapper() {
@@ -29,21 +27,9 @@ export default function StorePostWrapper() {
     )
 }
 
-export function stringAvatar() {
-  return {
-    sx: {
-      bgcolor: COLOR.mainYellow,
-      width:'4rem',
-      height: '4rem',
-      marginRight:'1rem',
-    },
-  };
-}
-
 function StorePost() {
   const { id } = useParams();
   const post = useRecoilValue(storePostAtom(id))
-  const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [highResImages, setHighResImages] = useState([]);
@@ -91,29 +77,12 @@ function StorePost() {
     );
   }
 
-  // TODO: This should be done in the server side to hide the owner's email.
-  function isMyPost() {
-    if (!user) return false
-    return user.email === post.email
-  }
+  // TODO: Checking isMyPost should be done in the server side to hide the owner's email.
 
   return (
     <Base>
       <Content {...handlers}>
-        <Header>
-          <HeaderProfile>
-            <HeaderAuthorInfo>
-              <Avatar {...stringAvatar()} />
-              <AuthorName>{isMyPost()? "Me" : "Author"}</AuthorName>
-            </HeaderAuthorInfo>
-            <HeaderPostInfo>
-              {TimeHelper.formatTimestamp(post.timestamp)}
-            </HeaderPostInfo>
-          </HeaderProfile>
-          <HeaderMenu>
-            {isMyPost() && <PostHeaderMenu auth={auth} id={post.id}/>}
-          </HeaderMenu>
-        </Header>
+        <StorePostHeader isMyPost={user.email === post.email} post={post}/>
         {
           (post.images.length > 0) &&
           <ImageArea>
@@ -130,15 +99,9 @@ function StorePost() {
             {post.description}
           </Linkify>
         </DescriptionArea>
+        <StorePostLike postId={id}/>
       </Content>
-      <CreateComment postId={post.id}/>
-      <CommentArea>
-        {
-          post.comments.map((comment, index) => (
-            <Comment key={index} postId={post.id} comment={comment}/>
-          ))
-        }
-      </CommentArea>
+      <StorePostComments post={post}/>
     </Base>
   )
 }
@@ -148,7 +111,6 @@ const Base = styled('div')({
   flexDirection: 'column',
   marginBottom:'2rem',
 });
-
 
 const Content = styled('div')({
   display:'flex',
@@ -161,44 +123,6 @@ const Content = styled('div')({
   borderRadius: '5px',
   backgroundColor:'white',
 });
-
-const Header = styled('div')({
-  display:'flex',
-  width:'100%',
-  height:'8rem',
-})
-
-const HeaderProfile = styled('div')({
-  display:'flex',
-  flexDirection: 'column',
-  flex: 1,
-})
-
-const HeaderAuthorInfo = styled('div')({
-  display:'flex',
-  marginBottom:'1rem',
-  flex: 1,
-})
-
-const AuthorName = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
-  fontSize:'1.6rem',
-  fontWeight:'600',
-})
-
-const HeaderPostInfo = styled('div')({
-  display:'flex',
-  flex: 1,
-  fontSize:'1.2rem',
-})
-
-const HeaderMenu = styled('div')({
-  display:'flex',
-  flex: 1,
-  alignItems:'flex-start',
-  justifyContent:'flex-end',
-})
 
 const TextArea = styled('div')({
   display:'flex',
@@ -227,23 +151,12 @@ const DescriptionArea = styled('p')({
   wordBreak: 'break-all', // Breaks words to prevent overflow
 });
 
-const CommentArea = styled('div')({
-  display:'flex',
-  flexDirection:'column',
-  flex: 1,
-  marginTop:'2rem',
-  width:'100%',
-  borderRadius:'5px',
-  backgroundColor:'white'
-});
-
 const ImageArea = styled('div')({
   display:'flex',
   alignItems:'center',
   justifyContent:'center',
   width:'100%',
 });
-
 
 const ImageBox = styled('div')({
   width: '100%',

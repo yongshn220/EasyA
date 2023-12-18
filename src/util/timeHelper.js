@@ -45,15 +45,20 @@ export default class TimeHelper {
     return Math.floor(hrs / 24)
   }
 
+  static getElapsedMonths(starTime, endTime) {
+    let days = this.getElapsedDays(starTime, endTime)
+    return Math.floor(days / 30)
+  }
+
   static getTopElapsedString(startTime, endTime) {
     let days = this.getElapsedDays(startTime, endTime);
-    if (days !== 0) return days + "d";
+    if (days !== 0) return (days > 1)? `${days} days` : `${days} day`;
 
     let hrs = this.getElapsedHours(startTime, endTime);
-    if (hrs !== 0) return hrs + "h";
+    if (hrs !== 0) return (hrs > 1)? `${hrs} hours` : `${hrs} hour`;
 
     let mins = this.getElapsedMinutes(startTime, endTime);
-    if (mins !== 0) return mins + "m";
+    if (mins !== 0) return (mins > 1)? `${mins} mins` : `${mins} min`;
 
     let secs = this.getElapsedSeconds(startTime, endTime);
     return secs + "s";

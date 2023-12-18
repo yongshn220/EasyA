@@ -2,7 +2,7 @@ import {styled} from "@mui/material/styles";
 import {storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 function truncateTitle(title, maxLength = 30) {
   if (title.length > maxLength) {
@@ -29,7 +29,7 @@ export default function StoreItemBox({onClick, id}) {
           <Price style={{flex:1}}>${post?.price}</Price>
           <Feedback>
             <FeedbackItem>
-              <ThumbUpOffAltIcon sx={{fontSize:'1.8rem'}}/>
+              <FavoriteBorderIcon sx={{fontSize:'1.8rem'}}/>
               <span style={{fontSize:'1.4rem', fontWeight:'600'}}>5</span>
             </FeedbackItem>
             <FeedbackItem style={{display:'flex', alignItems:'center'}}>

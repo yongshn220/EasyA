@@ -1,6 +1,7 @@
 import {atom, atomFamily, selector, selectorFamily} from "recoil";
 import {getPost, getPostIds, getPostIdsByEmail} from "../api/postAPI";
 import {authAtom} from "./accountState";
+import {checkUserHasLiked, getPostLikeCount} from "../api/postLikeAPI";
 
 
 export const storePostIdsAtom = atom({
@@ -46,3 +47,36 @@ export const storePostAtom = atomFamily({
     },
   })
 });
+
+export const postLikeCountAtom = atomFamily({
+  key: 'postLikeCountAtom',
+  default: selectorFamily({
+    key: 'postLikeCountAtom/Default',
+    get: (id) => async ({get}) => {
+      const auth = get(authAtom)
+      const res = await getPostLikeCount(auth, id)
+      if (res.status_code === 200) {
+        return res.post_like_count
+      }
+      else return 0
+    }
+  })
+})
+
+
+export const checkUserHasLikedAtom = atomFamily({
+  key: 'checkUserHasLikedAtom',
+  default: selectorFamily({
+    key: 'checkUserHasLikedAtom/Default',
+    get: (id) => async ({get}) => {
+      const auth = get(authAtom)
+      const res = await checkUserHasLiked(auth, id)
+      if (res.status_code === 200) {
+        return res.has_liked
+      }
+      else return false
+    }
+  })
+})
+
+

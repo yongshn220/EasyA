@@ -37,7 +37,7 @@ export default function PostHeaderMenu({auth, id}) {
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <React.Fragment>
-          <MenuIcon sx={{fontSize:'2rem', cursor:'pointer'}} {...bindTrigger(popupState)} />
+          <MenuIcon sx={{fontSize:'2.5rem', cursor:'pointer'}} {...bindTrigger(popupState)} />
           <Menu {...bindMenu(popupState)}>
             <MenuItem onClick={() => handleEditPost(popupState)} sx={{fontSize:'1.6rem'}}>Edit</MenuItem>
             <MenuItem onClick={() => handleDeletePost(popupState)} sx={{fontSize:'1.6rem'}}>Delete</MenuItem>
