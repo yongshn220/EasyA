@@ -101,9 +101,9 @@ const Button = styled('div')(({ disabled }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '5px',
-  backgroundColor: disabled ? COLOR.lineGray : COLOR.mainYellow,
+  backgroundColor: disabled ? COLOR.lineGray : COLOR.main,
   '&:hover': {
-    backgroundColor: disabled ? COLOR.lineGray : COLOR.mainLightYellow,
+    backgroundColor: disabled ? COLOR.lineGray : COLOR.mainLight,
   },
   color: 'white',
   cursor: disabled ? 'default' : 'pointer',

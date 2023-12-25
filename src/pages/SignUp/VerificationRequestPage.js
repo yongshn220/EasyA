@@ -108,18 +108,18 @@ const Text = styled('div')({
 });
 
 const HomeButton = styled(Button)({
-  backgroundColor: COLOR.mainYellow, // Use your theme color here
+  backgroundColor: COLOR.main, // Use your theme color here
   color: 'white',
   padding: '10px 0',
   fontSize:'1.2rem',
   width:'15rem',
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow, // Darken color on hover
+    backgroundColor: COLOR.mainLight, // Darken color on hover
   },
 });
 
 const VerifyEmailButton = styled(Button)({
-  backgroundColor: COLOR.mainYellow, // Use your theme color here
+  backgroundColor: COLOR.main, // Use your theme color here
   color: 'white',
   padding: '10px 0',
   fontSize:'1.2rem',
@@ -127,6 +127,6 @@ const VerifyEmailButton = styled(Button)({
   marginBottom:'2rem',
   width:'20rem',
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow, // Darken color on hover
+    backgroundColor: COLOR.mainLight, // Darken color on hover
   },
 });

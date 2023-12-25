@@ -3,12 +3,12 @@
 import {serverURI} from "./api";
 const postLikeURI = serverURI + "/post_like"
 
-export async function createPostLike(auth, post_id) {
+export async function createPostLike(auth, postId) {
   try {
-    const response = await fetch(`${postLikeURI}/add_post_like/${post_id}`, {
+    const response = await fetch(`${postLikeURI}/create_post_like/${postId}`, {
       method: "POST",
       headers: {
-        'Content-Type': "application/json",
+        'Authorization': `Bearer ${auth.accessToken}`
       }
     })
     return response.json()
@@ -18,6 +18,21 @@ export async function createPostLike(auth, post_id) {
   }
 }
 
+
+export async function deletePostLike(auth, postId) {
+  try {
+    const response = await fetch(`${postLikeURI}/delete_post_like/${postId}`, {
+      method: "DELETE",
+      headers: {
+        'Authorization': `Bearer ${auth.accessToken}`
+      }
+    })
+    return response.json()
+  }
+  catch (error) {
+    return { status_code: 400, error: error.message}
+  }
+}
 
 export async function getPostLikeCount(auth, post_id) {
   try {

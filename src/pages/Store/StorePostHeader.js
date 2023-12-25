@@ -11,7 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 export function stringAvatar() {
   return {
     sx: {
-      bgcolor: COLOR.mainYellow,
+      bgcolor: COLOR.main,
       width:'4rem',
       height: '4rem',
       marginRight:'1rem',

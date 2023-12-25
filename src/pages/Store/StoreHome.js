@@ -104,8 +104,8 @@ const Button = styled('div')({
   borderRadius:'5px',
   color: 'white',
   cursor:'pointer',
-  backgroundColor: COLOR.mainYellow,
+  backgroundColor: COLOR.main,
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow,
+    backgroundColor: COLOR.mainLight,
   },
 })

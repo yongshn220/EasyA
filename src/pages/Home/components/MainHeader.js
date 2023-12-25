@@ -20,7 +20,7 @@ export default function MainHeader() {
       <Outside/>
       <Inside>
         <SideLeft>
-          <HomeTitle onClick={HandleHomeClick}>Eazy<span style={{color:COLOR.mainYellow, fontWeight:'800'}}>A</span></HomeTitle>
+          <HomeTitle onClick={HandleHomeClick}>Eazy<span style={{color:COLOR.main, fontWeight:'800'}}>A</span></HomeTitle>
         </SideLeft>
         <Center>
           <div style={{display:'flex', flex: 1}}>

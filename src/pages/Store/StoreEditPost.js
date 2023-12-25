@@ -171,7 +171,7 @@ export default function StoreEditPost() {
               </label>
             )
           }
-          <div style={{fontSize:'1.6rem', fontWeight:'600', color:COLOR.mainYellow}}>{images.length}/5</div>
+          <div style={{fontSize:'1.6rem', fontWeight:'600', color:COLOR.main}}>{images.length}/5</div>
           <TextField
             id="outlined-multiline-flexible"
             label={<div style={{backgroundColor:'white', paddingRight:'5px'}}>Title</div>}
@@ -271,9 +271,9 @@ const Button = styled('div')({
   height:'3rem',
   alignItems:'center',
   justifyContent:'center',
-  backgroundColor: COLOR.mainYellow,
+  backgroundColor: COLOR.main,
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow,
+    backgroundColor: COLOR.mainLight,
   },
   color: 'white',
   borderRadius:'2px',
@@ -315,11 +315,11 @@ const UploadButton = styled('div')({
   height:'3rem',
   alignItems:'center',
   justifyContent:'center',
-  border: `1px solid ${COLOR.mainYellow}`,
+  border: `1px solid ${COLOR.main}`,
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow10,
+    backgroundColor: COLOR.mainLight10,
   },
-  color: COLOR.mainYellow,
+  color: COLOR.main,
   borderRadius:'30px',
   cursor:'pointer',
 })

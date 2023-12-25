@@ -36,7 +36,7 @@ export default function NotificationItem({notification}) {
       <Content>
         <ContentHeader>
         <IconArea>
-          <MailIcon style={{color: notification?.isRead? "black" : COLOR.mainYellow}}/>
+          <MailIcon style={{color: notification?.isRead? "black" : COLOR.main}}/>
         </IconArea>
           <div style={{flex: 1, fontWeight:'600', textAlign:'left'}}>Buy&Sell: {post?.title}</div>
           <div style={{fontSize:'1.2rem'}}>{TimeHelper.getTopElapsedStringUntilNow(notification?.timestamp)} ago</div>

@@ -1,5 +1,5 @@
 import {styled} from "@mui/material/styles";
-import {storePostAtom} from "../../0.Recoil/postState";
+import {postLikeCountAtom, storePostAtom} from "../../0.Recoil/postState";
 import {useRecoilValue} from "recoil";
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -14,6 +14,8 @@ function truncateTitle(title, maxLength = 30) {
 
 export default function StoreItemBox({onClick, id}) {
   const post = useRecoilValue(storePostAtom(id))
+  const likeCount = useRecoilValue(postLikeCountAtom(id))
+
   if (!post) return <></>
 
   const truncatedTitle = truncateTitle(post?.title);
@@ -30,7 +32,7 @@ export default function StoreItemBox({onClick, id}) {
           <Feedback>
             <FeedbackItem>
               <FavoriteBorderIcon sx={{fontSize:'1.8rem'}}/>
-              <span style={{fontSize:'1.4rem', fontWeight:'600'}}>5</span>
+              <span style={{fontSize:'1.4rem', fontWeight:'600'}}>{likeCount}</span>
             </FeedbackItem>
             <FeedbackItem style={{display:'flex', alignItems:'center'}}>
               <ChatBubbleOutlineIcon sx={{fontSize:'1.8rem'}}/>
@@ -98,5 +100,4 @@ const Feedback = styled('div')({
 
 const FeedbackItem = styled('div')({
   display:'flex',
-  alignItems:'center'
 })

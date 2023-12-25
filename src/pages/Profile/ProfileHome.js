@@ -1,16 +1,17 @@
-import HomeWrapper from "../../components/HomeWrapper";
-import {styled} from "@mui/material/styles";
-import {COLOR} from "../../util/util";
 import * as React from "react";
-import {authAtom, userAtom} from "../../0.Recoil/accountState";
-import {useRecoilValue} from "recoil";
-import StoreItemBox from "../Store/StoreItemBox";
-import {myStorePostIdsAtom} from "../../0.Recoil/postState";
-import ProfileSetting from "./ProfileSetting";
-import {Suspense, useEffect} from "react";
-import Grid from "@mui/material/Grid";
+import {Suspense, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useRecoilValue} from "recoil";
+import {styled} from "@mui/material/styles";
+import Grid from "@mui/material/Grid";
+import HomeWrapper from "../../components/HomeWrapper";
+import {authAtom, userAtom} from "../../0.Recoil/accountState";
+import {myStorePostIdsAtom} from "../../0.Recoil/postState";
+import StoreItemBox from "../Store/StoreItemBox";
+import ProfileSetting from "./ProfileSetting";
 import LoadingCircle from "../Loading/LoadingCircle";
+import {COLOR} from "../../util/util";
+import ContentTypeMenu from "./ContentTypeMenu";
 
 
 export default function ProfileHomeWrapper() {
@@ -23,16 +24,21 @@ export default function ProfileHomeWrapper() {
   )
 }
 
+export const ContentType = {
+  MY: "ContentTypeMy",
+  LIKED: "ContentTypeLiked"
+}
+
 function ProfileHome() {
   const auth = useRecoilValue(authAtom)
   const user = useRecoilValue(userAtom)
   const postIds = useRecoilValue(myStorePostIdsAtom(user?.email))
+  const [contentType, setContentType] = useState(ContentType.MY)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!user || !auth.loggedIn) {
-      navigate('/')
-    }
+    if (!user || !auth.loggedIn) navigate('/')
+
   }, [auth, user, navigate])
 
   function handlePostClick(id) {
@@ -47,6 +53,7 @@ function ProfileHome() {
           <MenuItem>Buy & Sell</MenuItem>
         </CommunityMenu>
       </ProfileArea>
+      <ContentTypeMenu contentType={contentType} setContentType={setContentType}/>
       <Content>
         <Grid container>
           {

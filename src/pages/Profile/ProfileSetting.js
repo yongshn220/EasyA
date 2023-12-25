@@ -15,7 +15,7 @@ import {useEffect, useState} from "react";
 export function stringAvatar(name) {
   return {
     sx: {
-      bgcolor: COLOR.mainYellow,
+      bgcolor: COLOR.main,
       cursor:'pointer',
       width:'7rem',
       height: '7rem',

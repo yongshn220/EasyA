@@ -53,6 +53,7 @@ export const postLikeCountAtom = atomFamily({
   default: selectorFamily({
     key: 'postLikeCountAtom/Default',
     get: (id) => async ({get}) => {
+      console.log("postlikecountatom")
       const auth = get(authAtom)
       const res = await getPostLikeCount(auth, id)
       if (res.status_code === 200) {

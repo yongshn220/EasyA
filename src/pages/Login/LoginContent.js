@@ -77,7 +77,7 @@ export default function LoginContent() {
           Log In
         </LoginButton>
 
-        <Button style={{color: COLOR.mainYellow, fontSize:'1rem', marginTop:'1rem'}} onClick={goToSignUp} color="primary">
+        <Button style={{color: COLOR.main, fontSize:'1rem', marginTop:'1rem'}} onClick={goToSignUp} color="primary">
           Don't have an account? Sign up
         </Button>
       </Content>
@@ -116,13 +116,13 @@ const SubTitle = styled('div')({
 
 
 const LoginButton = styled(Button)({
-  backgroundColor: COLOR.mainYellow, // Use your theme color here
+  backgroundColor: COLOR.main, // Use your theme color here
   color: 'white',
   padding: '10px 0',
   marginTop: '16px',
   fontSize:'1.2rem',
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow, // Darken color on hover
+    backgroundColor: COLOR.mainLight, // Darken color on hover
   },
 });
 

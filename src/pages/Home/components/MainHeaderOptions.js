@@ -6,8 +6,9 @@ import {useRecoilValue} from "recoil";
 import {styled} from "@mui/material/styles";
 import {useNavigate} from "react-router-dom";
 import NotificationModal from "./NotificationModal";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {getNotificationStatus} from "../../../api/notificationAPI";
+import AccountMenu from "./AccountMenu";
 
 
 export default function MainHeaderOptions() {
@@ -16,6 +17,10 @@ export default function MainHeaderOptions() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0)
   const navigate = useNavigate()
+
+  const userInitial = useMemo(() => {
+    return user?.email[0]?.toUpperCase()?? null
+  }, [user])
 
   function HandleLogin() { navigate('/login') }
   function HandleSignUp() { navigate('/signup') }
@@ -26,6 +31,8 @@ export default function MainHeaderOptions() {
   }
 
   useEffect(() => {
+    if (auth.loggedIn === false) return
+
     getNotificationStatus(auth).then((res) => {
       if (res.status_code === 200)
         setUnreadCount(res.unread_count)
@@ -37,12 +44,12 @@ export default function MainHeaderOptions() {
       <NotificationModal state={isNotificationOpen} setState={setIsNotificationOpen}/>
       {
         (auth.loggedIn === false)?
-        <UserOptionArea>
-          <GuestOptionItem onClick={HandleLogin}>Login</GuestOptionItem>
-          <GuestOptionItem onClick={HandleSignUp}>Sign up</GuestOptionItem>
-        </UserOptionArea>
+        <OptionArea>
+          <AccountOptionOutlined onClick={HandleLogin}>Log In</AccountOptionOutlined>
+          <AccountOptionFilled onClick={HandleSignUp}>Sign up</AccountOptionFilled>
+        </OptionArea>
         :
-        <UserOptionArea>
+        <OptionArea>
           <NotificationOption>
             {
               unreadCount > 0 &&
@@ -52,26 +59,40 @@ export default function MainHeaderOptions() {
             }
             <NotificationOptionIcon id="notification-icon" onClick={handleClickNotification}/>
           </NotificationOption>
-          <AvatarOption>
-            <AvatarMenu user={user}/>
-          </AvatarOption>
-        </UserOptionArea>
+          <AccountMenu initial={userInitial}/>
+        </OptionArea>
       }
     </div>
   )
 }
 
-const GuestOptionItem = styled('div')({
-  display:'flex',
-  fontSize: '1.8rem',
-  fontWeight: '700',
-  alignItems:'center',
-  color: 'black',
+const AccountOptionOutlined = styled('div')({
+  fontSize: '1.6rem',
+  fontWeight: '500',
+  width:'6rem',
+  padding:'0.7rem 1.5rem 0.7rem 1.5rem',
+  color:COLOR.fontGray50,
+  boxShadow: `inset 0 0 0 1px ${COLOR.fontGray30}`,
+  borderRadius:'2rem',
+  cursor:'pointer',
+  '&:hover': {
+    backgroundColor:COLOR.fontGray10,
+  }
+});
+
+const AccountOptionFilled = styled('div')({
+  fontSize: '1.6rem',
+  fontWeight: '500',
+  width:'6rem',
+  padding:'0.7rem 1.5rem 0.7rem 1.5rem',
+  borderRadius:'2rem',
+  color:'white',
+  backgroundColor:COLOR.main,
   cursor:'pointer',
 });
 
-const UserOptionArea = styled('div')({
-  display:'flex', alignItems:'center', gap: '2rem'
+const OptionArea = styled('div')({
+  display:'flex', alignItems:'center', gap: '1rem'
 })
 
 const NotificationOption = styled('div')({
@@ -98,15 +119,9 @@ const AlertText = styled('div')({
   fontWeight:'700',
 })
 
-const AvatarOption = styled('div')({
-  flex:1
-})
-
 const NotificationOptionIcon = styled(NotificationsNoneIcon)({
   fontSize:'2.5rem',
   color:COLOR.fontGray50,
   cursor:'pointer',
-  '&:hover': {
-    color: COLOR.mainYellow,
-  },
+  '&:hover': { color: COLOR.main, },
 })

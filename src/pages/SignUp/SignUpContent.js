@@ -123,7 +123,7 @@ export default function SignUpContent({setIsSignedUp, setFinalEmail}) {
         <SignUpButton fullWidth onClick={handleSignUp}>
           Sign Up
         </SignUpButton>
-        <Button style={{color: COLOR.mainYellow, fontSize:'1rem', marginTop:'1rem'}} onClick={goToLogin} color="primary">
+        <Button style={{color: COLOR.main, fontSize:'1rem', marginTop:'1rem'}} onClick={goToLogin} color="primary">
           Already have an account? Log In
         </Button>
       </Content>
@@ -163,12 +163,12 @@ const SubTitle = styled('div')({
 
 
 const SignUpButton = styled(Button)({
-  backgroundColor: COLOR.mainYellow, // Use your theme color here
+  backgroundColor: COLOR.main, // Use your theme color here
   color: 'white',
   padding: '10px 0',
   fontSize:'1.2rem',
   marginTop: '16px',
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow, // Darken color on hover
+    backgroundColor: COLOR.mainLight, // Darken color on hover
   },
 });

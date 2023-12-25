@@ -7,10 +7,13 @@ export const COLOR = {
   lineGray: "#c5c5c5",
   lineGray30: "#e0e0e0",
   fontGray80: "rgb(51,51,51)",
-  fontGray50: "rgb(96,96,96)",
-  mainYellow: "#FFB700",
-  mainLightYellow: "#ffd361",
-  mainLightYellow10: "#fff3d1",
+  fontGray50: "rgb(136,136,136)",
+  fontGray30: "rgb(204,204,204)",
+  fontGray10: "rgb(241,241,241)",
+  main: '#2196f3',
+  mainHover: "#1769aa",
+  mainLight: "#4dabf5",
+  mainLight10: "#f6f9ff",
 }
 
 export const InsideWidthDesktop = '1300px'
@@ -38,17 +41,3 @@ export const whiteYellowInputFieldStyle = {
     color: 'white', // Change this to your desired label color
   },
 };
-
-
-export function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: COLOR.mainYellow,
-      cursor:'pointer',
-      width:'7rem',
-      height: '7rem',
-      margin: '2rem',
-    },
-    children: `${name.split(' ')[0][0]}`,
-  };
-}

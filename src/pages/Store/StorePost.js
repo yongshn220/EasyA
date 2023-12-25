@@ -13,7 +13,6 @@ import {ErrorBoundary} from "react-error-boundary";
 import Linkify from 'react-linkify';
 import StorePostHeader from "./StorePostHeader";
 import StorePostComments from "./StorePostComments";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import StorePostLike from "./StorePostLike";
 
 

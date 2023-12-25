@@ -16,7 +16,7 @@ export default function AvatarMenu({user}) {
   function stringAvatar(name) {
     return {
       sx: {
-        bgcolor: COLOR.mainYellow,
+        bgcolor: COLOR.main,
         cursor:'pointer',
       },
       children: (name)? `${name.split(' ')[0][0]}` : '',

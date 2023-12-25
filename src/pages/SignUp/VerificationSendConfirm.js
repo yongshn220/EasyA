@@ -90,24 +90,24 @@ const BodyText = styled('div')({
 });
 
 const ResendButton = styled(Button)({
-  color: COLOR.mainYellow,
+  color: COLOR.main,
   padding: '10px 0',
   fontSize:'1.2rem',
   width:'15rem',
-  border: `1px solid ${COLOR.mainYellow}`,
+  border: `1px solid ${COLOR.main}`,
   '&:hover': {
-    backgroundColor:COLOR.mainLightYellow10
+    backgroundColor:COLOR.mainLight10
   },
 });
 
 const LoginButton = styled(Button)({
-  backgroundColor: COLOR.mainYellow, // Use your theme color here
+  backgroundColor: COLOR.main, // Use your theme color here
   color: 'white',
   padding: '10px 0',
   fontSize:'1.2rem',
   width:'15rem',
   '&:hover': {
-    backgroundColor: COLOR.mainLightYellow, // Darken color on hover
+    backgroundColor: COLOR.mainLight, // Darken color on hover
   },
 });
 
