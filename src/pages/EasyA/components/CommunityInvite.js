@@ -1,5 +1,4 @@
 import "./invite.css"
-import {COLOR} from "../../../util/util";
 
 export default function CommunityInvite() {
   return (

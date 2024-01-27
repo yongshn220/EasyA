@@ -1,6 +1,5 @@
 import {styled} from "@mui/material/styles";
 import UsefulSitesPreview from "../../UsefulSites/UsefulSitesPreview";
-import StorePreview from "../../Store/StorePreview";
 import CommunityInvite from "../../EasyA/components/CommunityInvite";
 
 

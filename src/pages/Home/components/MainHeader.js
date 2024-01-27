@@ -4,14 +4,12 @@ import {useNavigate} from "react-router-dom";
 import {useRecoilState} from "recoil";
 import PopupMessage from "../../../components/PopupMessage";
 import {popupMessageAtom} from "../../../0.Recoil/utilState";
-import MainHeaderOptions from "./MainHeaderOptions";
 
 
 export default function MainHeader() {
   const [popupMessage, setPopupMessage] = useRecoilState(popupMessageAtom)
   const navigate = useNavigate();
 
-  function HandleStoreClick() { navigate('/store') }
   function HandleHomeClick() { navigate('/') }
 
   return (
@@ -66,14 +64,14 @@ const HomeTitle = styled('div')({
   cursor:'pointer',
 });
 
-const MenuItem = styled('div')({
-  display:'flex',
-  fontSize: '1.8rem',
-  fontWeight: '700',
-  alignItems:'center',
-  color: 'black',
-  cursor:'pointer',
-});
+// const MenuItem = styled('div')({
+//   display:'flex',
+//   fontSize: '1.8rem',
+//   fontWeight: '700',
+//   alignItems:'center',
+//   color: 'black',
+//   cursor:'pointer',
+// });
 
 const Inside = styled('div')({
   display: 'flex',
