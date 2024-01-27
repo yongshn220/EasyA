@@ -23,12 +23,12 @@ export default function MainHeader() {
           <HomeTitle onClick={HandleHomeClick}>Eazy<span style={{color:COLOR.main, fontWeight:'800'}}>A</span></HomeTitle>
         </SideLeft>
         <Center>
-          <div style={{display:'flex', flex: 1}}>
-            <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>
-          </div>
-          <div style={{display:'flex'}}>
-            <MainHeaderOptions/>
-          </div>
+          {/*<div style={{display:'flex', flex: 1}}>*/}
+          {/*  <MenuItem onClick={HandleStoreClick}>Buy&Sell</MenuItem>*/}
+          {/*</div>*/}
+          {/*<div style={{display:'flex'}}>*/}
+          {/*  <MainHeaderOptions/>*/}
+          {/*</div>*/}
         </Center>
         <SideRight>
         </SideRight>

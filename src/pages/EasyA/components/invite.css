@@ -1,0 +1,70 @@
+.custom-section {
+  width: 100%;
+  height: 30vh;
+  margin-top: 10rem;
+}
+
+.custom-overlay {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.custom-title {
+  font-size: 2.25rem; /* Equivalent to text-4xl */
+  line-height: 2.5rem;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) { /* Medium screens and up */
+  .custom-title {
+    font-size: 3.75rem; /* Equivalent to md:text-6xl */
+    line-height: 4rem;
+  }
+}
+
+.custom-description {
+  font-size: 1.25rem; /* Equivalent to text-xl */
+  line-height: 1.75rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) { /* Medium screens and up */
+  .custom-description {
+    font-size: 1.5rem; /* Equivalent to md:text-2xl */
+    line-height: 2rem;
+  }
+}
+
+.custom-rsvp-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  padding: 0 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: white;
+  transition: all 0.2s;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background-color: #e53e3e;
+  text-decoration: none; /* To remove underline from link */
+}
+
+.custom-rsvp-link:hover {
+  background-color: #c53030;
+}
+
+.custom-rsvp-link:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}

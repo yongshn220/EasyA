@@ -1,6 +1,7 @@
 import {styled} from "@mui/material/styles";
 import UsefulSitesPreview from "../../UsefulSites/UsefulSitesPreview";
 import StorePreview from "../../Store/StorePreview";
+import CommunityInvite from "../../EasyA/components/CommunityInvite";
 
 
 export default function HomeContent() {
@@ -8,7 +9,8 @@ export default function HomeContent() {
     <Base>
       <UsefulSitesPreview/>
       {/*<EventsPreview/>*/}
-      <StorePreview/>
+      {/*<StorePreview/>*/}
+      <CommunityInvite/>
     </Base>
   )
 }
