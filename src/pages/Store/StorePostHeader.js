@@ -6,7 +6,6 @@ import {styled} from "@mui/material/styles";
 import {COLOR} from "../../util/util";
 import {useRecoilValue} from "recoil";
 import {authAtom} from "../../0.Recoil/accountState";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 export function stringAvatar() {
   return {
